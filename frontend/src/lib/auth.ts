@@ -3,9 +3,25 @@ import bcrypt from 'bcryptjs';
 import { cookies } from 'next/headers';
 import { prisma } from './prisma';
 
-const JWT_SECRET = new TextEncoder().encode(
-  process.env.JWT_SECRET || 'luk_jwt_secret_super_secure_random_key_production_needs_32_chars_min'
-);
+/**
+ * Returns the secret key for JWT operations.
+ * Produces clear error messages if the JWT_SECRET is missing in production.
+ */
+function getJwtSecretKey(): Uint8Array {
+  const secret = process.env.JWT_SECRET?.trim();
+  if (!secret) {
+    if (process.env.NODE_ENV === 'production') {
+      const errorMsg =
+        '[LUK SERVICES] CRITICAL AUTH ERROR: JWT_SECRET environment variable is not defined in production.\n' +
+        'Please add JWT_SECRET to your Vercel Project Settings > Environment Variables.';
+      console.error(errorMsg);
+      throw new Error('JWT_SECRET environment variable is missing. Please configure it in Vercel settings.');
+    }
+    // Safe development fallback with console warning
+    return new TextEncoder().encode('luk_dev_secret_development_key_do_not_use_in_production_32ch');
+  }
+  return new TextEncoder().encode(secret);
+}
 
 export interface SessionUser {
   id: string;
@@ -24,6 +40,7 @@ export async function comparePassword(password: string, hash: string): Promise<b
 }
 
 export async function signToken(user: SessionUser): Promise<string> {
+  const secret = getJwtSecretKey();
   return new SignJWT({
     id: user.id,
     email: user.email,
@@ -33,12 +50,13 @@ export async function signToken(user: SessionUser): Promise<string> {
     .setProtectedHeader({ alg: 'HS256' })
     .setIssuedAt()
     .setExpirationTime('7d')
-    .sign(JWT_SECRET);
+    .sign(secret);
 }
 
 export async function verifyToken(token: string): Promise<SessionUser | null> {
   try {
-    const { payload } = await jwtVerify(token, JWT_SECRET);
+    const secret = getJwtSecretKey();
+    const { payload } = await jwtVerify(token, secret);
     return {
       id: payload.id as string,
       email: payload.email as string,

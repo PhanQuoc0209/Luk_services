@@ -1,5 +1,6 @@
 import React from 'react';
 import { prisma } from '@/lib/prisma';
+import { getFallbackServices } from '@/lib/fallback-data';
 import { ServiceSection } from '@/components/home/ServiceSection';
 
 export const revalidate = 0;
@@ -11,24 +12,42 @@ interface ServicesPageProps {
 export default async function ServicesPage({ searchParams }: ServicesPageProps) {
   const { q, cat } = await searchParams;
 
-  const whereClause: any = { isActive: true };
+  let services: any[] = [];
 
-  if (q && q.trim()) {
-    whereClause.OR = [
-      { title: { contains: q.trim() } },
-      { shortDescription: { contains: q.trim() } },
-      { description: { contains: q.trim() } },
-    ];
+  try {
+    const whereClause: any = { isActive: true };
+
+    if (q && q.trim()) {
+      whereClause.OR = [
+        { title: { contains: q.trim() } },
+        { shortDescription: { contains: q.trim() } },
+        { description: { contains: q.trim() } },
+      ];
+    }
+
+    if (cat && cat !== 'ALL') {
+      whereClause.category = cat;
+    }
+
+    services = await prisma.service.findMany({
+      where: whereClause,
+      orderBy: { sortOrder: 'asc' },
+    });
+  } catch (error: any) {
+    console.error('[LUK Services /services] Notice: Database query fallback applied:', error?.message || error);
+    // Filter fallback catalog
+    let fallback = getFallbackServices(cat);
+    if (q && q.trim()) {
+      const lower = q.trim().toLowerCase();
+      fallback = fallback.filter(
+        (s) =>
+          s.title.toLowerCase().includes(lower) ||
+          s.shortDescription.toLowerCase().includes(lower) ||
+          s.description.toLowerCase().includes(lower)
+      );
+    }
+    services = fallback;
   }
-
-  if (cat && cat !== 'ALL') {
-    whereClause.category = cat;
-  }
-
-  const services = await prisma.service.findMany({
-    where: whereClause,
-    orderBy: { sortOrder: 'asc' },
-  });
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 space-y-6">

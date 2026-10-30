@@ -30,15 +30,20 @@ export default async function AdminOrdersPage({ searchParams }: PageProps) {
     ];
   }
 
-  const orders = await prisma.order.findMany({
-    where: whereClause,
-    orderBy: { createdAt: 'desc' },
-    include: {
-      items: true,
-      quotes: { orderBy: { createdAt: 'desc' }, take: 1 },
-      payments: { orderBy: { createdAt: 'desc' }, take: 1 },
-    },
-  });
+  let orders: any[] = [];
+  try {
+    orders = await prisma.order.findMany({
+      where: whereClause,
+      orderBy: { createdAt: 'desc' },
+      include: {
+        items: true,
+        quotes: { orderBy: { createdAt: 'desc' }, take: 1 },
+        payments: { orderBy: { createdAt: 'desc' }, take: 1 },
+      },
+    });
+  } catch (error: any) {
+    console.error('[AdminOrdersPage] Database query error:', error?.message || error);
+  }
 
   const filterTabs = [
     { key: 'ALL', label: 'Tất cả' },
@@ -131,7 +136,7 @@ export default async function AdminOrdersPage({ searchParams }: PageProps) {
                       </td>
                       <td className="px-3 py-3">
                         <p className="truncate max-w-[200px] text-luk-muted">
-                          {order.items.map((i) => i.serviceTitleSnapshot).join(', ')}
+                          {order.items.map((i: any) => i.serviceTitleSnapshot).join(', ')}
                         </p>
                       </td>
                       <td className="px-3 py-3">

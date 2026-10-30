@@ -3,12 +3,13 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "prisma generate && next build",
+    "dev": "node scripts/prepare-prisma.js && prisma generate && next dev",
+    "build": "node scripts/prepare-prisma.js && prisma generate && next build",
     "start": "next start",
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
-    "postinstall": "prisma generate"
+    "prisma:prepare": "node scripts/prepare-prisma.js",
+    "postinstall": "node scripts/prepare-prisma.js && prisma generate"
   },
   "dependencies": {
     "@prisma/client": "5.22.0",

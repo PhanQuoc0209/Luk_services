@@ -15,20 +15,25 @@ export default async function AccountOrdersPage() {
     redirect('/login');
   }
 
-  const orders = await prisma.order.findMany({
-    where: {
-      OR: [
-        { userId: user.id },
-        { guestEmail: user.email },
-      ],
-    },
-    include: {
-      items: true,
-      quotes: { orderBy: { createdAt: 'desc' }, take: 1 },
-      drafts: { orderBy: { versionNumber: 'desc' }, take: 1 },
-    },
-    orderBy: { createdAt: 'desc' },
-  });
+  let orders: any[] = [];
+  try {
+    orders = await prisma.order.findMany({
+      where: {
+        OR: [
+          { userId: user.id },
+          { guestEmail: user.email },
+        ],
+      },
+      include: {
+        items: true,
+        quotes: { orderBy: { createdAt: 'desc' }, take: 1 },
+        drafts: { orderBy: { versionNumber: 'desc' }, take: 1 },
+      },
+      orderBy: { createdAt: 'desc' },
+    });
+  } catch (error: any) {
+    console.error('[AccountOrdersPage] Database error:', error?.message || error);
+  }
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8 space-y-6">
@@ -85,7 +90,7 @@ export default async function AccountOrdersPage() {
                   <div>
                     <span className="text-luk-dim block mb-1">Dịch vụ đã chọn:</span>
                     <p className="font-medium text-white truncate">
-                      {order.items.map((i) => i.serviceTitleSnapshot).join(', ')}
+                      {order.items.map((i: any) => i.serviceTitleSnapshot).join(', ')}
                     </p>
                     <p className="text-[11px] text-luk-muted">Tổng {order.items.length} dịch vụ</p>
                   </div>

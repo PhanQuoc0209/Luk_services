@@ -2,6 +2,7 @@ import React from 'react';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { prisma } from '@/lib/prisma';
+import { getFallbackServiceBySlug } from '@/lib/fallback-data';
 import { formatVND } from '@/lib/vietqr';
 import { ServiceDetailActions } from './ServiceDetailActions';
 import { ExpandableServiceDetails } from '@/components/services/ExpandableServiceDetails';
@@ -15,17 +16,32 @@ interface PageProps {
 
 export default async function ServiceDetailPage({ params }: PageProps) {
   const { slug } = await params;
-  const service = await prisma.service.findUnique({
-    where: { slug },
-    include: {
-      reviews: {
-        orderBy: { createdAt: 'desc' },
+
+  let service: any = null;
+
+  try {
+    service = await prisma.service.findUnique({
+      where: { slug },
+      include: {
+        reviews: {
+          orderBy: { createdAt: 'desc' },
+        },
       },
-    },
-  });
+    });
+  } catch (err: any) {
+    console.error(`[LUK Services /services/${slug}] Notice: Database query failed, checking fallback catalog:`, err?.message || err);
+  }
+
+  if (!service) {
+    service = getFallbackServiceBySlug(slug);
+  }
 
   if (!service) {
     notFound();
+  }
+
+  if (!service.reviews) {
+    service.reviews = [];
   }
 
   const categoryLabels: Record<string, string> = {
@@ -37,7 +53,7 @@ export default async function ServiceDetailPage({ params }: PageProps) {
 
   const reviewsCount = service.reviews.length;
   const avgRating = reviewsCount > 0
-    ? (service.reviews.reduce((acc, r) => acc + r.rating, 0) / reviewsCount).toFixed(1)
+    ? (service.reviews.reduce((acc: number, r: any) => acc + (r.rating || 5), 0) / reviewsCount).toFixed(1)
     : null;
 
   return (
@@ -105,7 +121,7 @@ export default async function ServiceDetailPage({ params }: PageProps) {
 
             {reviewsCount > 0 ? (
               <div className="space-y-3">
-                {service.reviews.map((rev) => (
+                {service.reviews.map((rev: any) => (
                   <div key={rev.id} className="rounded-xl border border-luk-border bg-luk-bg p-4 space-y-2">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">

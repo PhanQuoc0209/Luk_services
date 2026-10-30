@@ -2,13 +2,27 @@ import fs from 'fs';
 import path from 'path';
 import crypto from 'crypto';
 
-const UPLOAD_ROOT = process.env.STORAGE_DIR
-  ? path.resolve(process.env.STORAGE_DIR)
-  : path.resolve(process.cwd(), 'uploads/private');
+export function getUploadRoot(): string {
+  if (process.env.STORAGE_DIR) {
+    return path.resolve(process.env.STORAGE_DIR);
+  }
+  // On Vercel Serverless / AWS Lambda, use /tmp as /var/task is read-only
+  if (process.env.VERCEL || process.env.AWS_LAMBDA_FUNCTION_NAME) {
+    return path.join('/tmp', 'luk-uploads', 'private');
+  }
+  return path.resolve(process.cwd(), 'uploads/private');
+}
 
-// Ensure storage directory exists
-if (!fs.existsSync(UPLOAD_ROOT)) {
-  fs.mkdirSync(UPLOAD_ROOT, { recursive: true });
+export function ensureStorageDirExists(): string {
+  const root = getUploadRoot();
+  try {
+    if (!fs.existsSync(root)) {
+      fs.mkdirSync(root, { recursive: true });
+    }
+  } catch (err: any) {
+    console.warn(`[LUK Storage] Storage directory check/creation note (${root}):`, err?.message || err);
+  }
+  return root;
 }
 
 export const ALLOWED_MIME_TYPES = new Set([
@@ -62,11 +76,13 @@ export async function savePrivateFile(
     throw new Error(`UNSUPPORTED_MIME_TYPE: Định dạng file (${mimeType}) không được hỗ trợ.`);
   }
 
+  const uploadRoot = ensureStorageDirExists();
+
   // Generate safe unique filename
   const ext = path.extname(originalName).toLowerCase() || '.bin';
   const randomHash = crypto.randomBytes(16).toString('hex');
   const safeFileName = `${Date.now()}-${randomHash}${ext}`;
-  const targetPath = path.join(UPLOAD_ROOT, safeFileName);
+  const targetPath = path.join(uploadRoot, safeFileName);
 
   // Write file to private disk
   await fs.promises.writeFile(targetPath, fileBuffer);
@@ -81,8 +97,9 @@ export async function savePrivateFile(
 }
 
 export function getPrivateFilePath(fileName: string): string {
+  const uploadRoot = getUploadRoot();
   const safeName = path.basename(fileName);
-  return path.join(UPLOAD_ROOT, safeName);
+  return path.join(uploadRoot, safeName);
 }
 
 export async function readPrivateFile(fileName: string): Promise<{ buffer: Buffer; exists: boolean }> {

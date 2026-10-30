@@ -8,14 +8,19 @@ export const revalidate = 0;
 export default async function AdminServicesPage() {
   await requireAdmin();
 
-  const services = await prisma.service.findMany({
-    orderBy: { sortOrder: 'asc' },
-    include: {
-      _count: {
-        select: { orderItems: true, reviews: true },
+  let services: any[] = [];
+  try {
+    services = await prisma.service.findMany({
+      orderBy: { sortOrder: 'asc' },
+      include: {
+        _count: {
+          select: { orderItems: true, reviews: true },
+        },
       },
-    },
-  });
+    });
+  } catch (error: any) {
+    console.error('[AdminServicesPage] Database query error:', error?.message || error);
+  }
 
   return <AdminServicesClient initialServices={services as any} />;
 }

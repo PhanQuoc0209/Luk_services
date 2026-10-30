@@ -1,11 +1,33 @@
 import React from 'react';
 import { prisma } from '@/lib/prisma';
+import { getFallbackServices } from '@/lib/fallback-data';
 import { RollingAnnouncementBanner } from '@/components/home/RollingAnnouncementBanner';
 import { KeyholeZoomBanner } from '@/components/home/KeyholeZoomBanner';
 import { CategoryRailExplorer } from '@/components/home/CategoryRailExplorer';
 import { CountUpSitePreloader } from '@/components/common/CountUpSitePreloader';
 
 export const revalidate = 0; // Dynamic
+
+async function getServicesByCategory(category: string) {
+  try {
+    const services = await prisma.service.findMany({
+      where: { isActive: true, category },
+      orderBy: { sortOrder: 'asc' },
+    });
+
+    if (services && services.length > 0) {
+      return services;
+    }
+  } catch (error: any) {
+    console.error(
+      `[LUK Services HomePage] Notice: Database query failed for category "${category}". Serving guaranteed fallback catalog:`,
+      error?.message || error
+    );
+  }
+
+  // Gracefully return curated catalog so the website NEVER crashes with a 500 digest error
+  return getFallbackServices(category);
+}
 
 export default async function HomePage() {
   const [
@@ -14,22 +36,10 @@ export default async function HomePage() {
     transcriptServices,
     slideServices,
   ] = await Promise.all([
-    prisma.service.findMany({
-      where: { isActive: true, category: 'AI_ACCOUNTS' },
-      orderBy: { sortOrder: 'asc' },
-    }),
-    prisma.service.findMany({
-      where: { isActive: true, category: 'VIDEO_EDITING' },
-      orderBy: { sortOrder: 'asc' },
-    }),
-    prisma.service.findMany({
-      where: { isActive: true, category: 'TRANSCRIPT_EDITING' },
-      orderBy: { sortOrder: 'asc' },
-    }),
-    prisma.service.findMany({
-      where: { isActive: true, category: 'SLIDE_DESIGN' },
-      orderBy: { sortOrder: 'asc' },
-    }),
+    getServicesByCategory('AI_ACCOUNTS'),
+    getServicesByCategory('VIDEO_EDITING'),
+    getServicesByCategory('TRANSCRIPT_EDITING'),
+    getServicesByCategory('SLIDE_DESIGN'),
   ]);
 
   return (

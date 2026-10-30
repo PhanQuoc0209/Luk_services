@@ -1,0 +1,392 @@
+// Auto-generated fallback data for high-availability & zero-downtime on Vercel
+export interface FallbackService {
+  id: string;
+  title: string;
+  slug: string;
+  shortDescription: string;
+  description: string;
+  category: string;
+  startingPrice: number;
+  turnaround: string;
+  deliveryFormat: string;
+  imageUrl: string;
+  isActive: boolean;
+  isFeatured: boolean;
+  isPopular: boolean;
+  tags?: string | null;
+  options?: string | null;
+  isDemo: boolean;
+  sortOrder: number;
+  reviews?: any[];
+}
+
+export interface FallbackDebateResource {
+  id: string;
+  title: string;
+  topic: string;
+  description: string;
+  format: string;
+  fileSize: string;
+  difficulty: string;
+  language: string;
+  tags: string;
+  downloadCount: number;
+  downloadUrl: string;
+}
+
+const rawServices: any[] = [
+    // --- 0. TÀI KHOẢN AI PRO (CapCut, ChatGPT, Gemini, Canva, Claude) ---
+    {
+      title: 'Tài Khoản CapCut Pro Chính Chủ (1 Tháng / 1 Năm)',
+      slug: 'tai-khoan-capcut-pro-chinh-chu',
+      category: 'AI_ACCOUNTS',
+      shortDescription: 'Xuất video 4K, mở khóa toàn bộ hiệu ứng VIP, Auto-caption AI không giới hạn.',
+      description: 'Nâng cấp CapCut Pro trên chính email tài khoản của bạn hoặc cấp tài khoản riêng. Sử dụng mượt mà trên cả PC, Mac, iOS và Android. Bảo hành 1 đổi 1 trong suốt thời gian đăng ký.',
+      startingPrice: 79000,
+      turnaround: 'Giao ngay 5 phút',
+      deliveryFormat: 'Kích hoạt email chính chủ',
+      imageUrl: 'https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?auto=format&fit=crop&w=800&q=80',
+      isFeatured: true,
+      isPopular: true,
+      tags: 'capcut pro, ai video, auto caption, edit video, tiktok',
+      isDemo: true,
+      sortOrder: 1,
+    },
+    {
+      title: 'Tài Khoản ChatGPT Plus / Team (GPT-4o & Canvas)',
+      slug: 'tai-khoan-chatgpt-plus-team',
+      category: 'AI_ACCOUNTS',
+      shortDescription: 'Mô hình GPT-4o không giới hạn tốc độ cao, tính năng Canvas viết luận & phân tích file PDF.',
+      description: 'Hỗ trợ viết nghiên cứu khoa học, giải bài tập lập trình, phân tích dữ liệu chuyên sâu và vẽ ảnh DALL-E 3 chất lượng cao. Cấp tài khoản riêng tư hoặc nâng cấp gói chính chủ an toàn.',
+      startingPrice: 189000,
+      turnaround: 'Giao ngay 5 phút',
+      deliveryFormat: 'Tài khoản OpenAI riêng tư',
+      imageUrl: 'https://images.unsplash.com/photo-1677442136019-21780efad99a?auto=format&fit=crop&w=800&q=80',
+      isFeatured: true,
+      isPopular: true,
+      tags: 'chatgpt plus, gpt-4o, openai, viết luận, lập trình',
+      isDemo: true,
+      sortOrder: 2,
+    },
+    {
+      title: 'Tài Khoản Google Gemini Advanced + 2TB Google Cloud',
+      slug: 'tai-khoan-gemini-advanced-2tb',
+      category: 'AI_ACCOUNTS',
+      shortDescription: 'Mô hình Gemini 1.5 Pro siêu trí tuệ, context 1 triệu tokens, kèm 2TB lưu trữ Drive.',
+      description: 'Tích hợp sâu trực tiếp vào Google Docs, Gmail, Google Sheets. Đọc hiểu cả cuốn sách 1000 trang hoặc video 1 tiếng chỉ trong vài giây. Bảo hành đổi mới tức thì nếu có sự cố.',
+      startingPrice: 149000,
+      turnaround: 'Giao ngay 5 phút',
+      deliveryFormat: 'Kích hoạt Google One chính chủ',
+      imageUrl: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80',
+      isFeatured: true,
+      isPopular: true,
+      tags: 'gemini advanced, google ai, 2tb drive, nckh, context 1m',
+      isDemo: true,
+      sortOrder: 3,
+    },
+    {
+      title: 'Tài Khoản Canva Pro Sinh Viên / Giáo Dục Trọn Đời',
+      slug: 'tai-khoan-canva-pro-ban-quyen',
+      category: 'AI_ACCOUNTS',
+      shortDescription: 'Hơn 100+ triệu ảnh/video bản quyền, font tiếng Việt VIP, công cụ xóa nền Magic Studio.',
+      description: 'Gia nhập nhóm Edu LUK Services bảo hành dài hạn. Sử dụng thoải mái tính năng Magic Resize, Text to Image, Brand Kit để làm slide, poster, CV mà không bị dính watermark.',
+      startingPrice: 59000,
+      turnaround: 'Giao ngay 5 phút',
+      deliveryFormat: 'Kích hoạt trực tiếp vào email cá nhân',
+      imageUrl: 'https://images.unsplash.com/photo-1626785774573-4b799315345d?auto=format&fit=crop&w=800&q=80',
+      isFeatured: false,
+      isPopular: true,
+      tags: 'canva pro, thiết kế slide, poster, xóa nền, magic studio',
+      isDemo: true,
+      sortOrder: 4,
+    },
+    {
+      title: 'Tài Khoản Claude Pro (Anthropic AI - Context 200K)',
+      slug: 'tai-khoan-claude-pro-anthropic',
+      category: 'AI_ACCOUNTS',
+      shortDescription: 'Văn phong học thuật tự nhiên nhất, phân tích code Artifacts và tổng hợp tài liệu tiếng Anh.',
+      description: 'Được đánh giá là AI hỗ trợ viết paper nghiên cứu khoa học và viết văn mượt mà nhất hiện nay. Khả năng tư duy logic và lập luận toán học vượt trội.',
+      startingPrice: 199000,
+      turnaround: 'Giao ngay 10 phút',
+      deliveryFormat: 'Tài khoản cấp riêng',
+      imageUrl: 'https://images.unsplash.com/photo-1531746790731-6c087fecd65a?auto=format&fit=crop&w=800&q=80',
+      isFeatured: true,
+      isPopular: false,
+      tags: 'claude pro, anthropic, sonnet, artifacts, nckh',
+      isDemo: true,
+      sortOrder: 5,
+    },
+
+    // --- 0.5. EDIT TRANSCRIPT & PHỤ ĐỀ (Gỡ băng, Dịch SRT, Subtitle AI) ---
+    {
+      title: 'Gỡ Băng Phỏng Vấn Nghiên Cứu Định Tính (NCKH)',
+      slug: 'go-bang-phong-van-nckh',
+      category: 'TRANSCRIPT_EDITING',
+      shortDescription: 'Chuyển hóa file ghi âm phỏng vấn sâu thành văn bản Word chuẩn xác 99.5%, gắn nhãn người nói.',
+      description: 'Chuyên phục vụ sinh viên làm khóa luận tốt nghiệp và đề tài NCKH định tính. Đội ngũ nghe và chép từng câu chữ, loại bỏ từ thừa hoặc giữ nguyên văn phong ngữ nghĩa tùy yêu cầu nghiên cứu.',
+      startingPrice: 100000,
+      turnaround: '24 giờ',
+      deliveryFormat: 'DOCX Word chuẩn phân tích định tính',
+      imageUrl: 'https://images.unsplash.com/photo-1589254065878-42c9da997008?auto=format&fit=crop&w=800&q=80',
+      isFeatured: true,
+      isPopular: true,
+      tags: 'gỡ băng, transcript, phỏng vấn sâu, nckh, định tính',
+      isDemo: true,
+      sortOrder: 6,
+    },
+    {
+      title: 'Dịch Phụ Đề & Đồng Bộ Timeline Song Ngữ Anh - Việt (SRT)',
+      slug: 'dich-phu-de-song-ngu-srt',
+      category: 'TRANSCRIPT_EDITING',
+      shortDescription: 'Dịch thuật chính xác thuật ngữ chuyên ngành, khớp timeline từng mili-giây cho video bài giảng.',
+      description: 'Nhận file video/audio từ YouTube, Zoom, tài liệu giảng đường nước ngoài. Xuất file phụ đề chuẩn SRT, VTT hoặc hardsub trực tiếp vào video với font chữ tiếng Việt hiện đại.',
+      startingPrice: 150000,
+      turnaround: '24 giờ',
+      deliveryFormat: 'File SRT, VTT & MP4 hardsubbed',
+      imageUrl: 'https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?auto=format&fit=crop&w=800&q=80',
+      isFeatured: true,
+      isPopular: true,
+      tags: 'phụ đề song ngữ, dịch srt, timeline, video bài giảng',
+      isDemo: true,
+      sortOrder: 7,
+    },
+    {
+      title: 'Biên Tập & Chuẩn Hóa Transcript Bài Giảng / Webinar',
+      slug: 'bien-tap-chuan-hoa-transcript',
+      category: 'TRANSCRIPT_EDITING',
+      shortDescription: 'Biên tập bản gỡ băng thành tài liệu đọc mạch lạc, phân bổ đề mục Heading và tóm tắt ý chính.',
+      description: 'Biến những buổi học online, hội thảo 2-3 tiếng thành tài liệu ôn tập gọn gàng 10-15 trang. Giúp tiết kiệm 80% thời gian nghe lại video bài giảng.',
+      startingPrice: 120000,
+      turnaround: '24 giờ',
+      deliveryFormat: 'DOCX Word có mục lục + PDF',
+      imageUrl: 'https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?auto=format&fit=crop&w=800&q=80',
+      isFeatured: false,
+      isPopular: true,
+      tags: 'biên tập transcript, bài giảng, tóm tắt webinar, ôn thi',
+      isDemo: true,
+      sortOrder: 8,
+    },
+    {
+      title: 'Tạo Phụ Đề Chữ Nổi Auto-Caption Chuẩn Style TikTok/Shorts',
+      slug: 'tao-phu-de-noi-auto-caption',
+      category: 'TRANSCRIPT_EDITING',
+      shortDescription: 'Hiệu ứng phụ đề chữ nhảy từng từ (kinetic typography), highlight màu sắc bắt mắt.',
+      description: 'Tối ưu cho các video đồ án truyền thông, video giới thiệu sự kiện CLB trên TikTok và Reels. Giữ chân người xem ngay cả khi tắt âm lượng.',
+      startingPrice: 90000,
+      turnaround: '12 giờ',
+      deliveryFormat: 'Video MP4 9:16 export chất lượng cao',
+      imageUrl: 'https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?auto=format&fit=crop&w=800&q=80',
+      isFeatured: false,
+      isPopular: false,
+      tags: 'auto caption, tiktok, shorts, phụ đề chữ nhảy, reels',
+      isDemo: true,
+      sortOrder: 9,
+    },
+    {
+      title: 'Gỡ Băng & Tổng Hợp Biên Bản Cuộc Họp CLB / Nhóm Đồ Án',
+      slug: 'go-bang-bien-ban-hop-clb',
+      category: 'TRANSCRIPT_EDITING',
+      shortDescription: 'Trích xuất to-do list, deadline và quyết định quan trọng từ file ghi âm cuộc họp nhóm.',
+      description: 'Không còn cảnh họp xong không ai nhớ việc cần làm. Bản tổng hợp ghi rõ: Ai làm gì, hạn chót ngày nào, các ý kiến tán thành và phản đối chính.',
+      startingPrice: 80000,
+      turnaround: '12 giờ',
+      deliveryFormat: 'DOCX Action Items + Notion Template',
+      imageUrl: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80',
+      isFeatured: false,
+      isPopular: false,
+      tags: 'biên bản họp, action items, đồ án nhóm, clb',
+      isDemo: true,
+      sortOrder: 10,
+    },
+
+    // --- 1. EDIT VIDEO (5 services) ---
+    {
+      title: 'Edit Video Recap & Sự Kiện CLB',
+      slug: 'edit-video-recap-su-kien-clb',
+      category: 'VIDEO_EDITING',
+      shortDescription: 'Biên tập highlight reel, recap hoạt động CLB, teambuilding, chuẩn tỷ lệ 16:9 & 9:16.',
+      description: 'Dành riêng cho ban truyền thông CLB, sự kiện sinh viên. Bao gồm: chọn lọc footage, dựng tiết tấu âm nhạc sôi động, chỉnh màu hiện đại, lồng sound effect và phụ đề highlight câu nói chính.',
+      startingPrice: 350000,
+      turnaround: '2-3 ngày',
+      deliveryFormat: 'MP4 1080p/4K, Drive link',
+      imageUrl: 'https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?auto=format&fit=crop&w=800&q=80',
+      isFeatured: true,
+      isPopular: true,
+      tags: 'recap, video, clb, sự kiện, tiktok, reels',
+      isDemo: true,
+      sortOrder: 11,
+    },
+    {
+      title: 'Edit Video Thuyết Trình & Bài Giảng',
+      slug: 'edit-video-thuyet-trinh-bai-giang',
+      category: 'VIDEO_EDITING',
+      shortDescription: 'Cắt ghép bài nói, chèn slide đồng bộ, lọc tạp âm và tạo phụ đề song ngữ.',
+      description: 'Phù hợp làm đồ án môn học, bài thuyết trình giữa kỳ hoặc video dự thi. Xử lý âm thanh trong trẻo, chèn slide mượt mà, tạo visual cues giúp người xem tập trung.',
+      startingPrice: 250000,
+      turnaround: '1-2 ngày',
+      deliveryFormat: 'MP4 Full HD, Phụ đề SRT',
+      imageUrl: 'https://images.unsplash.com/photo-1536240478700-b869070f9279?auto=format&fit=crop&w=800&q=80',
+      isFeatured: false,
+      isPopular: true,
+      tags: 'thuyết trình, bài giảng, đồ án, lọc âm',
+      isDemo: true,
+      sortOrder: 12,
+    },
+    {
+      title: 'Dựng Video Giới Thiệu Bản Thân & CV Video',
+      slug: 'dung-video-gioi-thieu-ban-than-cv',
+      category: 'VIDEO_EDITING',
+      shortDescription: 'Quay dựng portfolio cá nhân, video ứng tuyển học bổng & trao đổi quốc tế.',
+      description: 'Biên tập video profile ấn tượng dành cho sinh viên ứng tuyển du học, thực tập sinh tập đoàn đa quốc gia. Lồng nhạc phong thái chuyên nghiệp, title motion giới thiệu thành tích nổi bật.',
+      startingPrice: 300000,
+      turnaround: '2 ngày',
+      deliveryFormat: 'MP4 1080p + Thumbnail cover',
+      imageUrl: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=800&q=80',
+      isFeatured: false,
+      isPopular: false,
+      tags: 'cv video, profile, học bổng, du học',
+      isDemo: true,
+      sortOrder: 13,
+    },
+    {
+      title: 'Chèn Phụ Đề Song Ngữ & Lọc Âm Chuyên Sâu',
+      slug: 'chen-phu-de-song-ngu-loc-am',
+      category: 'VIDEO_EDITING',
+      shortDescription: 'Đồng bộ phụ đề tiếng Anh - Việt, lọc ồn microphone phòng học, cân bằng âm lượng.',
+      description: 'Xử lý triệt để tiếng ồn gió, tiếng rè trong file ghi âm bài tập lớn. Dịch và can thiệp timeline từng mili-giây giúp phụ đề chuẩn khớp với ngữ điệu người nói.',
+      startingPrice: 150000,
+      turnaround: '24 giờ',
+      deliveryFormat: 'File SRT & MP4 hardsubbed',
+      imageUrl: 'https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?auto=format&fit=crop&w=800&q=80',
+      isFeatured: false,
+      isPopular: false,
+      tags: 'phụ đề, song ngữ, lọc âm, podcast',
+      isDemo: true,
+      sortOrder: 14,
+    },
+    {
+      title: 'Sản Xuất Video Motion Graphics Đồ Án',
+      slug: 'san-xuat-video-motion-graphics-do-an',
+      category: 'VIDEO_EDITING',
+      shortDescription: 'Minh họa quy trình kỹ thuật, giải thích khái niệm trừu tượng bằng chuyển động 2D.',
+      description: 'Giải pháp trực quan hóa cho đề tài kinh tế, công nghệ, y sinh học. Đồ họa vector mượt mà, voiceover thuyết minh truyền cảm hứng giúp bài bảo vệ đạt điểm tối đa.',
+      startingPrice: 600000,
+      turnaround: '3-5 ngày',
+      deliveryFormat: 'MP4 4K, Project file After Effects',
+      imageUrl: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=800&q=80',
+      isFeatured: true,
+      isPopular: false,
+      tags: 'motion graphics, đồ họa 2d, đồ án môn học',
+      isDemo: true,
+      sortOrder: 15,
+    },
+
+    // --- 2. THIẾT KẾ SLIDE (5 services) ---
+    {
+      title: 'Thiết Kế Slide Thuyết Trình Học Thuật',
+      slug: 'thiet-ke-slide-thuyet-trinh-hoc-thuat',
+      category: 'SLIDE_DESIGN',
+      shortDescription: 'Thiết kế slide chuyên đề, khóa luận, tone màu chuẩn đại học, sơ đồ hóa dữ liệu.',
+      description: 'Chuyển hóa tài liệu text khô khan thành bài thuyết trình mạch lạc, khoa học. Thiết kế bố cục chuẩn tỷ lệ 16:9, bảng biểu, flow chart trực quan, hiệu ứng chuyển trang trang nhã.',
+      startingPrice: 200000,
+      turnaround: '1-2 ngày',
+      deliveryFormat: 'PPTX, PDF, Google Slides',
+      imageUrl: 'https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&w=800&q=80',
+      isFeatured: true,
+      isPopular: true,
+      tags: 'slide, powerpoint, học thuật, khóa luận',
+      isDemo: true,
+      sortOrder: 16,
+    },
+    {
+      title: 'Thiết Kế Pitch Deck Cuộc Thi & Khởi Nghiệp',
+      slug: 'thiet-ke-pitch-deck-cuoc-thi-khoi-nghiep',
+      category: 'SLIDE_DESIGN',
+      shortDescription: 'Bộ slide gọi vốn & thuyết trình chung kết, mockup sản phẩm và biểu đồ tài chính.',
+      description: 'Dành cho các đội thi Business Case, Hackathon, Khởi nghiệp sinh viên. Tối ưu cấu trúc câu chuyện (Problem - Solution - Market - Business Model - Ask), đồ họa cao cấp tạo ấn tượng ban giám khảo.',
+      startingPrice: 450000,
+      turnaround: '2-3 ngày',
+      deliveryFormat: 'PPTX & Canva Pro editable',
+      imageUrl: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80',
+      isFeatured: true,
+      isPopular: true,
+      tags: 'pitch deck, startup, business case, hackathon',
+      isDemo: true,
+      sortOrder: 17,
+    },
+    {
+      title: 'Thiết Kế Slide Bảo Vệ Khóa Luận Tốt Nghiệp',
+      slug: 'thiet-ke-slide-bao-ve-khoa-luan-tot-nghiep',
+      category: 'SLIDE_DESIGN',
+      shortDescription: 'Định dạng slide trang trọng theo quy chuẩn hội đồng chấm luận văn tốt nghiệp.',
+      description: 'Tối ưu độ tương phản máy chiếu giảng đường, bố trí sơ đồ mô hình nghiên cứu (Research Model), giả thuyết (Hypotheses) và bảng kết quả hồi quy rõ ràng, chuẩn phong thái học giả.',
+      startingPrice: 350000,
+      turnaround: '2 ngày',
+      deliveryFormat: 'PPTX & PDF in ấn',
+      imageUrl: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=800&q=80',
+      isFeatured: false,
+      isPopular: true,
+      tags: 'khóa luận, tốt nghiệp, hội đồng, đại học',
+      isDemo: true,
+      sortOrder: 18,
+    },
+    {
+      title: 'Thiết Kế Template PowerPoint Nhận Diện CLB',
+      slug: 'thiet-ke-template-powerpoint-clb',
+      category: 'SLIDE_DESIGN',
+      shortDescription: 'Bộ template trình chiếu đồng bộ màu sắc, typography và logo câu lạc bộ/dự án.',
+      description: 'Xây dựng Master Slides với 25+ layout đa dạng (agenda, timeline, team member, KPI, so sánh). Ban điều hành chỉ cần nhập chữ là có ngay bài trình chiếu chuẩn visual identity.',
+      startingPrice: 250000,
+      turnaround: '2 ngày',
+      deliveryFormat: 'POTX template & Google Slides theme',
+      imageUrl: 'https://images.unsplash.com/photo-1531403009284-440f080d1e12?auto=format&fit=crop&w=800&q=80',
+      isFeatured: false,
+      isPopular: false,
+      tags: 'template, master slide, clb, branding',
+      isDemo: true,
+      sortOrder: 19,
+    },
+    {
+      title: 'Sơ Đồ Hóa Dữ Liệu & Infographic Slide Báo Cáo',
+      slug: 'so-do-hoa-du-lieu-infographic-slide',
+      category: 'SLIDE_DESIGN',
+      shortDescription: 'Chuyển hóa bảng tính Excel phức tạp thành visual infographic trực quan trong slide.',
+      description: 'Vẽ lại biểu đồ dạng custom infographic, sơ đồ Venn, Gantt chart tiến độ dự án. Giúp khán giả nắm bắt ngay số liệu mấu chốt chỉ sau 3 giây quan sát màn chiếu.',
+      startingPrice: 300000,
+      turnaround: '1-2 ngày',
+      deliveryFormat: 'Vector shapes trong PPTX',
+      imageUrl: 'https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=800&q=80',
+      isFeatured: false,
+      isPopular: false,
+      tags: 'infographic, chart, data visual, excel',
+      isDemo: true,
+      sortOrder: 20,
+    },
+  ];
+
+export const FALLBACK_SERVICES: FallbackService[] = rawServices.map((s, idx) => ({
+  id: 'fallback_svc_' + (idx + 1),
+  ...s,
+  isActive: true,
+  reviews: [],
+}));
+
+const rawDebateResources: any[] = [];
+
+export const FALLBACK_DEBATE_RESOURCES: FallbackDebateResource[] = rawDebateResources.map((d, idx) => ({
+  id: 'fallback_deb_' + (idx + 1),
+  ...d,
+  downloadCount: 42 + idx * 7,
+  downloadUrl: '#',
+}));
+
+export function getFallbackServices(category?: string): FallbackService[] {
+  if (!category || category === 'ALL') {
+    return FALLBACK_SERVICES;
+  }
+  return FALLBACK_SERVICES.filter((s) => s.category === category);
+}
+
+export function getFallbackServiceBySlug(slug: string): FallbackService | undefined {
+  return FALLBACK_SERVICES.find((s) => s.slug === slug);
+}

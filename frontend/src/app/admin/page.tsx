@@ -17,35 +17,46 @@ import {
 export const revalidate = 0;
 
 export default async function AdminOverviewPage() {
-  const [
-    totalOrders,
-    pendingReviewOrders,
-    quotedOrders,
-    inProgressOrders,
-    completedOrders,
-    payments,
-    recentOrders,
-  ] = await Promise.all([
-    prisma.order.count(),
-    prisma.order.count({ where: { status: 'PENDING_REVIEW' } }),
-    prisma.order.count({ where: { status: { in: ['QUOTED', 'AWAITING_PAYMENT'] } } }),
-    prisma.order.count({
-      where: {
-        status: { in: ['PAYMENT_CONFIRMED', 'IN_PROGRESS', 'DRAFT_DELIVERED', 'AWAITING_FEEDBACK', 'REVISING'] },
-      },
-    }),
-    prisma.order.count({ where: { status: 'COMPLETED' } }),
-    prisma.payment.findMany({ where: { paymentStatus: 'CONFIRMED' } }),
-    prisma.order.findMany({
-      orderBy: { createdAt: 'desc' },
-      take: 6,
-      include: {
-        items: true,
-        quotes: { orderBy: { createdAt: 'desc' }, take: 1 },
-        payments: { orderBy: { createdAt: 'desc' }, take: 1 },
-      },
-    }),
-  ]);
+  let totalOrders = 0;
+  let pendingReviewOrders = 0;
+  let quotedOrders = 0;
+  let inProgressOrders = 0;
+  let completedOrders = 0;
+  let payments: any[] = [];
+  let recentOrders: any[] = [];
+
+  try {
+    const res = await Promise.all([
+      prisma.order.count(),
+      prisma.order.count({ where: { status: 'PENDING_REVIEW' } }),
+      prisma.order.count({ where: { status: { in: ['QUOTED', 'AWAITING_PAYMENT'] } } }),
+      prisma.order.count({
+        where: {
+          status: { in: ['PAYMENT_CONFIRMED', 'IN_PROGRESS', 'DRAFT_DELIVERED', 'AWAITING_FEEDBACK', 'REVISING'] },
+        },
+      }),
+      prisma.order.count({ where: { status: 'COMPLETED' } }),
+      prisma.payment.findMany({ where: { paymentStatus: 'CONFIRMED' } }),
+      prisma.order.findMany({
+        orderBy: { createdAt: 'desc' },
+        take: 6,
+        include: {
+          items: true,
+          quotes: { orderBy: { createdAt: 'desc' }, take: 1 },
+          payments: { orderBy: { createdAt: 'desc' }, take: 1 },
+        },
+      }),
+    ]);
+    totalOrders = res[0];
+    pendingReviewOrders = res[1];
+    quotedOrders = res[2];
+    inProgressOrders = res[3];
+    completedOrders = res[4];
+    payments = res[5];
+    recentOrders = res[6];
+  } catch (error: any) {
+    console.error('[AdminOverviewPage] Database connection notice:', error?.message || error);
+  }
 
   const totalRevenue = payments.reduce((sum, p) => sum + p.amount, 0);
 
@@ -172,7 +183,7 @@ export default async function AdminOverviewPage() {
                     </td>
                     <td className="px-3 py-3">
                       <p className="truncate max-w-[180px]">
-                        {order.items.map((i) => i.serviceTitleSnapshot).join(', ')}
+                        {order.items.map((i: any) => i.serviceTitleSnapshot).join(', ')}
                       </p>
                     </td>
                     <td className="px-3 py-3">

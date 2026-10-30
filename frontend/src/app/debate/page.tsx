@@ -1,6 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { prisma } from '@/lib/prisma';
+import { getFallbackServices, FALLBACK_DEBATE_RESOURCES } from '@/lib/fallback-data';
 import { ServiceCard } from '@/components/home/ServiceCard';
 import { DebateClient } from './DebateClient';
 import { BookOpen, Sparkles, Award, ArrowLeft, Library, ShoppingBag } from 'lucide-react';
@@ -8,18 +9,36 @@ import { BookOpen, Sparkles, Award, ArrowLeft, Library, ShoppingBag } from 'luci
 export const revalidate = 0;
 
 export default async function DebatePage() {
-  const [debateResources, debateServices] = await Promise.all([
-    prisma.debateResource.findMany({
-      orderBy: { createdAt: 'desc' },
-    }),
-    prisma.service.findMany({
-      where: {
-        category: 'DEBATE_RESOURCES',
-        isActive: true,
-      },
-      orderBy: { sortOrder: 'asc' },
-    }),
-  ]);
+  let debateResources: any[] = [];
+  let debateServices: any[] = [];
+
+  try {
+    const [res, svcs] = await Promise.all([
+      prisma.debateResource.findMany({
+        orderBy: { createdAt: 'desc' },
+      }),
+      prisma.service.findMany({
+        where: {
+          category: 'DEBATE_RESOURCES',
+          isActive: true,
+        },
+        orderBy: { sortOrder: 'asc' },
+      }),
+    ]);
+    debateResources = res;
+    debateServices = svcs;
+  } catch (error: any) {
+    console.error('[LUK Services /debate] Notice: Database query failed, serving fallback debate resources:', error?.message || error);
+    debateResources = FALLBACK_DEBATE_RESOURCES;
+    debateServices = getFallbackServices('DEBATE_RESOURCES');
+  }
+
+  if (debateResources.length === 0) {
+    debateResources = FALLBACK_DEBATE_RESOURCES;
+  }
+  if (debateServices.length === 0) {
+    debateServices = getFallbackServices('DEBATE_RESOURCES');
+  }
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 space-y-10">
