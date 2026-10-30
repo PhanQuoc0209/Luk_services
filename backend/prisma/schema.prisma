@@ -1,0 +1,287 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String     @id @default(cuid())
+  email        String     @unique
+  passwordHash String
+  name         String
+  role         String     @default("USER") // "ADMIN" | "USER"
+  phone        String?
+  avatar       String?
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+
+  orders       Order[]
+  carts        Cart[]
+  quotes       Quote[]    @relation("AdminQuotes")
+  drafts       DraftVersion[] @relation("AdminDrafts")
+  auditLogs    AuditLog[] @relation("UserAuditLogs")
+  reviews      Review[]
+}
+
+model Service {
+  id               String      @id @default(cuid())
+  title            String
+  slug             String      @unique
+  shortDescription String
+  description      String
+  category         String      // "VIDEO_EDITING", "SLIDE_DESIGN", "WRITING_RESEARCH", "DEBATE_RESOURCES", "POSTER_DESIGN", "OTHER"
+  startingPrice    Int         @default(0) // Integer in VND (0 = Liên hệ báo giá)
+  turnaround       String      @default("2-4 ngày")
+  deliveryFormat   String      @default("File kỹ thuật số")
+  imageUrl         String
+  isActive         Boolean     @default(true)
+  isFeatured       Boolean     @default(false)
+  isPopular        Boolean     @default(false)
+  tags             String?     // Comma separated tags
+  options          String?     // JSON string of service options
+  isDemo           Boolean     @default(true)
+  sortOrder        Int         @default(0)
+  createdAt        DateTime    @default(now())
+  updatedAt        DateTime    @updatedAt
+
+  cartItems        CartItem[]
+  orderItems       OrderItem[]
+  reviews          Review[]
+}
+
+model Cart {
+  id        String     @id @default(cuid())
+  userId    String?
+  sessionId String?    @unique
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+
+  user      User?      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  items     CartItem[]
+}
+
+model CartItem {
+  id        String   @id @default(cuid())
+  cartId    String
+  serviceId String
+  quantity  Int      @default(1)
+  itemNotes String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  cart      Cart     @relation(fields: [cartId], references: [id], onDelete: Cascade)
+  service   Service  @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+}
+
+model Order {
+  id                String         @id @default(cuid())
+  orderCode         String         @unique
+  trackingToken     String         @default(cuid())
+  userId            String?
+  guestName         String
+  guestEmail        String
+  guestPhone        String
+  status            String         @default("PENDING_REVIEW")
+  // Status flow:
+  // PENDING_REVIEW -> IN_REVIEW -> QUOTED -> AWAITING_PAYMENT -> PAYMENT_CONFIRMED -> IN_PROGRESS -> DRAFT_DELIVERED -> AWAITING_FEEDBACK -> REVISING -> COMPLETED (or CANCELLED)
+  requestedDeadline DateTime?
+  generalNotes      String?
+  quotedPrice       Int?           // Snapshot of total agreed price in VND
+  depositRequired   Int?           // Amount required to start work (if deposit flow enabled)
+  createdAt         DateTime       @default(now())
+  updatedAt         DateTime       @updatedAt
+
+  user              User?          @relation(fields: [userId], references: [id], onDelete: SetNull)
+  items             OrderItem[]
+  files             OrderFile[]
+  quotes            Quote[]
+  payments          Payment[]
+  drafts            DraftVersion[]
+  feedbacks         Feedback[]
+  auditLogs         AuditLog[]
+  review            Review?
+}
+
+model OrderItem {
+  id                   String      @id @default(cuid())
+  orderId              String
+  serviceId            String
+  serviceTitleSnapshot String
+  unitPriceSnapshot    Int         @default(0) // VND
+  quantity             Int         @default(1)
+  itemNotes            String?
+  createdAt            DateTime    @default(now())
+
+  order                Order       @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  service              Service     @relation(fields: [serviceId], references: [id])
+  files                OrderFile[]
+}
+
+model OrderFile {
+  id             String     @id @default(cuid())
+  orderId        String
+  orderItemId    String?
+  fileName       String     // secure stored name on disk/storage
+  originalName   String     // client file original name
+  fileSize       Int        // in bytes
+  mimeType       String
+  storagePath    String     // private storage path
+  uploadedByRole String     @default("CUSTOMER") // "CUSTOMER" | "ADMIN"
+  createdAt      DateTime   @default(now())
+
+  order          Order      @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  orderItem      OrderItem? @relation(fields: [orderItemId], references: [id], onDelete: SetNull)
+}
+
+model Quote {
+  id                String    @id @default(cuid())
+  orderId           String
+  totalPrice        Int       // Integer in VND
+  depositAmount     Int       @default(0) // Integer in VND (0 = full payment required)
+  confirmedDeadline DateTime
+  paymentNotes      String?
+  status            String    @default("SENT") // "SENT" | "ACCEPTED" | "REJECTED" | "EXPIRED"
+  validUntil        DateTime?
+  createdByAdminId  String
+  createdAt         DateTime  @default(now())
+
+  order             Order     @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  admin             User      @relation("AdminQuotes", fields: [createdByAdminId], references: [id])
+}
+
+model Payment {
+  id                 String    @id @default(cuid())
+  orderId            String
+  amount             Int       // Integer in VND
+  paymentType        String    @default("FULL") // "FULL" | "DEPOSIT" | "REMAINDER"
+  paymentStatus      String    @default("PENDING_CONFIRMATION") // "PENDING_CONFIRMATION" | "CONFIRMED" | "REJECTED"
+  bankName           String
+  accountNumber      String
+  accountHolder      String
+  transferContent    String
+  proofFileName      String?
+  proofStoragePath   String?
+  proofNotes         String?
+  confirmedAt        DateTime?
+  confirmedByUserId  String?
+  adminNotes         String?
+  createdAt          DateTime  @default(now())
+
+  order              Order     @relation(fields: [orderId], references: [id], onDelete: Cascade)
+}
+
+model DraftVersion {
+  id               String     @id @default(cuid())
+  orderId          String
+  versionNumber    Int        @default(1)
+  versionType      String     @default("DRAFT") // "DRAFT" | "FINAL"
+  title            String
+  notes            String?
+  previewUrl       String?    // Optional external preview / streaming embed
+  fileName         String?
+  fileSize         Int?
+  mimeType         String?
+  storagePath      String?
+  canDownload      Boolean    @default(true)
+  isFinal          Boolean    @default(false)
+  createdByAdminId String
+  createdAt        DateTime   @default(now())
+
+  order            Order      @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  admin            User       @relation("AdminDrafts", fields: [createdByAdminId], references: [id])
+  feedbacks        Feedback[]
+}
+
+model Feedback {
+  id                String        @id @default(cuid())
+  orderId           String
+  draftVersionId    String?
+  authorRole        String        // "CUSTOMER" | "ADMIN"
+  authorName        String
+  content           String
+  revisionRequested Boolean       @default(false)
+  createdAt         DateTime      @default(now())
+
+  order             Order         @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  draftVersion      DraftVersion? @relation(fields: [draftVersionId], references: [id], onDelete: SetNull)
+}
+
+model Notification {
+  id         String   @id @default(cuid())
+  userId     String?
+  guestEmail String?
+  type       String   // "ORDER_RECEIVED" | "QUOTE_ISSUED" | "PAYMENT_REQUIRED" | "PAYMENT_CONFIRMED" | "DRAFT_DELIVERED" | "FEEDBACK_RECEIVED" | "ORDER_COMPLETED"
+  title      String
+  message    String
+  linkUrl    String
+  isRead     Boolean  @default(false)
+  createdAt  DateTime @default(now())
+}
+
+model AuditLog {
+  id          String   @id @default(cuid())
+  orderId     String?
+  entityType  String   // "ORDER" | "PAYMENT" | "QUOTE" | "DRAFT" | "AUTH"
+  entityId    String
+  action      String   // e.g. "CONFIRM_PAYMENT", "SUBMIT_QUOTE", "UPLOAD_DRAFT"
+  actorId     String?
+  actorRole   String   // "ADMIN" | "CUSTOMER" | "SYSTEM"
+  detailsJson String?
+  ipAddress   String?
+  createdAt   DateTime @default(now())
+
+  order       Order?   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  actor       User?    @relation("UserAuditLogs", fields: [actorId], references: [id], onDelete: SetNull)
+}
+
+model BankSetting {
+  id                    String   @id @default("default")
+  bankName              String   @default("MB Bank (Ngân hàng Quân đội)")
+  bankCode              String   @default("MB")
+  accountNumber         String   @default("0988888888")
+  accountHolder         String   @default("LUK SERVICES")
+  branch                String?  @default("Hà Nội")
+  qrTemplate            String   @default("compact2") // VietQR template
+  isDepositAllowed      Boolean  @default(true)
+  defaultDepositPercent Int      @default(50)
+  transferNotePrefix    String   @default("LUK")
+  updatedAt             DateTime @updatedAt
+}
+
+model DebateResource {
+  id             String   @id @default(cuid())
+  title          String
+  slug           String   @unique
+  topic          String   // "Kinh tế & Thương mại", "Chính trị & Quan hệ Quốc tế", "Xã hội & Đạo đức", "Công nghệ & AI", "Môi trường"
+  format         String   // "PDF Case File", "Slide PPTX", "Notion Template", "DOCX Brief"
+  difficulty     String   // "Cơ bản", "Trung cấp", "Nâng cao"
+  language       String   // "Tiếng Việt", "Tiếng Anh", "Song ngữ"
+  tags           String   // Comma-separated tags
+  description    String
+  downloadUrl    String?
+  fileSize       String?  // e.g. "3.5 MB"
+  author         String?  @default("LUK Debate Society")
+  isPremium      Boolean  @default(false)
+  downloadsCount Int      @default(0)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model Review {
+  id          String   @id @default(cuid())
+  orderId     String   @unique
+  serviceId   String?
+  userId      String?
+  authorName  String
+  rating      Int      @default(5)
+  comment     String
+  isDemo      Boolean  @default(true)
+  createdAt   DateTime @default(now())
+
+  order       Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  service     Service? @relation(fields: [serviceId], references: [id], onDelete: SetNull)
+  user        User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+}

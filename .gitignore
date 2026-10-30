@@ -1,0 +1,44 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Next.js build and cache
+.next/
+out/
+build/
+dist/
+*.tsbuildinfo
+
+# Environment variables
+.env
+.env*.local
+.env.production
+.env.development
+.env.test
+!.env.example
+
+# Local SQLite databases & journals
+*.db
+*.db-journal
+*.sqlite
+*.sqlite3
+
+# Uploads & private user data (keep structure, exclude uploaded files)
+uploads/private/*
+!uploads/private/.gitkeep
+frontend/uploads/private/*
+!frontend/uploads/private/.gitkeep
+backend/uploads/private/*
+!backend/uploads/private/.gitkeep
+
+# Vercel & IDE
+.vercel/
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db

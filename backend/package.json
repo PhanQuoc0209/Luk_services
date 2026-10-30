@@ -1,0 +1,28 @@
+{
+  "name": "@luk/backend",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node src/server.mjs",
+    "build": "npx prisma generate",
+    "start": "node src/server.mjs",
+    "test": "node --test tests/*.test.mjs",
+    "db:push": "npx prisma db push",
+    "db:seed": "node scripts/seed.mjs"
+  },
+  "dependencies": {
+    "@prisma/client": "5.22.0",
+    "bcryptjs": "2.4.3",
+    "cors": "^2.8.6",
+    "express": "^5.3.0",
+    "jose": "6.2.13",
+    "zod": "3.25.76"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
+    "@types/node": "20.19.41",
+    "prisma": "5.22.0"
+  }
+}
