@@ -26,7 +26,7 @@ export default function RootLayout({
           <CurtainPageTransition />
           <Navbar />
           <CategoryRailDrawer />
-          <main className="flex-1 w-full pt-20 sm:pt-24">{children}</main>
+          <main className="flex-1 w-full pt-[108px] sm:pt-[112px]">{children}</main>
           <Footer />
           <CartDrawer />
           <StickmanDirectorBadge />

@@ -1,8 +1,9 @@
 import React from 'react';
 import { prisma } from '@/lib/prisma';
 import { getFallbackServices } from '@/lib/fallback-data';
+import { HeroCarousel } from '@/components/home/HeroCarousel';
+import { CategorySection } from '@/components/home/CategorySection';
 import { RollingAnnouncementBanner } from '@/components/home/RollingAnnouncementBanner';
-import { KeyholeZoomBanner } from '@/components/home/KeyholeZoomBanner';
 import { CategoryRailExplorer } from '@/components/home/CategoryRailExplorer';
 import { CountUpSitePreloader } from '@/components/common/CountUpSitePreloader';
 
@@ -49,21 +50,26 @@ export default async function HomePage() {
 
   return (
     <>
-      {/* Lucian UX/UI Prompt #256: Count-up site preloader (Nhanh & không hiện %) */}
+      {/* Count-up site preloader */}
       <CountUpSitePreloader />
 
-      {/* 1. Grand Full-Width Moonlight Hero Banner (Tràn từ đỉnh y=0 để navbar nổi trực tiếp trên đêm trăng) */}
-      <section className="w-full relative overflow-hidden -mt-20 sm:-mt-24">
-        <KeyholeZoomBanner />
-      </section>
+      {/* Main Home Page Layout */}
+      <div className="mx-auto max-w-[1536px] px-3 sm:px-6 lg:px-8 py-4 sm:py-6 space-y-6 sm:space-y-8">
+        {/* 1. Hero Carousel (Pure image-only banner with touch/dot navigation) */}
+        <section aria-label="Banner quảng bá dịch vụ">
+          <HeroCarousel />
+        </section>
 
-      {/* 2. Main Content Container */}
-      <div className="mx-auto max-w-[1536px] px-3 sm:px-6 lg:px-8 py-6 space-y-6">
-        {/* Rolling Announcement Banner Strip (Prompt #073) */}
+        {/* 2. Rolling Announcement Banner Strip */}
         <RollingAnnouncementBanner />
 
-        {/* Academic Universal Services & Multi-Course Catalog */}
-        <CategoryRailExplorer allServices={formattedServices} />
+        {/* 3. 6 Distinct Category Cards Section */}
+        <CategorySection />
+
+        {/* 4. Academic Universal Services Catalog & Filter Explorer */}
+        <section id="services-catalog" aria-label="Danh mục dịch vụ học thuật LUK">
+          <CategoryRailExplorer allServices={formattedServices} />
+        </section>
       </div>
     </>
   );
