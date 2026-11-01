@@ -1002,34 +1002,85 @@ html[data-theme="light"] .u040-blk-btn-view:hover {
   position: relative;
   display: flex;
   align-items: center;
-  gap: 8px;
-  height: 52px;
-  padding: 0 8px 0 14px;
-  background: linear-gradient(100deg, #4F46E5, #6366F1 40%, #EC4899);
-  color: #fff;
-  border-radius: 18px;
+  gap: 10px;
+  height: 48px;
+  padding: 0 10px 0 14px;
+  background: rgba(14, 18, 38, 0.88);
+  color: #F8FAFC;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   overflow: hidden;
-  box-shadow: 0 8px 24px -6px rgba(79, 70, 229, 0.4);
+  box-shadow: 0 4px 20px -4px rgba(0, 0, 0, 0.35);
 }
 .light .u073-bar,
 html[data-theme="light"] .u073-bar {
-  background: linear-gradient(100deg, #1D4ED8 0%, #2563EB 35%, #0284C7 70%, #4F46E5 100%);
-  box-shadow: 0 8px 25px -6px rgba(37, 99, 235, 0.38), 0 0 0 1px rgba(147, 197, 253, 0.5);
+  background: rgba(255, 255, 255, 0.95);
+  color: #0F172A;
+  border: 1px solid rgba(147, 197, 253, 0.5);
+  box-shadow: 0 4px 20px -4px rgba(37, 99, 235, 0.08);
+}
+.u073-tag {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  padding: 3px 8px;
+  border-radius: 8px;
+  background: rgba(59, 130, 246, 0.15);
+  color: #60A5FA;
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  text-transform: uppercase;
+  flex-shrink: 0;
 }
 .light .u073-tag,
 html[data-theme="light"] .u073-tag {
-  background: rgba(255, 255, 255, 0.25);
-  border: 1px solid rgba(255, 255, 255, 0.35);
+  background: rgba(37, 99, 235, 0.1);
+  color: #1D4ED8;
+  border: 1px solid rgba(37, 99, 235, 0.2);
+}
+.u073-b {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #94A3B8;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+.u073-b:hover {
+  background: rgba(255, 255, 255, 0.18);
   color: #FFFFFF;
 }
 .light .u073-b,
 html[data-theme="light"] .u073-b {
-  background: rgba(255, 255, 255, 0.2);
-  color: #FFFFFF;
+  background: rgba(15, 23, 42, 0.05);
+  color: #64748B;
 }
 .light .u073-b:hover,
 html[data-theme="light"] .u073-b:hover {
-  background: rgba(255, 255, 255, 0.35);
+  background: rgba(15, 23, 42, 0.1);
+  color: #0F172A;
+}
+.u073-m b {
+  font-weight: 700;
+  color: #FFFFFF;
+  margin-right: 6px;
+}
+.light .u073-m b {
+  color: #0F172A;
+}
+.u073-m span {
+  color: #94A3B8;
+  font-size: 11.5px;
+}
+.light .u073-m span {
+  color: #475569;
 }
 .u073-bar::after {
   content: "";

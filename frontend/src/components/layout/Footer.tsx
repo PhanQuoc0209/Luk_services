@@ -46,27 +46,32 @@ export function Footer() {
           {/* Cột 2: Danh mục dịch vụ trọng tâm */}
           <div className="space-y-3">
             <h4 className="text-xs font-bold uppercase tracking-wider text-slate-900 dark:text-white border-b border-blue-200/60 dark:border-white/10 pb-2">
-              Danh mục sản phẩm &amp; dịch vụ
+              Danh mục học thuật &amp; dịch vụ
             </h4>
             <ul className="space-y-2 text-xs">
               <li>
-                <Link href="/services?cat=AI_ACCOUNTS" className="text-blue-600 dark:text-indigo-400 hover:text-blue-700 font-medium transition flex items-center gap-1">
-                  <span>🤖 Các AI Pro (CapCut, ChatGPT, Gemini)</span>
+                <Link href="/#services-catalog" className="text-blue-600 dark:text-blue-400 hover:text-blue-700 font-semibold transition flex items-center gap-1">
+                  <span>🏆 Gói LUK Services (Edit • Slide • Trans • Debate)</span>
                 </Link>
               </li>
               <li>
-                <Link href="/services?cat=VIDEO_EDITING" className="hover:text-blue-600 dark:hover:text-blue-400 transition">
-                  🎬 Edit Chuẩn LUK (Video, Recap, TikTok)
+                <Link href="/services?cat=AI_ACCOUNTS" className="hover:text-blue-600 dark:hover:text-blue-400 transition">
+                  🤖 Tài Khoản AI Pro (CapCut, ChatGPT, Gemini, Canva)
                 </Link>
               </li>
               <li>
-                <Link href="/services?cat=TRANSCRIPT_EDITING" className="hover:text-blue-600 dark:hover:text-blue-400 transition">
-                  📝 Transcript Chuẩn LUK (Gỡ Băng &amp; SRT)
+                <Link href="/#services-catalog" className="hover:text-blue-600 dark:hover:text-blue-400 transition">
+                  📈 Môn Học Kinh Tế, SPSS &amp; Phân Tích Dữ Liệu
                 </Link>
               </li>
               <li>
-                <Link href="/services?cat=SLIDE_DESIGN" className="hover:text-blue-600 dark:hover:text-blue-400 transition">
-                  📊 Slide Chuẩn LUK (Khóa Luận, Pitch Deck)
+                <Link href="/#services-catalog" className="hover:text-blue-600 dark:hover:text-blue-400 transition">
+                  💻 Môn Học CNTT, Lập Trình &amp; Đồ Án Web/App
+                </Link>
+              </li>
+              <li>
+                <Link href="/debate" className="hover:text-blue-600 dark:hover:text-blue-400 transition">
+                  ⚖️ Kho Tài Liệu Debate BP &amp; NCKH Đại Học
                 </Link>
               </li>
             </ul>

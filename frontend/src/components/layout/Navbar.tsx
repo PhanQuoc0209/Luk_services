@@ -49,16 +49,6 @@ export const LUK_SERVICE_CATEGORIES: ServiceCategoryDropdownItem[] = [
     hoverBorder: 'hover:border-blue-500/40 hover:bg-blue-500/5',
   },
   {
-    key: 'TRANSCRIPT_EDITING',
-    label: 'Transcript Chuẩn LUK',
-    badge: '5 dịch vụ',
-    description: 'Gỡ băng phỏng vấn NCKH 99.5%, dịch phụ đề song ngữ SRT',
-    curtainTitle: 'TRANSCRIPT CHUẨN LUK',
-    icon: FileAudio,
-    iconBg: 'bg-emerald-500/15 text-emerald-500',
-    hoverBorder: 'hover:border-emerald-500/40 hover:bg-emerald-500/5',
-  },
-  {
     key: 'SLIDE_DESIGN',
     label: 'Slide Đồ Án Chuẩn LUK',
     badge: '5 dịch vụ',
@@ -69,14 +59,24 @@ export const LUK_SERVICE_CATEGORIES: ServiceCategoryDropdownItem[] = [
     hoverBorder: 'hover:border-amber-500/40 hover:bg-amber-500/5',
   },
   {
-    key: 'AI_ACCOUNTS',
-    label: 'Hệ Sinh Thái AI Pro',
+    key: 'TRANSCRIPT_EDITING',
+    label: 'Transcript Chuẩn LUK',
     badge: '5 dịch vụ',
-    description: 'CapCut Pro, ChatGPT Plus, Gemini Advanced 2TB, Canva Edu chính chủ',
-    curtainTitle: 'HỆ SINH THÁI AI PRO',
-    icon: Bot,
-    iconBg: 'bg-indigo-500/15 text-indigo-500',
-    hoverBorder: 'hover:border-indigo-500/40 hover:bg-indigo-500/5',
+    description: 'Gỡ băng phỏng vấn NCKH 99.5%, dịch phụ đề song ngữ SRT',
+    curtainTitle: 'TRANSCRIPT CHUẨN LUK',
+    icon: FileAudio,
+    iconBg: 'bg-emerald-500/15 text-emerald-500',
+    hoverBorder: 'hover:border-emerald-500/40 hover:bg-emerald-500/5',
+  },
+  {
+    key: 'DEBATE_RESOURCES',
+    label: 'Tài Liệu Debate BP & NCKH',
+    badge: '12 tài liệu',
+    description: 'Giáo trình tranh biện BP, case study, đề cương & mẫu luận văn',
+    curtainTitle: 'TÀI LIỆU DEBATE & NCKH',
+    icon: FileText,
+    iconBg: 'bg-purple-500/15 text-purple-500',
+    hoverBorder: 'hover:border-purple-500/40 hover:bg-purple-500/5',
   },
 ];
 
@@ -91,7 +91,8 @@ export interface NavTabItem {
 export const NAV_TABS: NavTabItem[] = [
   { id: 'home', label: 'Trang chủ', curtainTitle: 'TRANG CHỦ LUK SERVICES', href: '/' },
   { id: 'services', label: 'LUK Services', curtainTitle: 'HỆ SINH THÁI DỊCH VỤ LUK', isDropdown: true },
-  { id: 'debate', label: 'Debate BP', curtainTitle: 'KHO TÀI LIỆU DEBATE & NCKH', href: '/debate' },
+  { id: 'ai', label: 'Các AI Pro', curtainTitle: 'CÔNG CỤ AI PRO BẢN QUYỀN', href: '/services?cat=AI_ACCOUNTS' },
+  { id: 'subjects', label: 'Khám Phá Môn Học', curtainTitle: 'CỔNG DỊCH VỤ ĐỒ ÁN & MÔN HỌC', href: '/#services-catalog' },
   { id: 'track', label: 'Theo dõi đơn', curtainTitle: 'TRA CỨU TIẾN ĐỘ ĐƠN HÀNG', href: '/orders/track' },
 ];
 
@@ -216,6 +217,13 @@ export function Navbar() {
     setActiveTabIdx(1);
     updateMarker(1);
 
+    if (catKey === 'DEBATE_RESOURCES') {
+      triggerCurtain(curtainTitle, () => {
+        router.push('/debate');
+      });
+      return;
+    }
+
     triggerCurtain(curtainTitle, () => {
       window.dispatchEvent(
         new CustomEvent('luk-select-category', { detail: { key: catKey } })
@@ -242,6 +250,37 @@ export function Navbar() {
     setServicesDropdownOpen(false);
     setActiveTabIdx(idx);
     updateMarker(idx);
+
+    if (tab.id === 'ai') {
+      triggerCurtain(tab.curtainTitle, () => {
+        window.dispatchEvent(
+          new CustomEvent('luk-select-category', { detail: { key: 'AI_ACCOUNTS' } })
+        );
+        if (pathname === '/') {
+          const el = document.getElementById('services-catalog');
+          if (el) {
+            el.scrollIntoView({ behavior: 'smooth' });
+          }
+        } else {
+          router.push('/?cat=AI_ACCOUNTS#services-catalog');
+        }
+      });
+      return;
+    }
+
+    if (tab.id === 'subjects') {
+      triggerCurtain(tab.curtainTitle, () => {
+        if (pathname === '/') {
+          const el = document.getElementById('services-catalog');
+          if (el) {
+            el.scrollIntoView({ behavior: 'smooth' });
+          }
+        } else {
+          router.push('/#services-catalog');
+        }
+      });
+      return;
+    }
 
     triggerCurtain(tab.curtainTitle, () => {
       if (tab.href) {
@@ -376,7 +415,7 @@ export function Navbar() {
                       </span>
                     </div>
                     <span className="text-[10px] font-semibold text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/30 px-2 py-0.5 rounded-full border border-blue-200/60 dark:border-blue-500/20">
-                      4 Nhóm • 20 Dịch Vụ
+                      Edit • Slide • Trans • Debate
                     </span>
                   </div>
 

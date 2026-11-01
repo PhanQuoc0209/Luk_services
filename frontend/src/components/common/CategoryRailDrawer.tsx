@@ -77,6 +77,66 @@ const RAIL_CATEGORIES: CategoryRailItem[] = [
       </>
     ),
   },
+  {
+    key: 'ECONOMICS',
+    label: 'Kinh Tế & SPSS',
+    title: 'MÔN HỌC KINH TẾ & SPSS',
+    badge: '2',
+    description: 'Hỗ trợ Kinh tế lượng, mô hình OLS/SEM/SmartPLS & phân tích tài chính doanh nghiệp.',
+    gradient: 'linear-gradient(140deg, #10B981, #047857)',
+    svgPath: (
+      <>
+        <path d="M3 3v18h18" />
+        <path d="m19 9-5 5-4-4-3 3" />
+      </>
+    ),
+  },
+  {
+    key: 'COMPUTER_SCIENCE',
+    label: 'CNTT & Lập Trình',
+    title: 'MÔN HỌC CNTT & LẬP TRÌNH',
+    badge: '2',
+    description: 'Kèm đồ án Web/App Next.js, Python, giải bài tập lớn & sửa bug mã nguồn.',
+    gradient: 'linear-gradient(140deg, #0EA5E9, #0369A1)',
+    svgPath: (
+      <>
+        <polyline points="16 18 22 12 16 6" />
+        <polyline points="8 6 2 12 8 18" />
+      </>
+    ),
+  },
+  {
+    key: 'LAW_SOCIAL',
+    label: 'Luật & Chuẩn APA',
+    title: 'MÔN HỌC LUẬT & XÃ HỘI',
+    badge: '2',
+    description: 'Tiểu luận pháp luật, case study thương mại & chuẩn hóa trích dẫn APA 7th / Harvard.',
+    gradient: 'linear-gradient(140deg, #8B5CF6, #6D28D9)',
+    svgPath: (
+      <>
+        <path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z" />
+        <path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z" />
+        <path d="M7 21h10" />
+        <path d="M12 3v18" />
+        <path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2" />
+      </>
+    ),
+  },
+  {
+    key: 'DEBATE_RESOURCES',
+    label: 'Debate BP & NCKH',
+    title: 'KHO TÀI LIỆU DEBATE & NCKH',
+    badge: '12',
+    description: 'Giáo trình tranh biện BP toàn diện, Motion Book và mẫu đề cương NCKH.',
+    gradient: 'linear-gradient(140deg, #6366F1, #4338CA)',
+    svgPath: (
+      <>
+        <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z" />
+        <path d="M6 6h10" />
+        <path d="M6 10h10" />
+      </>
+    ),
+  },
 ];
 
 export function CategoryRailDrawer() {

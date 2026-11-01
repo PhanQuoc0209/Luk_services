@@ -8,10 +8,10 @@ import { CountUpSitePreloader } from '@/components/common/CountUpSitePreloader';
 
 export const revalidate = 0; // Dynamic
 
-async function getServicesByCategory(category: string) {
+async function getAllActiveServices() {
   try {
     const services = await prisma.service.findMany({
-      where: { isActive: true, category },
+      where: { isActive: true },
       orderBy: { sortOrder: 'asc' },
     });
 
@@ -20,27 +20,32 @@ async function getServicesByCategory(category: string) {
     }
   } catch (error: any) {
     console.error(
-      `[LUK Services HomePage] Notice: Database query failed for category "${category}". Serving guaranteed fallback catalog:`,
+      '[LUK Services HomePage] Database query notice: Serving guaranteed fallback catalog:',
       error?.message || error
     );
   }
 
   // Gracefully return curated catalog so the website NEVER crashes with a 500 digest error
-  return getFallbackServices(category);
+  return getFallbackServices('ALL');
 }
 
 export default async function HomePage() {
-  const [
-    aiServices,
-    videoServices,
-    transcriptServices,
-    slideServices,
-  ] = await Promise.all([
-    getServicesByCategory('AI_ACCOUNTS'),
-    getServicesByCategory('VIDEO_EDITING'),
-    getServicesByCategory('TRANSCRIPT_EDITING'),
-    getServicesByCategory('SLIDE_DESIGN'),
-  ]);
+  const services = await getAllActiveServices();
+
+  const formattedServices = services.map((s) => ({
+    id: s.id,
+    title: s.title,
+    slug: s.slug,
+    category: s.category,
+    shortDescription: s.shortDescription,
+    startingPrice: s.startingPrice,
+    turnaround: s.turnaround,
+    deliveryFormat: s.deliveryFormat,
+    imageUrl: s.imageUrl,
+    isFeatured: s.isFeatured,
+    isPopular: s.isPopular,
+    isDemo: s.isDemo,
+  }));
 
   return (
     <>
@@ -54,68 +59,11 @@ export default async function HomePage() {
 
       {/* 2. Main Content Container */}
       <div className="mx-auto max-w-[1536px] px-3 sm:px-6 lg:px-8 py-6 space-y-6">
-        {/* Rolling Announcement Banner Strip (Prompt #073) - Chuyển xuống đây ngay trước phần dịch vụ theo yêu cầu */}
+        {/* Rolling Announcement Banner Strip (Prompt #073) */}
         <RollingAnnouncementBanner />
 
-        {/* Category Rail Explorer with Prompt #339 Drag-and-Snap Cards */}
-        <CategoryRailExplorer
-          aiServices={aiServices.map((s) => ({
-            id: s.id,
-            title: s.title,
-            slug: s.slug,
-            category: s.category,
-            shortDescription: s.shortDescription,
-            startingPrice: s.startingPrice,
-            turnaround: s.turnaround,
-            deliveryFormat: s.deliveryFormat,
-            imageUrl: s.imageUrl,
-            isFeatured: s.isFeatured,
-            isPopular: s.isPopular,
-            isDemo: s.isDemo,
-          }))}
-          videoServices={videoServices.map((s) => ({
-            id: s.id,
-            title: s.title,
-            slug: s.slug,
-            category: s.category,
-            shortDescription: s.shortDescription,
-            startingPrice: s.startingPrice,
-            turnaround: s.turnaround,
-            deliveryFormat: s.deliveryFormat,
-            imageUrl: s.imageUrl,
-            isFeatured: s.isFeatured,
-            isPopular: s.isPopular,
-            isDemo: s.isDemo,
-          }))}
-          transcriptServices={transcriptServices.map((s) => ({
-            id: s.id,
-            title: s.title,
-            slug: s.slug,
-            category: s.category,
-            shortDescription: s.shortDescription,
-            startingPrice: s.startingPrice,
-            turnaround: s.turnaround,
-            deliveryFormat: s.deliveryFormat,
-            imageUrl: s.imageUrl,
-            isFeatured: s.isFeatured,
-            isPopular: s.isPopular,
-            isDemo: s.isDemo,
-          }))}
-          slideServices={slideServices.map((s) => ({
-            id: s.id,
-            title: s.title,
-            slug: s.slug,
-            category: s.category,
-            shortDescription: s.shortDescription,
-            startingPrice: s.startingPrice,
-            turnaround: s.turnaround,
-            deliveryFormat: s.deliveryFormat,
-            imageUrl: s.imageUrl,
-            isFeatured: s.isFeatured,
-            isPopular: s.isPopular,
-            isDemo: s.isDemo,
-          }))}
-        />
+        {/* Academic Universal Services & Multi-Course Catalog */}
+        <CategoryRailExplorer allServices={formattedServices} />
       </div>
     </>
   );
