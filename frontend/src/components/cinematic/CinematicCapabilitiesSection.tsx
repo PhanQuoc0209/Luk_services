@@ -1,10 +1,24 @@
 'use client';
 
-import React, { useRef } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { FadingVideo } from './FadingVideo';
+import { formatVND } from '@/lib/vietqr';
+import { useApp } from '@/components/providers/AppProvider';
 
 const CAPABILITIES_VIDEO_SRC =
   'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260418_094631_d30ab262-45ee-4b7d-99f3-5d5848c8ef13.mp4';
+
+export interface ServiceItemData {
+  id: string;
+  title: string;
+  slug: string;
+  category: string;
+  shortDescription: string;
+  startingPrice: number;
+  turnaround: string;
+  deliveryFormat: string;
+  imageUrl: string;
+}
 
 export interface ServiceCapabilityItem {
   id: string;
@@ -99,8 +113,30 @@ const CARDS_DATA: ServiceCapabilityItem[] = [
   },
 ];
 
-export function CinematicCapabilitiesSection() {
+interface CinematicCapabilitiesSectionProps {
+  services?: ServiceItemData[];
+}
+
+export function CinematicCapabilitiesSection({ services = [] }: CinematicCapabilitiesSectionProps) {
+  const { addToCartAndOpen } = useApp();
   const scrollTrackRef = useRef<HTMLDivElement>(null);
+  const [expandedCardId, setExpandedCardId] = useState<string | null>(null);
+  const [addingId, setAddingId] = useState<string | null>(null);
+
+  // Listen to open category event from Navbar
+  useEffect(() => {
+    const handleOpenCat = (e: any) => {
+      const catKey = e?.detail?.categoryKey;
+      if (catKey) {
+        const found = CARDS_DATA.find((c) => c.categoryKey === catKey);
+        if (found) {
+          setExpandedCardId(found.id);
+        }
+      }
+    };
+    window.addEventListener('luk-open-capability', handleOpenCat);
+    return () => window.removeEventListener('luk-open-capability', handleOpenCat);
+  }, []);
 
   const scrollLeft = () => {
     if (scrollTrackRef.current) {
@@ -114,14 +150,21 @@ export function CinematicCapabilitiesSection() {
     }
   };
 
-  const handleCardClick = (categoryKey: string) => {
-    const el = document.getElementById('services-schedule');
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
+  const toggleExpand = (cardId: string) => {
+    setExpandedCardId((prev) => (prev === cardId ? null : cardId));
+  };
+
+  const handleQuickAdd = async (e: React.MouseEvent, serviceId: string) => {
+    e.stopPropagation();
+    if (addingId) return;
+    setAddingId(serviceId);
+    try {
+      await addToCartAndOpen(serviceId);
+    } catch {
+      // ignore
+    } finally {
+      setAddingId(null);
     }
-    window.dispatchEvent(
-      new CustomEvent('luk-select-category', { detail: { categoryKey } })
-    );
   };
 
   return (
@@ -138,11 +181,12 @@ export function CinematicCapabilitiesSection() {
       </div>
 
       {/* Content: Giữ nguyên bố cục và phong cách typography của Space Page */}
-      <div className="relative z-10 px-8 md:px-16 lg:px-20 flex flex-col justify-between max-w-[1536px] mx-auto w-full space-y-12">
+      <div className="relative z-10 px-6 sm:px-10 lg:px-16 flex flex-col justify-between max-w-[1536px] mx-auto w-full space-y-10">
+        
         {/* Header with Horizontal Navigation Arrows */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div>
-            <p className="text-sm font-body text-white/80 mb-4 tracking-wider">
+            <p className="text-sm font-body text-white/80 mb-3 tracking-wider uppercase">
               // Hệ Sinh Thái Dịch Vụ (Capabilities)
             </p>
             <h2 className="font-heading italic text-white text-6xl md:text-7xl lg:text-[6rem] leading-[0.9] tracking-[-3px]">
@@ -150,6 +194,9 @@ export function CinematicCapabilitiesSection() {
               <br />
               Trọng Tâm
             </h2>
+            <p className="mt-3 text-xs sm:text-sm text-white/70 font-body font-light max-w-xl leading-relaxed">
+              Bấm vào từng ô dịch vụ để mở rộng danh sách chi tiết các gói và đặt dịch vụ ngay tại đây mà không cần chuyển trang.
+            </p>
           </div>
 
           {/* Navigation Controls: Mũi tên trượt ngang */}
@@ -183,66 +230,143 @@ export function CinematicCapabilitiesSection() {
         {/* Các ô hình chữ nhật, vuông liquid-glass có sẵn — trượt ngang mượt mà */}
         <div
           ref={scrollTrackRef}
-          className="flex items-stretch gap-6 overflow-x-auto no-scrollbar scroll-smooth snap-x snap-mandatory pb-6 pt-2 px-1 cursor-grab"
+          className="flex items-start gap-6 overflow-x-auto no-scrollbar scroll-smooth snap-x snap-mandatory pb-8 pt-2 px-1"
         >
-          {CARDS_DATA.map((card) => (
-            <div
-              key={card.id}
-              onClick={() => handleCardClick(card.categoryKey)}
-              className="liquid-glass rounded-[1.25rem] p-6 w-[320px] sm:w-[350px] md:w-[380px] shrink-0 min-h-[380px] flex flex-col justify-between hover:scale-[1.01] transition-transform duration-300 snap-start border border-white/10 cursor-pointer group"
-            >
-              {/* Top row: 44x44 nested liquid-glass square with white icon + pill tags */}
-              <div className="flex items-start justify-between gap-4">
-                <div className="liquid-glass w-11 h-11 rounded-[0.75rem] flex items-center justify-center shrink-0">
-                  <svg className="w-6 h-6 fill-white text-white" viewBox="0 0 24 24">
-                    <path d={card.iconPath} />
-                  </svg>
-                </div>
+          {CARDS_DATA.map((card) => {
+            const isExpanded = expandedCardId === card.id;
+            const categoryPackages = services.filter((s) => s.category === card.categoryKey);
 
-                {/* 4 small liquid-glass pill tags */}
-                <div className="flex flex-wrap justify-end gap-1.5 max-w-[70%]">
-                  {card.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="liquid-glass rounded-full px-2.5 py-0.5 text-[11px] text-white font-body"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              </div>
-
-              {/* Middle: Title, Subtitle, Description */}
-              <div className="my-4 space-y-2">
-                <span className="text-[11px] uppercase tracking-wider text-white/50 font-body">
-                  ⚡ {card.turnaround}
-                </span>
-                <h3 className="font-heading italic text-white text-3xl sm:text-4xl tracking-[-1px] leading-tight group-hover:text-white/80 transition-colors">
-                  {card.title}
-                </h3>
-                <p className="text-xs text-white/75 font-body font-light leading-relaxed line-clamp-3">
-                  {card.description}
-                </p>
-              </div>
-
-              {/* Bottom: Price & Quick Action */}
-              <div className="pt-3 border-t border-white/10 flex items-center justify-between">
+            return (
+              <div
+                key={card.id}
+                onClick={() => toggleExpand(card.id)}
+                className={`liquid-glass rounded-[1.35rem] p-6 shrink-0 flex flex-col justify-between transition-all duration-300 snap-start border cursor-pointer group ${
+                  isExpanded
+                    ? 'w-[360px] sm:w-[420px] md:w-[460px] border-white/40 shadow-2xl scale-[1.01]'
+                    : 'w-[320px] sm:w-[350px] md:w-[380px] min-h-[400px] border-white/10 hover:border-white/20'
+                }`}
+              >
                 <div>
-                  <span className="text-[10px] text-white/50 block font-body uppercase">
-                    Báo giá từ
-                  </span>
-                  <span className="font-heading italic text-white text-xl">
-                    {card.startingPrice}
+                  {/* Top row: 44x44 nested liquid-glass square with white icon + pill tags */}
+                  <div className="flex items-start justify-between gap-4">
+                    <div className="liquid-glass w-11 h-11 rounded-[0.75rem] flex items-center justify-center shrink-0">
+                      <svg className="w-6 h-6 fill-white text-white" viewBox="0 0 24 24">
+                        <path d={card.iconPath} />
+                      </svg>
+                    </div>
+
+                    {/* Pill tags */}
+                    <div className="flex flex-wrap justify-end gap-1.5 max-w-[70%]">
+                      {card.tags.slice(0, 3).map((tag) => (
+                        <span
+                          key={tag}
+                          className="liquid-glass rounded-full px-2.5 py-0.5 text-[11px] text-white font-body"
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Middle: Title, Subtitle, Description */}
+                  <div className="my-4 space-y-2">
+                    <span className="text-[11px] uppercase tracking-wider text-white/50 font-body">
+                      ⚡ {card.turnaround}
+                    </span>
+                    <h3 className="font-heading italic text-white text-3xl sm:text-4xl tracking-[-1px] leading-tight group-hover:text-white/80 transition-colors">
+                      {card.title}
+                    </h3>
+                    <p className="text-xs text-white/75 font-body font-light leading-relaxed">
+                      {card.description}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Bottom Toggle Bar */}
+                <div className="pt-3 border-t border-white/10 flex items-center justify-between">
+                  <div>
+                    <span className="text-[10px] text-white/50 block font-body uppercase">
+                      Báo giá từ
+                    </span>
+                    <span className="font-heading italic text-white text-xl">
+                      {card.startingPrice}
+                    </span>
+                  </div>
+
+                  <span
+                    className={`inline-flex items-center gap-1.5 text-xs font-semibold px-3.5 py-1.5 rounded-full transition-all font-body ${
+                      isExpanded
+                        ? 'bg-white text-black shadow-md'
+                        : 'liquid-glass text-white group-hover:bg-white/10'
+                    }`}
+                  >
+                    <span>{isExpanded ? 'Đóng danh sách' : 'Xem danh sách gói'}</span>
+                    <span className="transition-transform duration-300" style={{ transform: isExpanded ? 'rotate(180deg)' : 'none' }}>
+                      ▾
+                    </span>
                   </span>
                 </div>
 
-                <span className="inline-flex items-center gap-1 text-xs font-semibold text-white group-hover:translate-x-1 transition-transform font-body">
-                  <span>Xem lịch trình</span>
-                  <span>→</span>
-                </span>
+                {/* INLINE EXPANDED LIST (Mở rộng thẻ trực tiếp hiển thị danh sách gói tại chỗ!) */}
+                {isExpanded && (
+                  <div
+                    onClick={(e) => e.stopPropagation()}
+                    className="mt-5 pt-4 border-t border-white/15 space-y-3 cursor-default animate-in fade-in-0 duration-300"
+                  >
+                    <div className="flex items-center justify-between text-xs font-body text-white/70">
+                      <span className="font-semibold text-white uppercase text-[11px] tracking-wider">
+                        Danh sách các gói ({categoryPackages.length || 3} gói):
+                      </span>
+                      <span className="text-[10.5px] text-emerald-400">⚡ Hỗ trợ 1-1</span>
+                    </div>
+
+                    <div className="space-y-2.5 max-h-[300px] overflow-y-auto no-scrollbar pr-1">
+                      {categoryPackages.length > 0 ? (
+                        categoryPackages.map((pkg) => (
+                          <div
+                            key={pkg.id}
+                            className="liquid-glass rounded-xl p-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 border border-white/10 hover:border-white/20 transition-all"
+                          >
+                            <div className="space-y-1 max-w-[65%]">
+                              <h5 className="font-heading italic text-white text-base tracking-tight leading-snug">
+                                {pkg.title}
+                              </h5>
+                              <p className="text-[11px] text-white/60 font-body font-light line-clamp-1">
+                                {pkg.shortDescription}
+                              </p>
+                              <div className="flex items-center gap-2 text-[10px] text-white/50 font-body">
+                                <span>⚡ {pkg.turnaround}</span>
+                                <span>•</span>
+                                <span>{pkg.deliveryFormat}</span>
+                              </div>
+                            </div>
+
+                            <div className="flex sm:flex-col items-center sm:items-end justify-between gap-1.5 shrink-0">
+                              <span className="font-heading italic text-white text-base">
+                                {pkg.startingPrice > 0 ? formatVND(pkg.startingPrice) : 'Liên hệ'}
+                              </span>
+                              <button
+                                type="button"
+                                onClick={(e) => handleQuickAdd(e, pkg.id)}
+                                disabled={addingId === pkg.id}
+                                className="bg-white text-black font-body font-semibold text-[11px] px-3 py-1 rounded-full hover:bg-white/90 active:scale-95 transition shadow-sm cursor-pointer whitespace-nowrap"
+                              >
+                                {addingId === pkg.id ? 'Đang thêm...' : 'Đặt lịch'}
+                              </button>
+                            </div>
+                          </div>
+                        ))
+                      ) : (
+                        <div className="liquid-glass rounded-xl p-3 text-center text-xs text-white/60 font-body">
+                          Đang cập nhật các gói dịch vụ mới...
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>

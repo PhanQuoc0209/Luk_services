@@ -3,7 +3,6 @@ import { prisma } from '@/lib/prisma';
 import { getFallbackServices } from '@/lib/fallback-data';
 import { CinematicHeroSection } from '@/components/cinematic/CinematicHeroSection';
 import { CinematicCapabilitiesSection } from '@/components/cinematic/CinematicCapabilitiesSection';
-import { CinematicCatalogSection } from '@/components/cinematic/CinematicCatalogSection';
 
 export const revalidate = 0; // Dynamic
 
@@ -45,15 +44,12 @@ export default async function HomePage() {
   }));
 
   return (
-    <div className="w-full bg-black text-white flex flex-col">
-      {/* SECTION 1 — HERO (Full Viewport, Looping Video, BlurText, Stats, Partners) */}
+    <div className="w-full bg-black text-white flex flex-col min-h-screen">
+      {/* SECTION 1 — HERO (Full Viewport, Looping Video, Interactive Scatter LUK SERVICES, Stats) */}
       <CinematicHeroSection />
 
-      {/* SECTION 2 — CAPABILITIES (Full Viewport, Video 2, 3 Liquid-Glass Cards) */}
-      <CinematicCapabilitiesSection />
-
-      {/* SECTION 3 — INTERACTIVE SERVICES CATALOG (Shared Liquid-Glass Design System) */}
-      <CinematicCatalogSection services={formattedServices} />
+      {/* SECTION 2 — CAPABILITIES (Horizontal Sliding Cards with Inline Accordion Package Lists) */}
+      <CinematicCapabilitiesSection services={formattedServices} />
     </div>
   );
 }

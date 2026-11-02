@@ -3,7 +3,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { FadingVideo } from './FadingVideo';
-import { BlurText } from './BlurText';
+import { ScatterText } from './ScatterText';
 
 const HERO_VIDEO_SRC =
   'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260418_080021_d598092b-c4c2-4e53-8e46-94cf9064cd50.mp4';
@@ -23,7 +23,7 @@ export function CinematicHeroSection() {
       </div>
 
       {/* Hero Content (centered, pt-24 px-4 flex-1 flex flex-col items-center justify-center text-center z-10) */}
-      <div className="relative z-10 flex-1 flex flex-col items-center justify-center pt-28 pb-12 px-4 max-w-4xl mx-auto text-center">
+      <div className="relative z-10 flex-1 flex flex-col items-center justify-center pt-28 pb-12 px-4 max-w-5xl mx-auto text-center">
         {/* Badge (delay 0.4s) — Dòng thông báo tinh tế */}
         <motion.div
           initial={{ filter: 'blur(10px)', opacity: 0, y: 20 }}
@@ -39,11 +39,8 @@ export function CinematicHeroSection() {
           </span>
         </motion.div>
 
-        {/* Headline — BlurText component with Project Name */}
-        <BlurText
-          text="LUK Services — Chinh Phục Mọi Đồ Án & Nghiên Cứu"
-          className="text-6xl md:text-7xl lg:text-[5.5rem] font-heading italic text-white leading-[0.8] max-w-3xl justify-center tracking-[-4px]"
-        />
+        {/* Chữ Chính LUK SERVICES to và nằm căn giữa trang chủ với hiệu ứng Scatter and Reassemble (Prompt #360) */}
+        <ScatterText text="LUK SERVICES" className="my-2" />
 
         {/* Subheading (delay 0.8s) */}
         <motion.p
@@ -82,7 +79,7 @@ export function CinematicHeroSection() {
 
           {/* Secondary CTA */}
           <a
-            href="#services-schedule"
+            href="#capabilities"
             className="text-sm font-medium text-white flex items-center gap-2 hover:opacity-80 transition-opacity font-body"
           >
             <span>Lịch Bàn Giao &amp; Báo Giá</span>

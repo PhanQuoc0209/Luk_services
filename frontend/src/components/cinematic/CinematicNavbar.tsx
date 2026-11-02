@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useApp } from '@/components/providers/AppProvider';
+import { DayNightSwitch } from './DayNightSwitch';
 
 interface NavItem {
   label: string;
@@ -13,11 +14,11 @@ interface NavItem {
 
 const NAV_LINKS: NavItem[] = [
   { label: 'Trang chủ', href: '/' },
-  { label: 'Edit Video', categoryKey: 'VIDEO_EDITING', href: '/#services-schedule' },
-  { label: 'Slide Đồ Án', categoryKey: 'SLIDE_DESIGN', href: '/#services-schedule' },
-  { label: 'Transcript', categoryKey: 'TRANSCRIPT_EDITING', href: '/#services-schedule' },
-  { label: 'Debate BP', categoryKey: 'DEBATE_RESOURCES', href: '/#services-schedule' },
-  { label: 'Các AI Pro', categoryKey: 'AI_ACCOUNTS', href: '/#services-schedule' },
+  { label: 'Edit Video', categoryKey: 'VIDEO_EDITING', href: '/#capabilities' },
+  { label: 'Slide Đồ Án', categoryKey: 'SLIDE_DESIGN', href: '/#capabilities' },
+  { label: 'Transcript', categoryKey: 'TRANSCRIPT_EDITING', href: '/#capabilities' },
+  { label: 'Debate BP', categoryKey: 'DEBATE_RESOURCES', href: '/#capabilities' },
+  { label: 'Các AI Pro', categoryKey: 'AI_ACCOUNTS', href: '/#capabilities' },
   { label: 'Theo dõi đơn', href: '/orders/track' },
 ];
 
@@ -29,12 +30,12 @@ export function CinematicNavbar() {
   const handleNavClick = (e: React.MouseEvent, item: NavItem) => {
     if (item.categoryKey && pathname === '/') {
       e.preventDefault();
-      const el = document.getElementById('services-schedule');
+      const el = document.getElementById('capabilities');
       if (el) {
         el.scrollIntoView({ behavior: 'smooth' });
       }
       window.dispatchEvent(
-        new CustomEvent('luk-select-category', { detail: { categoryKey: item.categoryKey } })
+        new CustomEvent('luk-open-capability', { detail: { categoryKey: item.categoryKey } })
       );
     }
   };
@@ -42,7 +43,7 @@ export function CinematicNavbar() {
   const handleClaimSpot = (e: React.MouseEvent) => {
     if (pathname === '/') {
       e.preventDefault();
-      const el = document.getElementById('services-schedule');
+      const el = document.getElementById('capabilities');
       if (el) {
         el.scrollIntoView({ behavior: 'smooth' });
       }
@@ -50,7 +51,7 @@ export function CinematicNavbar() {
   };
 
   return (
-    <header className="fixed top-4 left-0 right-0 z-50 px-6 sm:px-8 lg:px-16 pointer-events-none">
+    <header className="fixed top-4 left-0 right-0 z-50 px-4 sm:px-8 lg:px-16 pointer-events-none">
       <div className="mx-auto max-w-[1536px] flex items-center justify-between pointer-events-auto">
         {/* Left: 48x48 liquid-glass circle with italic serif letter */}
         <Link
@@ -81,7 +82,7 @@ export function CinematicNavbar() {
 
           {/* White pill button: Claim a Spot + ArrowUpRight icon */}
           <Link
-            href="/#services-schedule"
+            href="/#capabilities"
             onClick={handleClaimSpot}
             className="ml-1 inline-flex items-center gap-1.5 bg-white text-black font-body font-semibold text-sm px-4 py-2 rounded-full whitespace-nowrap hover:bg-white/90 active:scale-95 transition-all shadow-md"
           >
@@ -99,8 +100,12 @@ export function CinematicNavbar() {
           </Link>
         </nav>
 
-        {/* Right: 48x48 liquid-glass circle (Cart Drawer Button with Live Badge) */}
+        {/* Right: Day-Night Switch + Cart Drawer Button */}
         <div className="flex items-center gap-2">
+          {/* Day-Night Sky Switch (Prompt #021) */}
+          <DayNightSwitch className="mr-0.5" />
+
+          {/* Cart Drawer Button with Live Badge */}
           <button
             type="button"
             onClick={() => openCartDrawer()}
@@ -168,7 +173,7 @@ export function CinematicNavbar() {
             </Link>
           ))}
           <Link
-            href="/#services-schedule"
+            href="/#capabilities"
             onClick={(e) => {
               handleClaimSpot(e);
               setMobileMenuOpen(false);
