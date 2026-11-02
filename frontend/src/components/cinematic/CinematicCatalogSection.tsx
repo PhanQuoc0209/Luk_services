@@ -3,6 +3,7 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { formatVND } from '@/lib/vietqr';
 import { useApp } from '@/components/providers/AppProvider';
+import { PRICE_RANGE_MAP } from './CinematicCapabilitiesSection';
 
 export interface ServiceItemData {
   id: string;
@@ -24,10 +25,9 @@ interface CinematicCatalogSectionProps {
 
 const CATEGORY_TABS = [
   { key: 'ALL', label: 'Tất cả dịch vụ' },
-  { key: 'VIDEO_EDITING', label: 'Edit Video Chuẩn LUK' },
-  { key: 'SLIDE_DESIGN', label: 'Slide Đồ Án & Luận Văn' },
-  { key: 'TRANSCRIPT_EDITING', label: 'Transcript & Phụ Đề' },
-  { key: 'AI_ACCOUNTS', label: 'Tài Khoản AI Pro' },
+  { key: 'VIDEO_EDITING', label: 'Edit Video' },
+  { key: 'SLIDE_DESIGN', label: 'Edit Slide' },
+  { key: 'TRANSCRIPT_EDITING', label: 'Viết Kịch Bản (Transcript)' },
   { key: 'DEBATE_RESOURCES', label: 'Tài Liệu Debate BP' },
 ];
 
@@ -288,7 +288,7 @@ export function CinematicCatalogSection({ services }: CinematicCatalogSectionPro
                     Báo giá từ
                   </span>
                   <span className="font-heading italic text-white text-xl">
-                    {item.startingPrice > 0 ? formatVND(item.startingPrice) : 'Liên hệ'}
+                    {PRICE_RANGE_MAP[item.slug] || (item.startingPrice > 0 ? formatVND(item.startingPrice) : 'Liên hệ')}
                   </span>
                 </div>
 

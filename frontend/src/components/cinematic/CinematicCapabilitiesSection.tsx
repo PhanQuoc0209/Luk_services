@@ -32,44 +32,57 @@ export interface ServiceCapabilityItem {
   turnaround: string;
 }
 
+export const PRICE_RANGE_MAP: Record<string, string> = {
+  'edit-video-project-nhom': '150.000đ - 200.000đ',
+  'edit-video-project-ca-nhan': '150.000đ - 200.000đ',
+  'edit-video-debate': '450.000đ - 500.000đ',
+  'edit-mv-presentation': '150.000đ - 200.000đ',
+  'edit-slide-project-presentation': '100.000đ - 150.000đ',
+  'edit-slide-debate': '250.000đ - 300.000đ',
+  'viet-kich-ban-thuyet-trinh': '120.000đ - 180.000đ',
+  'go-bang-phong-van-nckh': '80.000đ - 100.000đ',
+  'dich-phu-de-song-ngu-srt': '150.000đ',
+  'bien-soan-kich-ban-debate': '150.000đ - 200.000đ',
+};
+
 const CARDS_DATA: ServiceCapabilityItem[] = [
   {
     id: 'edit-video',
     categoryKey: 'VIDEO_EDITING',
-    title: 'Edit Video Chuẩn LUK',
-    subtitle: 'Thuyết Trình & Recap CLB',
+    title: 'Edit Video',
+    subtitle: 'Project nhóm, Cá nhân & Debate',
     iconPath:
       'M4 6.47 5.76 10H20v8H4V6.47M22 4h-4l2 4h-3l-2-4h-2l2 4h-3l-2-4H8l2 4H7L5 4H4c-1.1 0-1.99.89-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4Z',
-    tags: ['4K 60fps', 'Recap Sự Kiện', 'TikTok Đồ Án', 'Lọc Âm'],
+    tags: ['Project Nhóm', 'Check 2 Cá Nhân', 'Debate BP', 'MV Presentation'],
     description:
-      'Dựng video thuyết trình đồ án, highlight reel sự kiện CLB và video môn học chuẩn phòng thu, chèn phụ đề song ngữ và hiệu ứng chuyển cảnh mượt mà.',
-    startingPrice: '79.000đ',
-    turnaround: 'Bàn giao 24h',
+      'Dựng video thuyết trình đồ án nhóm, video profile cá nhân Check 2, video tranh biện debate và MV presentation sáng tạo cho sinh viên.',
+    startingPrice: '150.000đ',
+    turnaround: 'Bàn giao 24-48h',
   },
   {
     id: 'slide-design',
     categoryKey: 'SLIDE_DESIGN',
-    title: 'Slide Đồ Án & Luận Văn',
-    subtitle: 'Chuẩn Hội Đồng Bảo Vệ',
+    title: 'Edit Slide',
+    subtitle: 'Project Presentation & Debate',
     iconPath:
       'M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zM7 10h2v7H7zm4-3h2v10h-2zm4 6h2v4h-2z',
-    tags: ['Khóa Luận', 'Pitch Deck', 'Master Layout', 'Tối Giản'],
+    tags: ['Presentation', 'Slide Debate', 'Teamwork', 'Infographic'],
     description:
-      'Chuẩn hóa slide bảo vệ khóa luận tốt nghiệp, pitch deck khởi nghiệp và đồ án lớn. Trực quan hóa dữ liệu thống kê, biểu đồ sắc nét và đồng bộ nhận diện.',
-    startingPrice: '99.000đ',
-    turnaround: 'Bàn giao 24-48h',
+      'Chuẩn hóa slide thuyết trình đồ án nhóm, thiết kế slide tranh biện debate chuyên sâu, sơ đồ hóa luận điểm và biểu đồ sắc nét.',
+    startingPrice: '100.000đ',
+    turnaround: 'Bàn giao 24h',
   },
   {
     id: 'transcript',
     categoryKey: 'TRANSCRIPT_EDITING',
-    title: 'Gỡ Băng Transcript 99.5%',
-    subtitle: 'NCKH & Dịch Phụ Đề',
+    title: 'Viết Kịch Bản (Transcript)',
+    subtitle: 'Kịch Bản Đồ Án & NCKH 99.5%',
     iconPath:
       'M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Zm5 8a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.92V20H9v2h6v-2h-2v-3.08A7 7 0 0 0 19 10h-2Z',
-    tags: ['Chính Xác 99.5%', 'Phỏng Vấn Sâu', 'Dịch SRT', 'Timestamp'],
+    tags: ['Kịch Bản Thuyết Trình', 'Gỡ Băng NCKH', 'Dịch Phụ Đề SRT', 'Debate Script'],
     description:
-      'Chuyển hóa file ghi âm phỏng vấn định tính NCKH thành văn bản Word chuẩn format đại học, đồng bộ timeline phụ đề song ngữ từng mili-giây.',
-    startingPrice: '80.000đ',
+      'Xây dựng khung kịch bản thuyết trình đồ án, gỡ băng phỏng vấn định tính NCKH chính xác 99.5%, đồng bộ timeline phụ đề song ngữ.',
+    startingPrice: '100.000đ',
     turnaround: 'Bàn giao 12-24h',
   },
   {
@@ -84,19 +97,6 @@ const CARDS_DATA: ServiceCapabilityItem[] = [
       'Kho tài liệu tranh biện British Parliamentary, hệ thống luận điểm kinh tế xã hội và bộ đề cương nghiên cứu khoa học đạt giải sinh viên.',
     startingPrice: 'Miễn phí & Premium',
     turnaround: 'Tải file tức thì',
-  },
-  {
-    id: 'poster-design',
-    categoryKey: 'SLIDE_DESIGN',
-    title: 'Thiết Kế Poster & Infographic',
-    subtitle: 'Đồ Họa & In Ấn',
-    iconPath:
-      'M5 21q-.825 0-1.412-.587T3 19V5q0-.825.588-1.412T5 3h14q.825 0 1.413.588T21 5v14q0 .825-.587 1.413T19 21H5Zm1-4h12l-3.75-5-3 4L9 13l-3 4Z',
-    tags: ['Poster NCKH', 'Infographic Đồ Án', 'Vector In Ấn', 'A0/A1'],
-    description:
-      'Thiết kế poster báo cáo hội thảo khoa học, infographic trực quan hóa dữ liệu nghiên cứu và ấn phẩm truyền thông sự kiện theo chuẩn in ấn độ phân giải cao.',
-    startingPrice: '89.000đ',
-    turnaround: 'Bàn giao 24h',
   },
 ];
 
@@ -391,7 +391,7 @@ export function CinematicCapabilitiesSection({ services = [] }: CinematicCapabil
                             Báo giá
                           </span>
                           <span className="font-heading italic text-lg font-semibold">
-                            {pkg.startingPrice > 0 ? formatVND(pkg.startingPrice) : 'Liên hệ'}
+                            {PRICE_RANGE_MAP[pkg.slug] || (pkg.startingPrice > 0 ? formatVND(pkg.startingPrice) : 'Liên hệ')}
                           </span>
                         </div>
 

@@ -15,8 +15,8 @@ interface NavItem {
 const NAV_LINKS: NavItem[] = [
   { label: 'Trang chủ', href: '/' },
   { label: 'Edit Video', categoryKey: 'VIDEO_EDITING', href: '/#capabilities' },
-  { label: 'Slide Đồ Án', categoryKey: 'SLIDE_DESIGN', href: '/#capabilities' },
-  { label: 'Transcript', categoryKey: 'TRANSCRIPT_EDITING', href: '/#capabilities' },
+  { label: 'Edit Slide', categoryKey: 'SLIDE_DESIGN', href: '/#capabilities' },
+  { label: 'Viết Kịch Bản (Transcript)', categoryKey: 'TRANSCRIPT_EDITING', href: '/#capabilities' },
   { label: 'Debate BP', categoryKey: 'DEBATE_RESOURCES', href: '/#capabilities' },
   { label: 'Theo dõi đơn', href: '/orders/track' },
 ];
