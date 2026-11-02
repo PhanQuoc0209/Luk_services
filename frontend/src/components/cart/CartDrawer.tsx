@@ -1,11 +1,10 @@
-/* Lucian UX/UI Prompt #240 · MIT License (c) 2026 Seokwoooo · https://lucianlabs.dev/uxui-prompt/#240 */
 'use client';
 
 import React, { useRef, useEffect } from 'react';
 import Link from 'next/link';
 import { useApp } from '@/components/providers/AppProvider';
 import { formatVND } from '@/lib/vietqr';
-import { ArrowRight, ShoppingBag } from 'lucide-react';
+import { ArrowRight, ShoppingBag, X, Trash2 } from 'lucide-react';
 
 const FREE_THRESHOLD = 200000; // 200,000 VND for free bonus revisions & discount
 
@@ -18,12 +17,9 @@ export function CartDrawer() {
     cartCount,
     updateCartItemQuantity,
     removeCartItemById,
-    flashItemId,
-    cartLoading,
   } = useApp();
 
   const closeBtnRef = useRef<HTMLButtonElement>(null);
-  const drawerRef = useRef<HTMLElement>(null);
 
   // Focus management
   useEffect(() => {
@@ -45,167 +41,130 @@ export function CartDrawer() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [isCartOpen, closeCartDrawer]);
 
+  // Crucial: NEVER render into DOM if closed! (Prevents spilling onto page bottom)
+  if (!isCartOpen) {
+    return null;
+  }
+
   const isUnlocked = cartSubtotal >= FREE_THRESHOLD;
   const progressPercent = Math.min(100, (cartSubtotal / FREE_THRESHOLD) * 100);
   const remaining = Math.max(0, FREE_THRESHOLD - cartSubtotal);
 
   return (
-    <div className={`ux u240 ${isCartOpen ? 'is-open' : ''}`}>
-      {/* Background Overlay */}
+    <div className="fixed inset-0 z-50 overflow-hidden flex justify-end animate-in fade-in-0 duration-200">
+      {/* Backdrop */}
       <div
-        className="u240-ov"
+        className="fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity"
         aria-hidden="true"
         onClick={closeCartDrawer}
       />
 
-      {/* Slide-in Drawer */}
+      {/* Slide-in Panel */}
       <aside
-        ref={drawerRef}
-        className="u240-dr"
+        className="relative w-full max-w-md bg-[#0f172a] text-white p-6 shadow-2xl z-10 flex flex-col justify-between border-l border-white/10 h-full animate-in slide-in-from-right duration-300"
         role="dialog"
         aria-modal="true"
         aria-label="Giỏ hàng dịch vụ"
-        aria-hidden={!isCartOpen}
       >
         {/* Header */}
-        <div className="u240-dh">
-          <b>
-            <span>Giỏ hàng</span>
-            <i className="u240-ct">{cartCount}</i>
-          </b>
-          <button
-            ref={closeBtnRef}
-            type="button"
-            className="u240-x"
-            aria-label="Đóng giỏ hàng"
-            onClick={closeCartDrawer}
-          >
-            <svg viewBox="0 0 11 11" aria-hidden="true">
-              <path
-                d="M2 2l7 7M9 2L2 9"
-                stroke="currentColor"
-                strokeWidth="1.8"
-                strokeLinecap="round"
-              />
-            </svg>
-          </button>
-        </div>
-
-        {/* Free Shipping / Sinh viên Promotion Bar */}
-        <div className={`u240-fs ${isUnlocked ? 'is-ok' : ''}`} aria-live="polite">
-          <span className="u240-fm">
-            {isUnlocked ? (
-              <span>🎉 Bạn đã mở khóa <b>Ưu đãi duyệt nháp 1-1 & Voucher 20K</b>!</span>
-            ) : (
-              <span>
-                Thêm <b>{formatVND(remaining)}</b> để mở khóa ưu đãi duyệt nháp & voucher 20K
+        <div>
+          <div className="flex items-center justify-between border-b border-white/10 pb-4 mb-4">
+            <div className="flex items-center gap-2.5">
+              <ShoppingBag className="w-5 h-5 text-sky-400" />
+              <h3 className="font-heading italic text-2xl text-white tracking-tight">
+                Giỏ Hàng Dịch Vụ
+              </h3>
+              <span className="bg-sky-500/20 text-sky-300 text-xs px-2 py-0.5 rounded-full font-bold">
+                {cartCount}
               </span>
-            )}
-          </span>
-          <div className="u240-bar">
-            <i style={{ width: `${progressPercent}%` }} />
+            </div>
+            <button
+              ref={closeBtnRef}
+              type="button"
+              onClick={closeCartDrawer}
+              className="p-1.5 rounded-full hover:bg-white/10 text-white/70 hover:text-white transition cursor-pointer"
+              aria-label="Đóng giỏ hàng"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          </div>
+
+          {/* Promotion / Free Revision Threshold */}
+          <div className="bg-white/5 rounded-xl p-3 border border-white/10 mb-4 text-xs font-body">
+            <div className="flex justify-between items-center mb-1.5 text-white/80">
+              <span>{isUnlocked ? '🎉 Đạt mốc ưu đãi duyệt 1-1!' : 'Ưu đãi sinh viên:'}</span>
+              <span className="font-semibold text-sky-300">
+                {isUnlocked ? 'Đã mở khóa' : `Còn ${formatVND(remaining)}`}
+              </span>
+            </div>
+            <div className="w-full h-1.5 bg-white/10 rounded-full overflow-hidden">
+              <div
+                className="h-full bg-gradient-to-r from-sky-400 to-emerald-400 rounded-full transition-all duration-500"
+                style={{ width: `${progressPercent}%` }}
+              />
+            </div>
           </div>
         </div>
 
-        {/* Items List */}
-        <div className="u240-ls">
+        {/* Cart Item List */}
+        <div className="flex-1 overflow-y-auto space-y-3 pr-1 my-2 no-scrollbar">
           {cartItems.length === 0 ? (
-            <div className="u240-empty">
-              <ShoppingBag className="h-10 w-10 mx-auto text-luk-dim mb-3 opacity-40" />
+            <div className="flex flex-col items-center justify-center h-48 text-center text-white/50 text-xs space-y-2">
+              <ShoppingBag className="w-8 h-8 opacity-40" />
               <p>Giỏ hàng của bạn đang trống</p>
-              <Link
-                href="/services"
-                onClick={closeCartDrawer}
-                className="inline-flex items-center gap-1.5 text-xs text-blue-400 hover:underline mt-2 font-semibold"
-              >
-                <span>Khám phá dịch vụ ngay</span>
-                <ArrowRight className="h-3 w-3" />
-              </Link>
             </div>
           ) : (
             cartItems.map((item) => {
-              const isFlash = flashItemId === item.id || flashItemId === item.serviceId;
-              const price = item.service.startingPrice || 0;
-
+              const price = item.service?.startingPrice || 0;
               return (
                 <div
                   key={item.id}
-                  className={`u240-it ${isFlash ? 'is-fl' : ''}`}
+                  className="bg-white/5 rounded-xl p-3.5 border border-white/10 flex items-start gap-3 justify-between"
                 >
-                  <div>
-                    <div className="u240-in">
-                      {/* Thumbnail */}
-                      <span className="u240-th">
-                        <img
-                          src={item.service.imageUrl}
-                          alt={item.service.title}
-                          onError={(e) => {
-                            (e.target as HTMLImageElement).src =
-                              'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80';
-                          }}
-                        />
-                      </span>
+                  <div className="flex-1 space-y-1">
+                    <h5 className="font-heading italic text-lg text-white leading-snug line-clamp-1">
+                      {item.service?.title}
+                    </h5>
+                    <div className="text-[11px] text-white/50">
+                      ⚡ {item.service?.turnaround}
+                    </div>
+                    <div className="text-xs font-semibold text-sky-300 pt-1">
+                      {price > 0 ? formatVND(price * item.quantity) : 'Báo giá'}
+                    </div>
+                  </div>
 
-                      {/* Info */}
-                      <div className="u240-tx">
-                        <b title={item.service.title}>{item.service.title}</b>
-                        <small>{item.service.turnaround || 'Dịch vụ sinh viên'}</small>
+                  <div className="flex flex-col items-end justify-between gap-3">
+                    <button
+                      type="button"
+                      onClick={() => removeCartItemById(item.id)}
+                      className="text-white/40 hover:text-red-400 transition"
+                      aria-label="Xóa"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
 
-                        {/* Quantity Stepper */}
-                        <div className="u240-qt">
-                          <button
-                            type="button"
-                            className="u240-mn"
-                            aria-label="Giảm số lượng"
-                            onClick={() => {
-                              if (item.quantity > 1) {
-                                updateCartItemQuantity(item.id, item.quantity - 1);
-                              } else {
-                                removeCartItemById(item.id);
-                              }
-                            }}
-                          >
-                            −
-                          </button>
-                          <span>{item.quantity}</span>
-                          <button
-                            type="button"
-                            className="u240-pl"
-                            aria-label="Tăng số lượng"
-                            onClick={() => {
-                              if (item.quantity < 9) {
-                                updateCartItemQuantity(item.id, item.quantity + 1);
-                              }
-                            }}
-                          >
-                            +
-                          </button>
-                        </div>
-                      </div>
-
-                      {/* Price & Remove */}
-                      <div className="u240-pr">
-                        <span className="u240-lp">
-                          {price > 0 ? formatVND(price * item.quantity) : 'Báo giá'}
-                        </span>
-                        <button
-                          type="button"
-                          className="u240-rm"
-                          aria-label={`Xóa ${item.service.title}`}
-                          title="Xóa khỏi giỏ"
-                          onClick={() => removeCartItemById(item.id)}
-                        >
-                          <svg viewBox="0 0 12 12" aria-hidden="true">
-                            <path
-                              d="M2.5 3.5h7M4.8 3.5V2.3h2.4v1.2M3.5 3.5l.5 6.2h4l.5-6.2"
-                              fill="none"
-                              stroke="currentColor"
-                              strokeWidth="1.3"
-                              strokeLinejoin="round"
-                            />
-                          </svg>
-                        </button>
-                      </div>
+                    <div className="flex items-center bg-white/10 rounded-full px-2 py-0.5 gap-2 text-xs">
+                      <button
+                        type="button"
+                        onClick={() =>
+                          item.quantity > 1 &&
+                          updateCartItemQuantity(item.id, item.quantity - 1)
+                        }
+                        className="hover:text-sky-300"
+                      >
+                        −
+                      </button>
+                      <span className="font-bold">{item.quantity}</span>
+                      <button
+                        type="button"
+                        onClick={() =>
+                          item.quantity < 9 &&
+                          updateCartItemQuantity(item.id, item.quantity + 1)
+                        }
+                        className="hover:text-sky-300"
+                      >
+                        +
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -216,19 +175,21 @@ export function CartDrawer() {
 
         {/* Footer Checkout */}
         {cartItems.length > 0 && (
-          <div className="u240-ft">
-            <div className="u240-sm">
-              <span>Tạm tính ({cartCount} món)</span>
-              <b className="u240-tt">{formatVND(cartSubtotal)}</b>
+          <div className="pt-4 border-t border-white/10 space-y-3">
+            <div className="flex justify-between items-center text-sm">
+              <span className="text-white/70">Tạm tính ({cartCount} món)</span>
+              <span className="font-heading italic text-2xl text-white">
+                {formatVND(cartSubtotal)}
+              </span>
             </div>
 
             <Link
               href="/checkout"
               onClick={closeCartDrawer}
-              className="u240-ck"
+              className="w-full bg-white text-black font-semibold text-sm py-3 rounded-full flex items-center justify-center gap-2 hover:bg-white/90 active:scale-95 transition shadow-lg"
             >
               <span>Tiến hành đặt dịch vụ</span>
-              <ArrowRight className="h-4 w-4" />
+              <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
         )}

@@ -4,8 +4,6 @@ import { AppProvider } from '@/components/providers/AppProvider';
 import { CinematicNavbar } from '@/components/cinematic/CinematicNavbar';
 import { CinematicFooter } from '@/components/cinematic/CinematicFooter';
 import { CartDrawer } from '@/components/cart/CartDrawer';
-import { CurtainPageTransition } from '@/components/common/CurtainPageTransition';
-import { CategoryRailDrawer } from '@/components/common/CategoryRailDrawer';
 
 export const metadata: Metadata = {
   title: 'LUK Global — Hệ Sinh Thái Dịch Vụ Học Thuật & Sáng Tạo Sinh Viên',
@@ -30,9 +28,7 @@ export default function RootLayout({
       </head>
       <body className="min-h-screen flex flex-col font-body antialiased overflow-x-hidden transition-colors duration-500">
         <AppProvider>
-          <CurtainPageTransition />
           <CinematicNavbar />
-          <CategoryRailDrawer />
           <main className="flex-1 w-full">{children}</main>
           <CinematicFooter />
           <CartDrawer />

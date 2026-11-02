@@ -37,10 +37,20 @@ export function ScatterText({ text = 'LUK GLOBAL', className = '' }: ScatterText
 
     const letters: LetterObj[] = Array.from(text).map((ch, i) => {
       const s = document.createElement('span');
-      s.className = 'u360-l select-none cursor-grab inline-block';
+      s.className = 'u360-l select-none cursor-grab inline-block font-bold';
       s.textContent = ch === ' ' ? '\u00A0\u00A0' : ch;
       s.setAttribute('aria-hidden', 'true');
+
+      // CRITICAL: Inline styles guarantee the colossal size across all screen resolutions!
+      s.style.fontFamily = "'Instrument Serif', serif";
+      s.style.fontStyle = 'italic';
+      s.style.fontSize = 'clamp(4.5rem, 15vw, 11.5rem)';
+      s.style.lineHeight = '0.85';
+      s.style.letterSpacing = '-0.035em';
+      s.style.willChange = 'transform';
+      s.style.userSelect = 'none';
       s.style.setProperty('--h', String(20 + i * 36));
+
       wd.appendChild(s);
       return { el: s, x: 0, y: 0, r: 0, vx: 0, vy: 0, vr: 0, free: 0, drag: false };
     });
@@ -230,43 +240,29 @@ export function ScatterText({ text = 'LUK GLOBAL', className = '' }: ScatterText
   return (
     <div
       ref={rootRef}
-      className={`u360 relative w-full max-w-5xl mx-auto min-h-[140px] sm:min-h-[220px] md:min-h-[260px] flex items-center justify-center select-none touch-none ${className}`}
+      className={`u360 relative w-full max-w-7xl mx-auto min-h-[160px] sm:min-h-[240px] md:min-h-[300px] flex items-center justify-center select-none touch-none ${className}`}
     >
-      <style jsx>{`
-        .u360-l {
-          position: relative;
-          display: inline-block;
-          font-family: 'Instrument Serif', serif;
-          font-style: italic;
-          font-size: clamp(3.75rem, 13vw, 8.5rem);
-          line-height: 0.9;
-          letter-spacing: -0.035em;
-          will-change: transform;
-          user-select: none;
-          -webkit-user-select: none;
-          transition: color 0.5s ease;
+      <style jsx global>{`
+        :root[data-theme='dark'] .u360-l,
+        html.dark .u360-l {
+          color: #ffffff !important;
+          text-shadow: 0 4px 40px rgba(255, 255, 255, 0.4), 0 0 80px rgba(255, 255, 255, 0.25) !important;
         }
 
-        :global(:root[data-theme='dark']) .u360-l,
-        :global(html.dark) .u360-l {
-          color: #ffffff;
-          text-shadow: 0 4px 30px rgba(255, 255, 255, 0.3), 0 0 60px rgba(255, 255, 255, 0.2);
-        }
-
-        :global(:root[data-theme='light']) .u360-l,
-        :global(html.light) .u360-l {
+        :root[data-theme='light'] .u360-l,
+        html.light .u360-l {
           color: #0f172a !important;
-          text-shadow: 0 4px 20px rgba(15, 23, 42, 0.15) !important;
+          text-shadow: 0 4px 24px rgba(15, 23, 42, 0.15) !important;
         }
       `}</style>
 
-      {/* Main interactive word */}
+      {/* Main interactive word — Colossal & Centered */}
       <div
         ref={wordRef}
         role="button"
         tabIndex={0}
         aria-label={`Tap to scatter letters: ${text}`}
-        className="u360-wd flex items-center justify-center flex-wrap gap-x-1 sm:gap-x-3 cursor-pointer outline-none transition-transform hover:scale-[1.01] active:scale-[0.99]"
+        className="u360-wd flex items-center justify-center flex-wrap gap-x-1 sm:gap-x-4 cursor-pointer outline-none transition-transform hover:scale-[1.01] active:scale-[0.99] w-full"
       />
     </div>
   );

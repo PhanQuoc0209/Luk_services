@@ -14,30 +14,20 @@ export function CinematicHeroSection() {
   return (
     <section className="relative w-full min-h-screen overflow-hidden flex flex-col justify-between transition-colors duration-700">
       
-      {/* 1. NIGHT MODE BACKGROUND: Looping Space Video */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none z-0 transition-opacity duration-700 dark:opacity-100 opacity-0">
+      {/* 1. CINEMATIC VIDEO BACKGROUND: Always preserved in BOTH Day & Night modes! */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
         <FadingVideo
           src={HERO_VIDEO_SRC}
           className="absolute left-1/2 top-0 -translate-x-1/2 object-cover object-top z-0"
           style={{ width: '120%', height: '120%' }}
         />
+        
+        {/* Day Mode Luminous Atmosphere Overlay (Preserves video & orb while giving daytime sky feel) */}
+        <div className="absolute inset-0 pointer-events-none transition-opacity duration-700 dark:opacity-0 opacity-40 bg-gradient-to-b from-sky-400/40 via-sky-200/25 to-sky-100/40 mix-blend-overlay" />
       </div>
 
-      {/* 2. DAY MODE BACKGROUND: Radiant Morning Sky Atmosphere */}
-      <div
-        className="absolute inset-0 pointer-events-none z-0 transition-opacity duration-700 dark:opacity-0 opacity-100 overflow-hidden"
-        style={{
-          background: 'linear-gradient(180deg, #38bdf8 0%, #7dd3fc 25%, #bae6fd 50%, #e0f2fe 80%, #f0f9ff 100%)',
-        }}
-      >
-        {/* Soft sunlight glow orb */}
-        <div className="absolute top-10 left-1/2 -translate-x-1/2 w-[600px] h-[600px] rounded-full bg-amber-200/30 blur-[100px] pointer-events-none" />
-        {/* Ambient morning clouds decoration */}
-        <div className="daytime-sky-clouds absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(255,255,255,0.4)_0%,transparent_70%)] pointer-events-none" />
-      </div>
-
-      {/* Hero Content (centered, pt-28 pb-12 px-4 flex-1 flex flex-col items-center justify-center text-center z-10) */}
-      <div className="relative z-10 flex-1 flex flex-col items-center justify-center pt-28 pb-8 px-4 max-w-5xl mx-auto text-center">
+      {/* Hero Content (centered, pt-28 pb-8 px-4 flex-1 flex flex-col items-center justify-center text-center z-10) */}
+      <div className="relative z-10 flex-1 flex flex-col items-center justify-center pt-28 pb-8 px-4 max-w-6xl mx-auto text-center">
         
         {/* Badge (delay 0.4s) — Dòng thông báo tinh tế */}
         <motion.div
@@ -54,8 +44,8 @@ export function CinematicHeroSection() {
           </span>
         </motion.div>
 
-        {/* Chữ Chính LUK GLOBAL to và nằm căn giữa trang chủ (Scatter and Reassemble #360) */}
-        <ScatterText text="LUK GLOBAL" className="my-1" />
+        {/* Chữ Chính LUK GLOBAL to cực đại và nằm căn giữa trang chủ (Scatter and Reassemble #360) */}
+        <ScatterText text="LUK GLOBAL" className="my-2" />
 
         {/* CTAs (delay 1.1s) */}
         <motion.div

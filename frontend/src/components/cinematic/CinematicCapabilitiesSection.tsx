@@ -171,22 +171,15 @@ export function CinematicCapabilitiesSection({ services = [] }: CinematicCapabil
       id="capabilities"
       className="min-h-screen relative w-full overflow-hidden flex flex-col justify-between py-24 transition-colors duration-700"
     >
-      {/* 1. NIGHT MODE BACKGROUND: Looping Video */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none z-0 transition-opacity duration-700 dark:opacity-100 opacity-0">
+      {/* 1. CINEMATIC VIDEO BACKGROUND: Preserved in BOTH Day & Night modes! */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
         <FadingVideo
           src={CAPABILITIES_VIDEO_SRC}
           className="absolute inset-0 w-full h-full object-cover z-0"
         />
-      </div>
 
-      {/* 2. DAY MODE BACKGROUND: Bright Sky Atmosphere */}
-      <div
-        className="absolute inset-0 pointer-events-none z-0 transition-opacity duration-700 dark:opacity-0 opacity-100 overflow-hidden"
-        style={{
-          background: 'linear-gradient(180deg, #bae6fd 0%, #e0f2fe 35%, #f0f9ff 100%)',
-        }}
-      >
-        <div className="absolute -top-40 right-10 w-[500px] h-[500px] rounded-full bg-sky-200/40 blur-[80px] pointer-events-none" />
+        {/* Day Mode Luminous Tint Overlay (Preserves video & crystal flower while giving daytime atmosphere) */}
+        <div className="absolute inset-0 pointer-events-none transition-opacity duration-700 dark:opacity-0 opacity-35 bg-gradient-to-b from-sky-400/30 via-sky-200/20 to-sky-100/30 mix-blend-overlay" />
       </div>
 
       {/* Content */}
@@ -293,7 +286,7 @@ export function CinematicCapabilitiesSection({ services = [] }: CinematicCapabil
                   </span>
                 </div>
 
-                {/* Nút Xem Chi Tiết (Mở ra list danh sách đầy đủ hình ảnh gọn gàng) */}
+                {/* Nút Xem Chi Tiết */}
                 <button
                   type="button"
                   onClick={() => setActiveModalCard(card)}
@@ -311,32 +304,32 @@ export function CinematicCapabilitiesSection({ services = [] }: CinematicCapabil
       </div>
 
       {/* ========================================================
-          MODAL DANH SÁCH CHI TIẾT CÓ HÌNH ẢNH ĐẦY ĐỦ (GỌN GÀNG HƠN)
-          Theo đúng yêu cầu Ảnh 2
+          MODAL DANH SÁCH CHI TIẾT CÓ HÌNH ẢNH ĐẦY ĐỦ (ĐÃ FIX LỖI CUỘN/LƯỚT TRONG ẢNH 5!)
          ======================================================== */}
       {activeModalCard && (
         <div
           onClick={() => setActiveModalCard(null)}
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-md animate-in fade-in-0 duration-200"
+          className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/70 backdrop-blur-md animate-in fade-in-0 duration-200"
         >
           <div
             onClick={(e) => e.stopPropagation()}
-            className="liquid-glass-strong rounded-[1.75rem] w-full max-w-3xl max-h-[85vh] overflow-y-auto p-6 sm:p-8 space-y-6 shadow-2xl relative"
+            className="liquid-glass-strong rounded-[1.75rem] w-full max-w-4xl max-h-[90vh] flex flex-col p-6 sm:p-8 shadow-2xl relative border border-white/20"
             role="dialog"
             aria-modal="true"
+            style={{ overflow: 'hidden' }}
           >
             {/* Close Button */}
             <button
               type="button"
               onClick={() => setActiveModalCard(null)}
-              className="absolute top-5 right-5 liquid-glass w-9 h-9 rounded-full flex items-center justify-center text-sm hover:scale-105 active:scale-95 transition cursor-pointer"
+              className="absolute top-5 right-5 liquid-glass w-9 h-9 rounded-full flex items-center justify-center text-sm hover:scale-105 active:scale-95 transition cursor-pointer z-20"
               aria-label="Đóng"
             >
               ✕
             </button>
 
-            {/* Modal Header */}
-            <div className="space-y-1.5 pr-8">
+            {/* Modal Header (Fixed at top of modal) */}
+            <div className="space-y-1.5 pr-10 border-b border-black/10 dark:border-white/10 pb-4 shrink-0">
               <span className="liquid-glass rounded-full px-3 py-1 text-xs font-body font-medium">
                 ⚡ {activeModalCard.turnaround} • Hỗ trợ 1-1
               </span>
@@ -346,28 +339,27 @@ export function CinematicCapabilitiesSection({ services = [] }: CinematicCapabil
               <p className="text-xs sm:text-sm font-body font-light opacity-80 leading-relaxed">
                 {activeModalCard.description}
               </p>
-            </div>
-
-            {/* List danh sách các gói dịch vụ ĐẦY ĐỦ HÌNH ẢNH (Gọn gàng & Hiện đại) */}
-            <div className="space-y-3.5 pt-2">
-              <div className="flex items-center justify-between border-b border-black/10 dark:border-white/10 pb-2.5 text-xs font-body">
+              <div className="flex items-center justify-between pt-1 text-xs font-body">
                 <span className="font-semibold uppercase tracking-wider opacity-70">
                   Danh sách gói ({currentCategoryPackages.length} gói dịch vụ):
                 </span>
                 <span className="text-emerald-500 dark:text-emerald-400 font-medium">
-                  ✓ Cam kết bảo hành 1:1
+                  ✓ Cuộn chuột xuống để xem tất cả
                 </span>
               </div>
+            </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {/* SCROLLABLE LIST OF SERVICES: Đã fix lỗi cuộn! (max-h-[58vh] overflow-y-auto) */}
+            <div className="flex-1 overflow-y-auto py-4 pr-1.5 space-y-4" style={{ WebkitOverflowScrolling: 'touch' }}>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pb-2">
                 {currentCategoryPackages.length > 0 ? (
                   currentCategoryPackages.map((pkg) => (
                     <div
                       key={pkg.id}
-                      className="liquid-glass rounded-2xl p-3.5 flex flex-col justify-between hover:scale-[1.01] transition-all shadow-md group"
+                      className="liquid-glass rounded-2xl p-4 flex flex-col justify-between hover:scale-[1.01] transition-all shadow-md group border border-black/10 dark:border-white/10"
                     >
                       {/* Image Thumbnail with Overlay Turnaround Badge */}
-                      <div className="aspect-[16/10] w-full rounded-xl overflow-hidden mb-3 relative bg-black/10 dark:bg-white/5">
+                      <div className="aspect-[16/10] w-full rounded-xl overflow-hidden mb-3 relative bg-black/10 dark:bg-white/5 shrink-0">
                         <img
                           src={pkg.imageUrl}
                           alt={pkg.title}
@@ -380,11 +372,11 @@ export function CinematicCapabilitiesSection({ services = [] }: CinematicCapabil
                       </div>
 
                       {/* Title & Desc */}
-                      <div className="space-y-1">
-                        <h4 className="font-heading italic text-xl tracking-tight leading-snug line-clamp-2">
+                      <div className="space-y-1.5 flex-1">
+                        <h4 className="font-heading italic text-xl tracking-tight leading-snug">
                           {pkg.title}
                         </h4>
-                        <p className="text-[11px] font-body font-light opacity-70 line-clamp-2 leading-relaxed">
+                        <p className="text-[11.5px] font-body font-light opacity-75 leading-relaxed line-clamp-3">
                           {pkg.shortDescription}
                         </p>
                       </div>
@@ -404,7 +396,7 @@ export function CinematicCapabilitiesSection({ services = [] }: CinematicCapabil
                           type="button"
                           onClick={() => handleQuickAdd(pkg.id)}
                           disabled={addingId === pkg.id}
-                          className="bg-black text-white dark:bg-white dark:text-black font-body font-semibold text-xs px-4 py-1.5 rounded-full hover:opacity-90 active:scale-95 transition shadow-sm cursor-pointer whitespace-nowrap"
+                          className="bg-black text-white dark:bg-white dark:text-black font-body font-semibold text-xs px-4 py-2 rounded-full hover:opacity-90 active:scale-95 transition shadow-sm cursor-pointer whitespace-nowrap"
                         >
                           {addingId === pkg.id ? 'Đang thêm...' : 'Đặt lịch ngay'}
                         </button>
@@ -412,7 +404,7 @@ export function CinematicCapabilitiesSection({ services = [] }: CinematicCapabil
                     </div>
                   ))
                 ) : (
-                  <div className="col-span-2 liquid-glass rounded-2xl p-6 text-center text-sm font-body opacity-60">
+                  <div className="col-span-2 liquid-glass rounded-2xl p-8 text-center text-sm font-body opacity-60">
                     Đang đồng bộ danh sách gói dịch vụ...
                   </div>
                 )}
@@ -420,8 +412,8 @@ export function CinematicCapabilitiesSection({ services = [] }: CinematicCapabil
             </div>
 
             {/* Modal Footer Note */}
-            <div className="pt-2 text-center text-[11px] font-body opacity-50">
-              * Bấm &quot;Đặt lịch ngay&quot; để gửi yêu cầu và nhận báo giá minh bạch qua VietQR trong 5 phút.
+            <div className="pt-3 border-t border-black/10 dark:border-white/10 text-center text-[11px] font-body opacity-60 shrink-0">
+              * Cuộn xuống để xem toàn bộ danh sách gói. Bấm &quot;Đặt lịch ngay&quot; để thêm vào giỏ hàng và nhận báo giá VietQR trong 5 phút.
             </div>
           </div>
         </div>
