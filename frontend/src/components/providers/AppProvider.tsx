@@ -74,7 +74,8 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     try {
       const saved = localStorage.getItem('luk_theme') as 'dark' | 'light' | null;
-      const initialTheme = saved === 'dark' ? 'dark' : 'light';
+      // Default to dark for Cinematic Space theme if unset
+      const initialTheme = saved ? saved : 'dark';
       setTheme(initialTheme);
       document.documentElement.classList.toggle('dark', initialTheme === 'dark');
       document.documentElement.classList.toggle('light', initialTheme === 'light');

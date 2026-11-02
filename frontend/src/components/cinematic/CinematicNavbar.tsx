@@ -56,7 +56,7 @@ export function CinematicNavbar() {
         {/* Left: 48x48 liquid-glass circle with italic serif letter */}
         <Link
           href="/"
-          className="liquid-glass w-12 h-12 rounded-full flex items-center justify-center text-white hover:scale-105 active:scale-95 transition-transform"
+          className="liquid-glass w-12 h-12 rounded-full flex items-center justify-center text-slate-900 dark:text-white hover:scale-105 active:scale-95 transition-transform"
           aria-label="LUK Services"
         >
           <span className="font-heading italic text-2xl leading-none select-none">
@@ -74,17 +74,17 @@ export function CinematicNavbar() {
               key={link.label}
               href={link.href}
               onClick={(e) => handleNavClick(e, link)}
-              className="px-3.5 py-2 text-sm font-medium text-white/90 font-body hover:text-white transition-colors"
+              className="px-3.5 py-2 text-sm font-medium text-slate-800 dark:text-white/90 font-body hover:text-slate-950 dark:hover:text-white transition-colors"
             >
               {link.label}
             </Link>
           ))}
 
-          {/* White pill button: Claim a Spot + ArrowUpRight icon */}
+          {/* White/Dark pill button: Claim a Spot + ArrowUpRight icon */}
           <Link
             href="/#capabilities"
             onClick={handleClaimSpot}
-            className="ml-1 inline-flex items-center gap-1.5 bg-white text-black font-body font-semibold text-sm px-4 py-2 rounded-full whitespace-nowrap hover:bg-white/90 active:scale-95 transition-all shadow-md"
+            className="ml-1 inline-flex items-center gap-1.5 bg-slate-900 text-white dark:bg-white dark:text-black font-body font-semibold text-sm px-4 py-2 rounded-full whitespace-nowrap hover:opacity-90 active:scale-95 transition-all shadow-md"
           >
             <span>Claim a Spot</span>
             <svg
@@ -109,7 +109,7 @@ export function CinematicNavbar() {
           <button
             type="button"
             onClick={() => openCartDrawer()}
-            className="liquid-glass w-12 h-12 rounded-full flex items-center justify-center text-white/90 hover:text-white hover:scale-105 active:scale-95 transition-transform relative cursor-pointer"
+            className="liquid-glass w-12 h-12 rounded-full flex items-center justify-center text-slate-800 dark:text-white/90 hover:text-slate-950 dark:hover:text-white hover:scale-105 active:scale-95 transition-transform relative cursor-pointer"
             aria-label="Giỏ hàng"
           >
             <svg
@@ -125,7 +125,7 @@ export function CinematicNavbar() {
               <path d="M16 10a4 4 0 0 1-8 0" />
             </svg>
             {cartCount > 0 && (
-              <span className="absolute -top-1 -right-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-white text-black font-body text-[10px] font-bold px-1 shadow">
+              <span className="absolute -top-1 -right-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-slate-900 text-white dark:bg-white dark:text-black font-body text-[10px] font-bold px-1 shadow">
                 {cartCount}
               </span>
             )}
@@ -135,7 +135,7 @@ export function CinematicNavbar() {
           <button
             type="button"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="lg:hidden liquid-glass w-12 h-12 rounded-full flex items-center justify-center text-white/90 hover:text-white cursor-pointer"
+            className="lg:hidden liquid-glass w-12 h-12 rounded-full flex items-center justify-center text-slate-800 dark:text-white/90 hover:text-slate-950 dark:hover:text-white cursor-pointer"
             aria-label="Menu"
           >
             <svg
@@ -158,7 +158,7 @@ export function CinematicNavbar() {
 
       {/* Mobile dropdown */}
       {mobileMenuOpen && (
-        <div className="lg:hidden mt-2 mx-auto max-w-sm liquid-glass-strong rounded-2xl p-4 shadow-2xl border border-white/10 pointer-events-auto space-y-2 backdrop-blur-2xl">
+        <div className="lg:hidden mt-2 mx-auto max-w-sm liquid-glass-strong rounded-2xl p-4 shadow-2xl border border-black/10 dark:border-white/10 pointer-events-auto space-y-2 backdrop-blur-2xl">
           {NAV_LINKS.map((link) => (
             <Link
               key={link.label}
@@ -167,7 +167,7 @@ export function CinematicNavbar() {
                 handleNavClick(e, link);
                 setMobileMenuOpen(false);
               }}
-              className="block px-4 py-2 text-sm text-white/90 hover:text-white font-body"
+              className="block px-4 py-2 text-sm text-slate-800 dark:text-white/90 hover:text-black dark:hover:text-white font-body"
             >
               {link.label}
             </Link>
@@ -178,7 +178,7 @@ export function CinematicNavbar() {
               handleClaimSpot(e);
               setMobileMenuOpen(false);
             }}
-            className="block text-center bg-white text-black font-semibold text-xs py-2.5 rounded-full mt-2"
+            className="block text-center bg-slate-900 text-white dark:bg-white dark:text-black font-semibold text-xs py-2.5 rounded-full mt-2"
           >
             Claim a Spot →
           </Link>

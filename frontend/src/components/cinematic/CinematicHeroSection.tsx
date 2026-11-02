@@ -14,16 +14,24 @@ export function CinematicHeroSection() {
   return (
     <section className="relative w-full min-h-screen overflow-hidden flex flex-col justify-between transition-colors duration-700">
       
-      {/* 1. CINEMATIC VIDEO BACKGROUND: Always preserved in BOTH Day & Night modes! */}
+      {/* 1. CINEMATIC BACKGROUND: Daytime Sky vs Deep Space, with the Video blending seamlessly in both! */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
-        <FadingVideo
-          src={HERO_VIDEO_SRC}
-          className="absolute left-1/2 top-0 -translate-x-1/2 object-cover object-top z-0"
-          style={{ width: '120%', height: '120%' }}
+        {/* Daytime sky background (Controlled via .daytime-sky-bg in globals.css) */}
+        <div
+          className="daytime-sky-bg absolute inset-0"
+          style={{
+            background: 'linear-gradient(180deg, #60a5fa 0%, #93c5fd 20%, #bae6fd 45%, #e0f2fe 75%, #f8fafc 100%)',
+          }}
         />
-        
-        {/* Day Mode Luminous Atmosphere Overlay (Preserves video & orb while giving daytime sky feel) */}
-        <div className="absolute inset-0 pointer-events-none transition-opacity duration-700 dark:opacity-0 opacity-40 bg-gradient-to-b from-sky-400/40 via-sky-200/25 to-sky-100/40 mix-blend-overlay" />
+
+        {/* Video: In dark mode it is normal. In light mode it uses mix-blend-screen so black space vanishes into the sky, while the shimmering 3D orb shines brightly! */}
+        <div className="absolute inset-0">
+          <FadingVideo
+            src={HERO_VIDEO_SRC}
+            className="cinematic-video absolute left-1/2 top-0 -translate-x-1/2 object-cover object-top z-0"
+            style={{ width: '120%', height: '120%' }}
+          />
+        </div>
       </div>
 
       {/* Hero Content (centered, pt-28 pb-8 px-4 flex-1 flex flex-col items-center justify-center text-center z-10) */}
@@ -36,10 +44,10 @@ export function CinematicHeroSection() {
           transition={{ duration: 0.8, delay: 0.4, ease: 'easeOut' }}
           className="liquid-glass rounded-full inline-flex items-center gap-2 p-1 pr-4 mb-4 shadow-sm"
         >
-          <span className="bg-black text-white dark:bg-white dark:text-black px-3 py-1 text-xs font-semibold rounded-full font-body transition-colors">
+          <span className="bg-slate-900 text-white dark:bg-white dark:text-black px-3 py-1 text-xs font-semibold rounded-full font-body transition-colors">
             LUK 2026
           </span>
-          <span className="text-xs sm:text-sm font-body font-medium">
+          <span className="text-xs sm:text-sm font-body font-medium text-slate-800 dark:text-white">
             Hệ Sinh Thái Dịch Vụ Học Thuật &amp; Sáng Tạo Sinh Viên
           </span>
         </motion.div>
@@ -57,7 +65,7 @@ export function CinematicHeroSection() {
           {/* Primary CTA */}
           <a
             href="#capabilities"
-            className="liquid-glass-strong rounded-full px-6 py-3 text-sm font-semibold flex items-center gap-2 hover:scale-105 active:scale-95 transition-transform font-body shadow-lg cursor-pointer"
+            className="liquid-glass-strong rounded-full px-6 py-3 text-sm font-semibold flex items-center gap-2 hover:scale-105 active:scale-95 transition-transform font-body shadow-lg cursor-pointer text-slate-900 dark:text-white"
           >
             <span>Khám Phá Dịch Vụ</span>
             <svg
@@ -75,7 +83,7 @@ export function CinematicHeroSection() {
           {/* Secondary CTA */}
           <a
             href="#capabilities"
-            className="text-sm font-medium flex items-center gap-2 hover:opacity-80 transition-opacity font-body cursor-pointer"
+            className="text-sm font-medium flex items-center gap-2 hover:opacity-80 transition-opacity font-body cursor-pointer text-slate-700 dark:text-white/80"
           >
             <span>Lịch Bàn Giao &amp; Báo Giá</span>
             <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
@@ -95,7 +103,7 @@ export function CinematicHeroSection() {
           <div className="liquid-glass p-5 w-[220px] rounded-[1.25rem] flex flex-col justify-between text-left shadow-md">
             <div>
               <svg
-                className="w-7 h-7 stroke-current mb-3 opacity-90"
+                className="w-7 h-7 stroke-current mb-3 text-slate-800 dark:text-white opacity-90"
                 viewBox="0 0 24 24"
                 fill="none"
                 strokeWidth="1.8"
@@ -107,10 +115,10 @@ export function CinematicHeroSection() {
               </svg>
             </div>
             <div>
-              <p className="font-heading italic text-4xl tracking-[-1px] leading-none">
+              <p className="font-heading italic text-4xl tracking-[-1px] leading-none text-slate-900 dark:text-white">
                 99.5%
               </p>
-              <p className="text-xs font-body font-light mt-2 opacity-80">
+              <p className="text-xs font-body font-light mt-2 text-slate-600 dark:text-white/80">
                 Độ chính xác Transcript NCKH
               </p>
             </div>
@@ -120,7 +128,7 @@ export function CinematicHeroSection() {
           <div className="liquid-glass p-5 w-[220px] rounded-[1.25rem] flex flex-col justify-between text-left shadow-md">
             <div>
               <svg
-                className="w-7 h-7 stroke-current mb-3 opacity-90"
+                className="w-7 h-7 stroke-current mb-3 text-slate-800 dark:text-white opacity-90"
                 viewBox="0 0 24 24"
                 fill="none"
                 strokeWidth="1.8"
@@ -133,10 +141,10 @@ export function CinematicHeroSection() {
               </svg>
             </div>
             <div>
-              <p className="font-heading italic text-4xl tracking-[-1px] leading-none">
+              <p className="font-heading italic text-4xl tracking-[-1px] leading-none text-slate-900 dark:text-white">
                 5 Phút
               </p>
-              <p className="text-xs font-body font-light mt-2 opacity-80">
+              <p className="text-xs font-body font-light mt-2 text-slate-600 dark:text-white/80">
                 Kích hoạt AI &amp; Báo giá đồ án
               </p>
             </div>
@@ -151,7 +159,7 @@ export function CinematicHeroSection() {
         transition={{ duration: 0.8, delay: 1.3, ease: 'easeOut' }}
         className="relative z-10 flex flex-col items-center gap-4 pb-8"
       >
-        <span className="liquid-glass rounded-full px-3.5 py-1 text-xs font-medium font-body opacity-90">
+        <span className="liquid-glass rounded-full px-3.5 py-1 text-xs font-medium font-body text-slate-800 dark:text-white opacity-90">
           Đồng hành cùng sinh viên các trường đại học hàng đầu
         </span>
 
@@ -159,7 +167,7 @@ export function CinematicHeroSection() {
           {PARTNERS.map((partner) => (
             <span
               key={partner}
-              className="font-heading italic text-2xl md:text-3xl tracking-tight select-none opacity-85 hover:opacity-100 transition-opacity"
+              className="font-heading italic text-2xl md:text-3xl tracking-tight select-none text-slate-800 dark:text-white opacity-85 hover:opacity-100 transition-opacity"
             >
               {partner}
             </span>

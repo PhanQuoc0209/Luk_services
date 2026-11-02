@@ -41,8 +41,45 @@ body {
 /* Light mode daytime sky atmosphere applied to body */
 :root[data-theme='light'] body,
 html.light body {
-  background: linear-gradient(180deg, #38bdf8 0%, #7dd3fc 20%, #bae6fd 45%, #e0f2fe 75%, #f0f9ff 100%) !important;
+  background: linear-gradient(180deg, #60a5fa 0%, #93c5fd 20%, #bae6fd 45%, #e0f2fe 75%, #f8fafc 100%) !important;
   color: #0f172a !important;
+}
+
+:root[data-theme='dark'] body,
+html.dark body {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+}
+
+/* ========================================================
+   CINEMATIC ATMOSPHERE & VIDEO BLENDING: DAY SKY VS NIGHT SPACE
+   ======================================================== */
+.daytime-sky-bg {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+:root[data-theme='light'] .daytime-sky-bg,
+html.light .daytime-sky-bg {
+  opacity: 1 !important;
+}
+
+:root[data-theme='dark'] .daytime-sky-bg,
+html.dark .daytime-sky-bg {
+  opacity: 0 !important;
+}
+
+:root[data-theme='light'] .cinematic-video,
+html.light .cinematic-video {
+  mix-blend-mode: screen !important;
+  opacity: 0.95 !important;
+}
+
+:root[data-theme='dark'] .cinematic-video,
+html.dark .cinematic-video {
+  mix-blend-mode: normal !important;
+  opacity: 1 !important;
 }
 
 /* ========================================================

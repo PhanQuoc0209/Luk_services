@@ -2,54 +2,26 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { useApp } from '@/components/providers/AppProvider';
 
 interface DayNightSwitchProps {
   className?: string;
 }
 
 export function DayNightSwitch({ className = '' }: DayNightSwitchProps) {
-  const [isNight, setIsNight] = useState(true);
+  const { theme, toggleTheme } = useApp();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
-    // Read current theme from document or localStorage
-    const saved = localStorage.getItem('luk-theme');
-    if (saved) {
-      const night = saved === 'dark';
-      setIsNight(night);
-      applyTheme(night);
-    } else {
-      // Default dark for Cinematic Space theme
-      setIsNight(true);
-      applyTheme(true);
-    }
   }, []);
 
-  const applyTheme = (night: boolean) => {
-    const root = document.documentElement;
-    if (night) {
-      root.classList.add('dark');
-      root.classList.remove('light');
-      root.setAttribute('data-theme', 'dark');
-    } else {
-      root.classList.remove('dark');
-      root.classList.add('light');
-      root.setAttribute('data-theme', 'light');
-    }
-    localStorage.setItem('luk-theme', night ? 'dark' : 'light');
-  };
-
-  const handleToggle = () => {
-    const next = !isNight;
-    setIsNight(next);
-    applyTheme(next);
-  };
+  const isNight = theme === 'dark';
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault();
-      handleToggle();
+      toggleTheme();
     }
   };
 
@@ -62,31 +34,7 @@ export function DayNightSwitch({ className = '' }: DayNightSwitchProps) {
       className={`u021-wrapper relative inline-flex items-center select-none ${className}`}
       style={{ isolation: 'isolate' }}
     >
-      <style jsx global>{`
-        :root[data-theme='light'] body {
-          background-color: #f4f2ee !important;
-          color: #16151b !important;
-        }
-        :root[data-theme='light'] .liquid-glass {
-          background: rgba(0, 0, 0, 0.03) !important;
-          box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.08) !important;
-          color: #16151b !important;
-        }
-        :root[data-theme='light'] .liquid-glass::before {
-          background: linear-gradient(
-            180deg,
-            rgba(0, 0, 0, 0.2) 0%,
-            rgba(0, 0, 0, 0.05) 50%,
-            rgba(0, 0, 0, 0.2) 100%
-          ) !important;
-        }
-        :root[data-theme='light'] .liquid-glass-strong {
-          background: rgba(255, 255, 255, 0.75) !important;
-          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1) !important;
-          color: #16151b !important;
-        }
-      `}</style>
-
+      {/* Switch styles scoped strictly to .u021 */}
       <style jsx>{`
         .u021-sw {
           position: relative;
@@ -283,7 +231,7 @@ export function DayNightSwitch({ className = '' }: DayNightSwitchProps) {
           role="switch"
           aria-checked={isNight}
           aria-label={isNight ? 'Chuyển sang chế độ ban ngày' : 'Chuyển sang chế độ ban đêm'}
-          onClick={handleToggle}
+          onClick={toggleTheme}
           onKeyDown={handleKeyDown}
         >
           <span className="u021-halo" aria-hidden="true">

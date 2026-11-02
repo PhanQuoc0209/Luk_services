@@ -173,13 +173,22 @@ export function CinematicCapabilitiesSection({ services = [] }: CinematicCapabil
     >
       {/* 1. CINEMATIC VIDEO BACKGROUND: Preserved in BOTH Day & Night modes! */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
-        <FadingVideo
-          src={CAPABILITIES_VIDEO_SRC}
-          className="absolute inset-0 w-full h-full object-cover z-0"
+        {/* Daytime sky background (Controlled via .daytime-sky-bg in globals.css) */}
+        <div
+          className="daytime-sky-bg absolute inset-0"
+          style={{
+            background: 'linear-gradient(180deg, #bae6fd 0%, #e0f2fe 35%, #f8fafc 100%)',
+          }}
         />
 
-        {/* Day Mode Luminous Tint Overlay (Preserves video & crystal flower while giving daytime atmosphere) */}
-        <div className="absolute inset-0 pointer-events-none transition-opacity duration-700 dark:opacity-0 opacity-35 bg-gradient-to-b from-sky-400/30 via-sky-200/20 to-sky-100/30 mix-blend-overlay" />
+        {/* Video: In dark mode it is normal. In light mode it uses mix-blend-screen so black space vanishes into the sky, while the crystal flower island blooms brightly! */}
+        <div className="absolute inset-0">
+          <FadingVideo
+            src={CAPABILITIES_VIDEO_SRC}
+            className="cinematic-video absolute inset-0 w-full h-full object-cover z-0"
+            style={{ filter: 'contrast(1.15) brightness(1.05)' }}
+          />
+        </div>
       </div>
 
       {/* Content */}

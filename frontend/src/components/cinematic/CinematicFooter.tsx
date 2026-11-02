@@ -9,38 +9,38 @@ export function CinematicFooter() {
       <div className="max-w-[1536px] mx-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
         <div>
           <div className="flex items-center gap-2.5 mb-2">
-            <span className="font-heading italic text-3xl">LUK GLOBAL</span>
-            <span className="text-[10px] uppercase tracking-widest font-body opacity-60">
+            <span className="font-heading italic text-3xl text-slate-900 dark:text-white">LUK GLOBAL</span>
+            <span className="text-[10px] uppercase tracking-widest font-body opacity-60 text-slate-600 dark:text-white/60">
               SERVICES
             </span>
           </div>
-          <p className="text-xs font-body font-light max-w-sm opacity-70">
+          <p className="text-xs font-body font-light max-w-sm text-slate-600 dark:text-white/70">
             Nền tảng thương mại điện tử dịch vụ học thuật và sáng tạo cao cấp dành cho sinh viên.
           </p>
         </div>
 
-        <div className="flex flex-wrap items-center gap-6 text-xs font-body opacity-80">
-          <Link href="/#capabilities" className="hover:opacity-100 transition">
+        <div className="flex flex-wrap items-center gap-6 text-xs font-body text-slate-700 dark:text-white/80">
+          <Link href="/#capabilities" className="hover:text-black dark:hover:text-white hover:opacity-100 transition">
             Edit Video
           </Link>
-          <Link href="/#capabilities" className="hover:opacity-100 transition">
+          <Link href="/#capabilities" className="hover:text-black dark:hover:text-white hover:opacity-100 transition">
             Slide Đồ Án
           </Link>
-          <Link href="/#capabilities" className="hover:opacity-100 transition">
+          <Link href="/#capabilities" className="hover:text-black dark:hover:text-white hover:opacity-100 transition">
             Transcript
           </Link>
-          <Link href="/#capabilities" className="hover:opacity-100 transition">
+          <Link href="/#capabilities" className="hover:text-black dark:hover:text-white hover:opacity-100 transition">
             Debate BP
           </Link>
-          <Link href="/#capabilities" className="hover:opacity-100 transition">
+          <Link href="/#capabilities" className="hover:text-black dark:hover:text-white hover:opacity-100 transition">
             Các AI Pro
           </Link>
-          <Link href="/orders/track" className="hover:opacity-100 transition">
+          <Link href="/orders/track" className="hover:text-black dark:hover:text-white hover:opacity-100 transition">
             Theo Dõi Đơn
           </Link>
         </div>
 
-        <div className="text-xs font-body opacity-50">
+        <div className="text-xs font-body text-slate-500 dark:text-white/50">
           © 2026 LUK Global Services. All rights reserved.
         </div>
       </div>
