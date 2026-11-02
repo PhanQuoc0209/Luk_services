@@ -18,7 +18,6 @@ const NAV_LINKS: NavItem[] = [
   { label: 'Slide Đồ Án', categoryKey: 'SLIDE_DESIGN', href: '/#capabilities' },
   { label: 'Transcript', categoryKey: 'TRANSCRIPT_EDITING', href: '/#capabilities' },
   { label: 'Debate BP', categoryKey: 'DEBATE_RESOURCES', href: '/#capabilities' },
-  { label: 'Các AI Pro', categoryKey: 'AI_ACCOUNTS', href: '/#capabilities' },
   { label: 'Theo dõi đơn', href: '/orders/track' },
 ];
 
@@ -84,7 +83,7 @@ export function CinematicNavbar() {
           <Link
             href="/#capabilities"
             onClick={handleClaimSpot}
-            className="ml-1 inline-flex items-center gap-1.5 bg-slate-900 text-white dark:bg-white dark:text-black font-body font-semibold text-sm px-4 py-2 rounded-full whitespace-nowrap hover:opacity-90 active:scale-95 transition-all shadow-md"
+            className="ml-1 inline-flex items-center gap-1.5 bg-slate-900 !text-white dark:bg-white dark:!text-black font-body font-semibold text-sm px-4 py-2 rounded-full whitespace-nowrap hover:opacity-90 active:scale-95 transition-all shadow-md"
           >
             <span>Claim a Spot</span>
             <svg
@@ -101,9 +100,9 @@ export function CinematicNavbar() {
         </nav>
 
         {/* Right: Day-Night Switch + Cart Drawer Button */}
-        <div className="flex items-center gap-2">
-          {/* Day-Night Sky Switch (Prompt #021) */}
-          <DayNightSwitch className="mr-0.5" />
+        <div className="flex items-center gap-3">
+          {/* Day-Night Switch from Uiverse.io by EddyBel */}
+          <DayNightSwitch className="mr-1" />
 
           {/* Cart Drawer Button with Live Badge */}
           <button
@@ -125,7 +124,7 @@ export function CinematicNavbar() {
               <path d="M16 10a4 4 0 0 1-8 0" />
             </svg>
             {cartCount > 0 && (
-              <span className="absolute -top-1 -right-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-slate-900 text-white dark:bg-white dark:text-black font-body text-[10px] font-bold px-1 shadow">
+              <span className="absolute -top-1 -right-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-slate-900 !text-white dark:bg-white dark:!text-black font-body text-[10px] font-bold px-1 shadow">
                 {cartCount}
               </span>
             )}
@@ -178,7 +177,7 @@ export function CinematicNavbar() {
               handleClaimSpot(e);
               setMobileMenuOpen(false);
             }}
-            className="block text-center bg-slate-900 text-white dark:bg-white dark:text-black font-semibold text-xs py-2.5 rounded-full mt-2"
+            className="block text-center bg-slate-900 !text-white dark:bg-white dark:!text-black font-semibold text-xs py-2.5 rounded-full mt-2"
           >
             Claim a Spot →
           </Link>

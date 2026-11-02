@@ -8,7 +8,7 @@ import { ScatterText } from './ScatterText';
 const HERO_VIDEO_SRC =
   'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260418_080021_d598092b-c4c2-4e53-8e46-94cf9064cd50.mp4';
 
-const PARTNERS = ['FTU', 'NEU', 'VNU', 'RMIT', 'Canva', 'CapCut', 'OpenAI'];
+const PARTNERS = ['FPTU', 'FPT University', 'Canva', 'CapCut'];
 
 export function CinematicHeroSection() {
   return (
@@ -52,7 +52,7 @@ export function CinematicHeroSection() {
           transition={{ duration: 0.8, delay: 0.4, ease: 'easeOut' }}
           className="liquid-glass rounded-full inline-flex items-center gap-2 p-1 pr-4 mb-4 shadow-sm"
         >
-          <span className="bg-slate-900 text-white dark:bg-white dark:text-black px-3 py-1 text-xs font-semibold rounded-full font-body transition-colors">
+          <span className="bg-slate-900 !text-white dark:bg-white dark:!text-black px-3 py-1 text-xs font-semibold rounded-full font-body transition-colors shadow-sm">
             LUK 2026
           </span>
           <span className="text-xs sm:text-sm font-body font-medium text-slate-800 dark:text-white">
@@ -153,22 +153,22 @@ export function CinematicHeroSection() {
                 5 Phút
               </p>
               <p className="text-xs font-body font-light mt-2 text-slate-600 dark:text-white/80">
-                Kích hoạt AI &amp; Báo giá đồ án
+                Báo giá đồ án &amp; Phản hồi 24/7
               </p>
             </div>
           </div>
         </motion.div>
       </div>
 
-      {/* Partners (bottom of hero, delay 1.4s) */}
+      {/* Partners (bottom of hero, delay 1.4s) — Chỉ đồng hành cùng sinh viên FPTU */}
       <motion.div
         initial={{ filter: 'blur(10px)', opacity: 0, y: 20 }}
         animate={{ filter: 'blur(0px)', opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 1.3, ease: 'easeOut' }}
         className="relative z-10 flex flex-col items-center gap-4 pb-8"
       >
-        <span className="liquid-glass rounded-full px-3.5 py-1 text-xs font-medium font-body text-slate-800 dark:text-white opacity-90">
-          Đồng hành cùng sinh viên các trường đại học hàng đầu
+        <span className="liquid-glass rounded-full px-4 py-1 text-xs font-semibold font-body text-slate-800 dark:text-white shadow-sm">
+          Đồng hành cùng sinh viên FPTU
         </span>
 
         <div className="flex flex-wrap items-center justify-center gap-8 md:gap-16">

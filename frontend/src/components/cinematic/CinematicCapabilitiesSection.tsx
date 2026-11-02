@@ -73,19 +73,6 @@ const CARDS_DATA: ServiceCapabilityItem[] = [
     turnaround: 'Bàn giao 12-24h',
   },
   {
-    id: 'ai-pro',
-    categoryKey: 'AI_ACCOUNTS',
-    title: 'Tài Khoản AI Pro',
-    subtitle: 'Nâng Cấp Chính Chủ',
-    iconPath:
-      'M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1Zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7Z',
-    tags: ['CapCut Pro', 'ChatGPT-4o', 'Gemini 2TB', 'Bảo Hành 1:1'],
-    description:
-      'Nâng cấp chính chủ email cá nhân các công cụ AI hàng đầu: CapCut Pro, ChatGPT-4o, Google Gemini Advanced 2TB và Canva Pro. Kích hoạt trong 5 phút.',
-    startingPrice: '59.000đ',
-    turnaround: 'Giao ngay 5 phút',
-  },
-  {
     id: 'debate-bp',
     categoryKey: 'DEBATE_RESOURCES',
     title: 'Tài Liệu Debate BP & NCKH',

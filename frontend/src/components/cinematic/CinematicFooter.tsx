@@ -32,9 +32,6 @@ export function CinematicFooter() {
           <Link href="/#capabilities" className="hover:text-black dark:hover:text-white hover:opacity-100 transition">
             Debate BP
           </Link>
-          <Link href="/#capabilities" className="hover:text-black dark:hover:text-white hover:opacity-100 transition">
-            Các AI Pro
-          </Link>
           <Link href="/orders/track" className="hover:text-black dark:hover:text-white hover:opacity-100 transition">
             Theo Dõi Đơn
           </Link>

@@ -41,14 +41,14 @@ body {
 /* Light mode daytime sky atmosphere applied to body */
 :root[data-theme='light'] body,
 html.light body {
-  background: linear-gradient(180deg, #60a5fa 0%, #93c5fd 20%, #bae6fd 45%, #e0f2fe 75%, #f8fafc 100%) !important;
-  color: #0f172a !important;
+  background: linear-gradient(180deg, #0284c7 0%, #0ea5e9 18%, #38bdf8 42%, #7dd3fc 68%, #bae6fd 88%, #e0f2fe 100%) !important;
+  color: #0f172a;
 }
 
 :root[data-theme='dark'] body,
 html.dark body {
   background-color: #000000 !important;
-  color: #ffffff !important;
+  color: #ffffff;
 }
 
 /* ========================================================
