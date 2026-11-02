@@ -20,7 +20,7 @@ interface LetterObj {
   drag: boolean;
 }
 
-export function ScatterText({ text = 'LUK SERVICES', className = '' }: ScatterTextProps) {
+export function ScatterText({ text = 'LUK GLOBAL', className = '' }: ScatterTextProps) {
   const rootRef = useRef<HTMLDivElement>(null);
   const wordRef = useRef<HTMLDivElement>(null);
 
@@ -38,7 +38,7 @@ export function ScatterText({ text = 'LUK SERVICES', className = '' }: ScatterTe
     const letters: LetterObj[] = Array.from(text).map((ch, i) => {
       const s = document.createElement('span');
       s.className = 'u360-l select-none cursor-grab inline-block';
-      s.textContent = ch === ' ' ? '\u00A0' : ch;
+      s.textContent = ch === ' ' ? '\u00A0\u00A0' : ch;
       s.setAttribute('aria-hidden', 'true');
       s.style.setProperty('--h', String(20 + i * 36));
       wd.appendChild(s);
@@ -125,18 +125,11 @@ export function ScatterText({ text = 'LUK SERVICES', className = '' }: ScatterTe
       const now = performance.now();
       letters.forEach((l, i) => {
         const a = Math.random() * Math.PI * 2;
-        const sp = 7 + Math.random() * 8;
+        const sp = 8 + Math.random() * 9;
         l.vx = Math.cos(a) * sp;
         l.vy = Math.sin(a) * sp - 4;
-        l.vr = (Math.random() - 0.5) * 35;
+        l.vr = (Math.random() - 0.5) * 40;
         l.free = now + 1400 + i * 60;
-      });
-      kick();
-    }
-
-    function home() {
-      letters.forEach((l) => {
-        l.free = 0;
       });
       kick();
     }
@@ -156,7 +149,7 @@ export function ScatterText({ text = 'LUK SERVICES', className = '' }: ScatterTe
         e.stopPropagation();
         l.drag = true;
         moved = false;
-        l.el?.classList.add('cursor-grabbing', 'z-20');
+        l.el?.classList.add('cursor-grabbing', 'z-30');
 
         const k = getScale();
         sx = e.clientX * k - l.x;
@@ -201,7 +194,7 @@ export function ScatterText({ text = 'LUK SERVICES', className = '' }: ScatterTe
       const onPointerUp = () => {
         if (!l.drag) return;
         l.drag = false;
-        l.el?.classList.remove('cursor-grabbing', 'z-20');
+        l.el?.classList.remove('cursor-grabbing', 'z-30');
         l.free = performance.now() + (moved ? 1000 : 0);
         l.vr = l.vx * 1.5;
         kick();
@@ -237,7 +230,7 @@ export function ScatterText({ text = 'LUK SERVICES', className = '' }: ScatterTe
   return (
     <div
       ref={rootRef}
-      className={`u360 relative w-full max-w-4xl mx-auto min-h-[160px] sm:min-h-[190px] flex flex-col items-center justify-center select-none touch-none ${className}`}
+      className={`u360 relative w-full max-w-5xl mx-auto min-h-[140px] sm:min-h-[220px] md:min-h-[260px] flex items-center justify-center select-none touch-none ${className}`}
     >
       <style jsx>{`
         .u360-l {
@@ -245,14 +238,25 @@ export function ScatterText({ text = 'LUK SERVICES', className = '' }: ScatterTe
           display: inline-block;
           font-family: 'Instrument Serif', serif;
           font-style: italic;
-          font-size: clamp(3rem, 9vw, 6.5rem);
+          font-size: clamp(3.75rem, 13vw, 8.5rem);
           line-height: 0.9;
-          letter-spacing: -0.04em;
-          color: #ffffff;
-          text-shadow: 0 4px 24px rgba(255, 255, 255, 0.25), 0 0 40px rgba(255, 255, 255, 0.15);
+          letter-spacing: -0.035em;
           will-change: transform;
           user-select: none;
           -webkit-user-select: none;
+          transition: color 0.5s ease;
+        }
+
+        :global(:root[data-theme='dark']) .u360-l,
+        :global(html.dark) .u360-l {
+          color: #ffffff;
+          text-shadow: 0 4px 30px rgba(255, 255, 255, 0.3), 0 0 60px rgba(255, 255, 255, 0.2);
+        }
+
+        :global(:root[data-theme='light']) .u360-l,
+        :global(html.light) .u360-l {
+          color: #0f172a !important;
+          text-shadow: 0 4px 20px rgba(15, 23, 42, 0.15) !important;
         }
       `}</style>
 
@@ -262,14 +266,8 @@ export function ScatterText({ text = 'LUK SERVICES', className = '' }: ScatterTe
         role="button"
         tabIndex={0}
         aria-label={`Tap to scatter letters: ${text}`}
-        className="u360-wd flex items-center justify-center flex-wrap gap-x-1 sm:gap-x-2.5 cursor-pointer outline-none transition-transform hover:scale-[1.02] active:scale-[0.99]"
+        className="u360-wd flex items-center justify-center flex-wrap gap-x-1 sm:gap-x-3 cursor-pointer outline-none transition-transform hover:scale-[1.01] active:scale-[0.99]"
       />
-
-      {/* Subtle Hint */}
-      <div className="mt-3 flex items-center gap-2 text-[11px] font-body text-white/50 tracking-wider">
-        <span className="w-1.5 h-1.5 rounded-full bg-white/40 animate-ping" />
-        <span>Chạm vào chữ hoặc ném các ký tự tự do để trải nghiệm vật lý 360°</span>
-      </div>
     </div>
   );
 }

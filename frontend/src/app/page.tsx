@@ -44,11 +44,11 @@ export default async function HomePage() {
   }));
 
   return (
-    <div className="w-full bg-black text-white flex flex-col min-h-screen">
-      {/* SECTION 1 — HERO (Full Viewport, Looping Video, Interactive Scatter LUK SERVICES, Stats) */}
+    <div className="w-full flex flex-col min-h-screen">
+      {/* SECTION 1 — HERO (Full Viewport, Looping Video / Day Sky, Giant Scatter LUK GLOBAL, Stats) */}
       <CinematicHeroSection />
 
-      {/* SECTION 2 — CAPABILITIES (Horizontal Sliding Cards with Inline Accordion Package Lists) */}
+      {/* SECTION 2 — CAPABILITIES (Horizontal Sliding Cards with "Xem chi tiết" Modal) */}
       <CinematicCapabilitiesSection services={formattedServices} />
     </div>
   );

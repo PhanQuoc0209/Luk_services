@@ -8,9 +8,9 @@ import { CurtainPageTransition } from '@/components/common/CurtainPageTransition
 import { CategoryRailDrawer } from '@/components/common/CategoryRailDrawer';
 
 export const metadata: Metadata = {
-  title: 'LUK Services — Cinematic Space-Travel & Student Services Platform',
+  title: 'LUK Global — Hệ Sinh Thái Dịch Vụ Học Thuật & Sáng Tạo Sinh Viên',
   description:
-    'Venture Past Our Sky Across the Universe. Hệ sinh thái dịch vụ sinh viên cao cấp: Edit Video, Slide Đồ Án, Transcript & Tài Khoản AI Pro.',
+    'Nền tảng thương mại điện tử dịch vụ học thuật và sáng tạo cao cấp: Edit Video, Slide Đồ Án, Transcript 99.5% & Tài Khoản AI Pro chính chủ.',
 };
 
 export default function RootLayout({
@@ -28,7 +28,7 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body className="bg-black text-white min-h-screen flex flex-col font-body antialiased selection:bg-white selection:text-black overflow-x-hidden">
+      <body className="min-h-screen flex flex-col font-body antialiased overflow-x-hidden transition-colors duration-500">
         <AppProvider>
           <CurtainPageTransition />
           <CinematicNavbar />

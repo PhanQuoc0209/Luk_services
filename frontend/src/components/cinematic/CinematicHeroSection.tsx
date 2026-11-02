@@ -12,9 +12,10 @@ const PARTNERS = ['FTU', 'NEU', 'VNU', 'RMIT', 'Canva', 'CapCut', 'OpenAI'];
 
 export function CinematicHeroSection() {
   return (
-    <section className="relative w-full min-h-screen overflow-hidden bg-black flex flex-col justify-between">
-      {/* Background Video: 120% width/height, top-aligned, centered horizontally */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
+    <section className="relative w-full min-h-screen overflow-hidden flex flex-col justify-between transition-colors duration-700">
+      
+      {/* 1. NIGHT MODE BACKGROUND: Looping Space Video */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none z-0 transition-opacity duration-700 dark:opacity-100 opacity-0">
         <FadingVideo
           src={HERO_VIDEO_SRC}
           className="absolute left-1/2 top-0 -translate-x-1/2 object-cover object-top z-0"
@@ -22,54 +23,58 @@ export function CinematicHeroSection() {
         />
       </div>
 
-      {/* Hero Content (centered, pt-24 px-4 flex-1 flex flex-col items-center justify-center text-center z-10) */}
-      <div className="relative z-10 flex-1 flex flex-col items-center justify-center pt-28 pb-12 px-4 max-w-5xl mx-auto text-center">
+      {/* 2. DAY MODE BACKGROUND: Radiant Morning Sky Atmosphere */}
+      <div
+        className="absolute inset-0 pointer-events-none z-0 transition-opacity duration-700 dark:opacity-0 opacity-100 overflow-hidden"
+        style={{
+          background: 'linear-gradient(180deg, #38bdf8 0%, #7dd3fc 25%, #bae6fd 50%, #e0f2fe 80%, #f0f9ff 100%)',
+        }}
+      >
+        {/* Soft sunlight glow orb */}
+        <div className="absolute top-10 left-1/2 -translate-x-1/2 w-[600px] h-[600px] rounded-full bg-amber-200/30 blur-[100px] pointer-events-none" />
+        {/* Ambient morning clouds decoration */}
+        <div className="daytime-sky-clouds absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(255,255,255,0.4)_0%,transparent_70%)] pointer-events-none" />
+      </div>
+
+      {/* Hero Content (centered, pt-28 pb-12 px-4 flex-1 flex flex-col items-center justify-center text-center z-10) */}
+      <div className="relative z-10 flex-1 flex flex-col items-center justify-center pt-28 pb-8 px-4 max-w-5xl mx-auto text-center">
+        
         {/* Badge (delay 0.4s) — Dòng thông báo tinh tế */}
         <motion.div
           initial={{ filter: 'blur(10px)', opacity: 0, y: 20 }}
           animate={{ filter: 'blur(0px)', opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4, ease: 'easeOut' }}
-          className="liquid-glass rounded-full inline-flex items-center gap-2 p-1 pr-3.5 mb-6"
+          className="liquid-glass rounded-full inline-flex items-center gap-2 p-1 pr-4 mb-4 shadow-sm"
         >
-          <span className="bg-white text-black px-3 py-1 text-xs font-semibold rounded-full font-body">
+          <span className="bg-black text-white dark:bg-white dark:text-black px-3 py-1 text-xs font-semibold rounded-full font-body transition-colors">
             LUK 2026
           </span>
-          <span className="text-sm text-white/90 font-body">
+          <span className="text-xs sm:text-sm font-body font-medium">
             Hệ Sinh Thái Dịch Vụ Học Thuật &amp; Sáng Tạo Sinh Viên
           </span>
         </motion.div>
 
-        {/* Chữ Chính LUK SERVICES to và nằm căn giữa trang chủ với hiệu ứng Scatter and Reassemble (Prompt #360) */}
-        <ScatterText text="LUK SERVICES" className="my-2" />
-
-        {/* Subheading (delay 0.8s) */}
-        <motion.p
-          initial={{ filter: 'blur(10px)', opacity: 0, y: 20 }}
-          animate={{ filter: 'blur(0px)', opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.8, ease: 'easeOut' }}
-          className="mt-6 text-sm md:text-base text-white max-w-2xl font-body font-light leading-tight text-center"
-        >
-          Biên tập Video đồ án, Chuẩn hóa Slide khóa luận, Gỡ băng Transcript 99.5%, Debate BP và Cung cấp tài khoản AI Pro chính chủ hỗ trợ sinh viên 24/7.
-        </motion.p>
+        {/* Chữ Chính LUK GLOBAL to và nằm căn giữa trang chủ (Scatter and Reassemble #360) */}
+        <ScatterText text="LUK GLOBAL" className="my-1" />
 
         {/* CTAs (delay 1.1s) */}
         <motion.div
           initial={{ filter: 'blur(10px)', opacity: 0, y: 20 }}
           animate={{ filter: 'blur(0px)', opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 1.1, ease: 'easeOut' }}
-          className="flex items-center gap-6 mt-6"
+          transition={{ duration: 0.8, delay: 0.9, ease: 'easeOut' }}
+          className="flex items-center gap-4 sm:gap-6 mt-6"
         >
           {/* Primary CTA */}
           <a
             href="#capabilities"
-            className="liquid-glass-strong rounded-full px-5 py-2.5 text-sm font-medium text-white flex items-center gap-2 hover:scale-105 active:scale-95 transition-transform font-body"
+            className="liquid-glass-strong rounded-full px-6 py-3 text-sm font-semibold flex items-center gap-2 hover:scale-105 active:scale-95 transition-transform font-body shadow-lg cursor-pointer"
           >
             <span>Khám Phá Dịch Vụ</span>
             <svg
-              className="w-5 h-5 stroke-current"
+              className="w-4 h-4 stroke-current"
               viewBox="0 0 24 24"
               fill="none"
-              strokeWidth="2"
+              strokeWidth="2.2"
               strokeLinecap="round"
               strokeLinejoin="round"
             >
@@ -80,10 +85,10 @@ export function CinematicHeroSection() {
           {/* Secondary CTA */}
           <a
             href="#capabilities"
-            className="text-sm font-medium text-white flex items-center gap-2 hover:opacity-80 transition-opacity font-body"
+            className="text-sm font-medium flex items-center gap-2 hover:opacity-80 transition-opacity font-body cursor-pointer"
           >
             <span>Lịch Bàn Giao &amp; Báo Giá</span>
-            <svg className="w-4 h-4 fill-white" viewBox="0 0 24 24">
+            <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
               <polygon points="6,4 20,12 6,20" />
             </svg>
           </a>
@@ -93,14 +98,14 @@ export function CinematicHeroSection() {
         <motion.div
           initial={{ filter: 'blur(10px)', opacity: 0, y: 20 }}
           animate={{ filter: 'blur(0px)', opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 1.3, ease: 'easeOut' }}
+          transition={{ duration: 0.8, delay: 1.1, ease: 'easeOut' }}
           className="flex flex-wrap items-stretch justify-center gap-4 mt-8"
         >
           {/* Stat Card 1 */}
-          <div className="liquid-glass p-5 w-[220px] rounded-[1.25rem] flex flex-col justify-between text-left">
+          <div className="liquid-glass p-5 w-[220px] rounded-[1.25rem] flex flex-col justify-between text-left shadow-md">
             <div>
               <svg
-                className="w-7 h-7 stroke-white mb-3"
+                className="w-7 h-7 stroke-current mb-3 opacity-90"
                 viewBox="0 0 24 24"
                 fill="none"
                 strokeWidth="1.8"
@@ -112,20 +117,20 @@ export function CinematicHeroSection() {
               </svg>
             </div>
             <div>
-              <p className="font-heading italic text-white text-4xl tracking-[-1px] leading-none">
+              <p className="font-heading italic text-4xl tracking-[-1px] leading-none">
                 99.5%
               </p>
-              <p className="text-xs text-white font-body font-light mt-2">
+              <p className="text-xs font-body font-light mt-2 opacity-80">
                 Độ chính xác Transcript NCKH
               </p>
             </div>
           </div>
 
           {/* Stat Card 2 */}
-          <div className="liquid-glass p-5 w-[220px] rounded-[1.25rem] flex flex-col justify-between text-left">
+          <div className="liquid-glass p-5 w-[220px] rounded-[1.25rem] flex flex-col justify-between text-left shadow-md">
             <div>
               <svg
-                className="w-7 h-7 stroke-white mb-3"
+                className="w-7 h-7 stroke-current mb-3 opacity-90"
                 viewBox="0 0 24 24"
                 fill="none"
                 strokeWidth="1.8"
@@ -138,10 +143,10 @@ export function CinematicHeroSection() {
               </svg>
             </div>
             <div>
-              <p className="font-heading italic text-white text-4xl tracking-[-1px] leading-none">
+              <p className="font-heading italic text-4xl tracking-[-1px] leading-none">
                 5 Phút
               </p>
-              <p className="text-xs text-white font-body font-light mt-2">
+              <p className="text-xs font-body font-light mt-2 opacity-80">
                 Kích hoạt AI &amp; Báo giá đồ án
               </p>
             </div>
@@ -153,10 +158,10 @@ export function CinematicHeroSection() {
       <motion.div
         initial={{ filter: 'blur(10px)', opacity: 0, y: 20 }}
         animate={{ filter: 'blur(0px)', opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 1.4, ease: 'easeOut' }}
+        transition={{ duration: 0.8, delay: 1.3, ease: 'easeOut' }}
         className="relative z-10 flex flex-col items-center gap-4 pb-8"
       >
-        <span className="liquid-glass rounded-full px-3.5 py-1 text-xs font-medium text-white font-body">
+        <span className="liquid-glass rounded-full px-3.5 py-1 text-xs font-medium font-body opacity-90">
           Đồng hành cùng sinh viên các trường đại học hàng đầu
         </span>
 
@@ -164,7 +169,7 @@ export function CinematicHeroSection() {
           {PARTNERS.map((partner) => (
             <span
               key={partner}
-              className="font-heading italic text-white text-2xl md:text-3xl tracking-tight select-none opacity-90 hover:opacity-100 transition-opacity"
+              className="font-heading italic text-2xl md:text-3xl tracking-tight select-none opacity-85 hover:opacity-100 transition-opacity"
             >
               {partner}
             </span>

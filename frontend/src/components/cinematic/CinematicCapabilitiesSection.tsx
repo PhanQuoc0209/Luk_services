@@ -120,7 +120,7 @@ interface CinematicCapabilitiesSectionProps {
 export function CinematicCapabilitiesSection({ services = [] }: CinematicCapabilitiesSectionProps) {
   const { addToCartAndOpen } = useApp();
   const scrollTrackRef = useRef<HTMLDivElement>(null);
-  const [expandedCardId, setExpandedCardId] = useState<string | null>(null);
+  const [activeModalCard, setActiveModalCard] = useState<ServiceCapabilityItem | null>(null);
   const [addingId, setAddingId] = useState<string | null>(null);
 
   // Listen to open category event from Navbar
@@ -130,7 +130,7 @@ export function CinematicCapabilitiesSection({ services = [] }: CinematicCapabil
       if (catKey) {
         const found = CARDS_DATA.find((c) => c.categoryKey === catKey);
         if (found) {
-          setExpandedCardId(found.id);
+          setActiveModalCard(found);
         }
       }
     };
@@ -150,12 +150,7 @@ export function CinematicCapabilitiesSection({ services = [] }: CinematicCapabil
     }
   };
 
-  const toggleExpand = (cardId: string) => {
-    setExpandedCardId((prev) => (prev === cardId ? null : cardId));
-  };
-
-  const handleQuickAdd = async (e: React.MouseEvent, serviceId: string) => {
-    e.stopPropagation();
+  const handleQuickAdd = async (serviceId: string) => {
     if (addingId) return;
     setAddingId(serviceId);
     try {
@@ -167,47 +162,61 @@ export function CinematicCapabilitiesSection({ services = [] }: CinematicCapabil
     }
   };
 
+  const currentCategoryPackages = activeModalCard
+    ? services.filter((s) => s.category === activeModalCard.categoryKey)
+    : [];
+
   return (
     <section
       id="capabilities"
-      className="min-h-screen relative w-full overflow-hidden bg-black flex flex-col justify-between py-24"
+      className="min-h-screen relative w-full overflow-hidden flex flex-col justify-between py-24 transition-colors duration-700"
     >
-      {/* Background video (full-bleed, no 120% scale) */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
+      {/* 1. NIGHT MODE BACKGROUND: Looping Video */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none z-0 transition-opacity duration-700 dark:opacity-100 opacity-0">
         <FadingVideo
           src={CAPABILITIES_VIDEO_SRC}
           className="absolute inset-0 w-full h-full object-cover z-0"
         />
       </div>
 
-      {/* Content: Giữ nguyên bố cục và phong cách typography của Space Page */}
+      {/* 2. DAY MODE BACKGROUND: Bright Sky Atmosphere */}
+      <div
+        className="absolute inset-0 pointer-events-none z-0 transition-opacity duration-700 dark:opacity-0 opacity-100 overflow-hidden"
+        style={{
+          background: 'linear-gradient(180deg, #bae6fd 0%, #e0f2fe 35%, #f0f9ff 100%)',
+        }}
+      >
+        <div className="absolute -top-40 right-10 w-[500px] h-[500px] rounded-full bg-sky-200/40 blur-[80px] pointer-events-none" />
+      </div>
+
+      {/* Content */}
       <div className="relative z-10 px-6 sm:px-10 lg:px-16 flex flex-col justify-between max-w-[1536px] mx-auto w-full space-y-10">
         
         {/* Header with Horizontal Navigation Arrows */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div>
-            <p className="text-sm font-body text-white/80 mb-3 tracking-wider uppercase">
+            <p className="text-sm font-body mb-3 tracking-wider uppercase opacity-80">
               // Hệ Sinh Thái Dịch Vụ (Capabilities)
             </p>
-            <h2 className="font-heading italic text-white text-6xl md:text-7xl lg:text-[6rem] leading-[0.9] tracking-[-3px]">
+            <h2 className="font-heading italic text-6xl md:text-7xl lg:text-[6rem] leading-[0.9] tracking-[-3px]">
               Dịch Vụ
               <br />
               Trọng Tâm
             </h2>
-            <p className="mt-3 text-xs sm:text-sm text-white/70 font-body font-light max-w-xl leading-relaxed">
-              Bấm vào từng ô dịch vụ để mở rộng danh sách chi tiết các gói và đặt dịch vụ ngay tại đây mà không cần chuyển trang.
+            <p className="mt-3 text-xs sm:text-sm font-body font-light max-w-xl leading-relaxed opacity-75">
+              Bấm &quot;Xem chi tiết&quot; ở từng dịch vụ để mở danh sách hình ảnh các gói và đặt dịch vụ trực tiếp gọn gàng.
             </p>
           </div>
 
           {/* Navigation Controls: Mũi tên trượt ngang */}
           <div className="flex items-center gap-3 self-start md:self-auto">
-            <span className="text-xs text-white/60 font-body hidden sm:inline">
+            <span className="text-xs font-body opacity-60 hidden sm:inline">
               Trượt ngang để xem các dịch vụ →
             </span>
             <button
               type="button"
               onClick={scrollLeft}
-              className="liquid-glass w-11 h-11 rounded-full flex items-center justify-center text-white hover:scale-105 active:scale-95 transition cursor-pointer"
+              className="liquid-glass w-11 h-11 rounded-full flex items-center justify-center hover:scale-105 active:scale-95 transition cursor-pointer"
               aria-label="Trượt sang trái"
             >
               <svg className="w-4 h-4 stroke-current" viewBox="0 0 24 24" fill="none" strokeWidth="2.5">
@@ -217,7 +226,7 @@ export function CinematicCapabilitiesSection({ services = [] }: CinematicCapabil
             <button
               type="button"
               onClick={scrollRight}
-              className="liquid-glass w-11 h-11 rounded-full flex items-center justify-center text-white hover:scale-105 active:scale-95 transition cursor-pointer"
+              className="liquid-glass w-11 h-11 rounded-full flex items-center justify-center hover:scale-105 active:scale-95 transition cursor-pointer"
               aria-label="Trượt sang phải"
             >
               <svg className="w-4 h-4 stroke-current" viewBox="0 0 24 24" fill="none" strokeWidth="2.5">
@@ -230,145 +239,193 @@ export function CinematicCapabilitiesSection({ services = [] }: CinematicCapabil
         {/* Các ô hình chữ nhật, vuông liquid-glass có sẵn — trượt ngang mượt mà */}
         <div
           ref={scrollTrackRef}
-          className="flex items-start gap-6 overflow-x-auto no-scrollbar scroll-smooth snap-x snap-mandatory pb-8 pt-2 px-1"
+          className="flex items-stretch gap-6 overflow-x-auto no-scrollbar scroll-smooth snap-x snap-mandatory pb-8 pt-2 px-1"
         >
-          {CARDS_DATA.map((card) => {
-            const isExpanded = expandedCardId === card.id;
-            const categoryPackages = services.filter((s) => s.category === card.categoryKey);
-
-            return (
-              <div
-                key={card.id}
-                onClick={() => toggleExpand(card.id)}
-                className={`liquid-glass rounded-[1.35rem] p-6 shrink-0 flex flex-col justify-between transition-all duration-300 snap-start border cursor-pointer group ${
-                  isExpanded
-                    ? 'w-[360px] sm:w-[420px] md:w-[460px] border-white/40 shadow-2xl scale-[1.01]'
-                    : 'w-[320px] sm:w-[350px] md:w-[380px] min-h-[400px] border-white/10 hover:border-white/20'
-                }`}
-              >
-                <div>
-                  {/* Top row: 44x44 nested liquid-glass square with white icon + pill tags */}
-                  <div className="flex items-start justify-between gap-4">
-                    <div className="liquid-glass w-11 h-11 rounded-[0.75rem] flex items-center justify-center shrink-0">
-                      <svg className="w-6 h-6 fill-white text-white" viewBox="0 0 24 24">
-                        <path d={card.iconPath} />
-                      </svg>
-                    </div>
-
-                    {/* Pill tags */}
-                    <div className="flex flex-wrap justify-end gap-1.5 max-w-[70%]">
-                      {card.tags.slice(0, 3).map((tag) => (
-                        <span
-                          key={tag}
-                          className="liquid-glass rounded-full px-2.5 py-0.5 text-[11px] text-white font-body"
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
+          {CARDS_DATA.map((card) => (
+            <div
+              key={card.id}
+              className="liquid-glass rounded-[1.35rem] p-6 w-[320px] sm:w-[350px] md:w-[380px] shrink-0 min-h-[400px] flex flex-col justify-between hover:scale-[1.01] transition-transform duration-300 snap-start shadow-xl group"
+            >
+              <div>
+                {/* Top row: 44x44 nested liquid-glass square with white icon + pill tags */}
+                <div className="flex items-start justify-between gap-4">
+                  <div className="liquid-glass w-11 h-11 rounded-[0.75rem] flex items-center justify-center shrink-0">
+                    <svg className="w-6 h-6 fill-current" viewBox="0 0 24 24">
+                      <path d={card.iconPath} />
+                    </svg>
                   </div>
 
-                  {/* Middle: Title, Subtitle, Description */}
-                  <div className="my-4 space-y-2">
-                    <span className="text-[11px] uppercase tracking-wider text-white/50 font-body">
-                      ⚡ {card.turnaround}
-                    </span>
-                    <h3 className="font-heading italic text-white text-3xl sm:text-4xl tracking-[-1px] leading-tight group-hover:text-white/80 transition-colors">
-                      {card.title}
-                    </h3>
-                    <p className="text-xs text-white/75 font-body font-light leading-relaxed">
-                      {card.description}
-                    </p>
+                  {/* Pill tags */}
+                  <div className="flex flex-wrap justify-end gap-1.5 max-w-[70%]">
+                    {card.tags.slice(0, 3).map((tag) => (
+                      <span
+                        key={tag}
+                        className="liquid-glass rounded-full px-2.5 py-0.5 text-[11px] font-body"
+                      >
+                        {tag}
+                      </span>
+                    ))}
                   </div>
                 </div>
 
-                {/* Bottom Toggle Bar */}
-                <div className="pt-3 border-t border-white/10 flex items-center justify-between">
-                  <div>
-                    <span className="text-[10px] text-white/50 block font-body uppercase">
-                      Báo giá từ
-                    </span>
-                    <span className="font-heading italic text-white text-xl">
-                      {card.startingPrice}
-                    </span>
-                  </div>
+                {/* Middle: Title, Subtitle, Description */}
+                <div className="my-5 space-y-2">
+                  <span className="text-[11px] uppercase tracking-wider font-body opacity-60">
+                    ⚡ {card.turnaround}
+                  </span>
+                  <h3 className="font-heading italic text-3xl sm:text-4xl tracking-[-1px] leading-tight group-hover:opacity-85 transition-opacity">
+                    {card.title}
+                  </h3>
+                  <p className="text-xs font-body font-light leading-relaxed opacity-75 line-clamp-3">
+                    {card.description}
+                  </p>
+                </div>
+              </div>
 
-                  <span
-                    className={`inline-flex items-center gap-1.5 text-xs font-semibold px-3.5 py-1.5 rounded-full transition-all font-body ${
-                      isExpanded
-                        ? 'bg-white text-black shadow-md'
-                        : 'liquid-glass text-white group-hover:bg-white/10'
-                    }`}
-                  >
-                    <span>{isExpanded ? 'Đóng danh sách' : 'Xem danh sách gói'}</span>
-                    <span className="transition-transform duration-300" style={{ transform: isExpanded ? 'rotate(180deg)' : 'none' }}>
-                      ▾
-                    </span>
+              {/* Bottom: Price + Nút Xem Chi Tiết theo đúng Ảnh 2 */}
+              <div className="pt-4 border-t border-black/10 dark:border-white/10 flex items-center justify-between">
+                <div>
+                  <span className="text-[10px] block font-body uppercase opacity-50">
+                    BÁO GIÁ TỪ
+                  </span>
+                  <span className="font-heading italic text-2xl">
+                    {card.startingPrice}
                   </span>
                 </div>
 
-                {/* INLINE EXPANDED LIST (Mở rộng thẻ trực tiếp hiển thị danh sách gói tại chỗ!) */}
-                {isExpanded && (
-                  <div
-                    onClick={(e) => e.stopPropagation()}
-                    className="mt-5 pt-4 border-t border-white/15 space-y-3 cursor-default animate-in fade-in-0 duration-300"
-                  >
-                    <div className="flex items-center justify-between text-xs font-body text-white/70">
-                      <span className="font-semibold text-white uppercase text-[11px] tracking-wider">
-                        Danh sách các gói ({categoryPackages.length || 3} gói):
-                      </span>
-                      <span className="text-[10.5px] text-emerald-400">⚡ Hỗ trợ 1-1</span>
-                    </div>
+                {/* Nút Xem Chi Tiết (Mở ra list danh sách đầy đủ hình ảnh gọn gàng) */}
+                <button
+                  type="button"
+                  onClick={() => setActiveModalCard(card)}
+                  className="bg-black text-white dark:bg-white dark:text-black font-body font-semibold text-xs px-4 py-2 rounded-full hover:opacity-90 active:scale-95 transition-all shadow-md flex items-center gap-1.5 cursor-pointer"
+                >
+                  <span>Xem chi tiết</span>
+                  <svg className="w-3.5 h-3.5 stroke-current" viewBox="0 0 24 24" fill="none" strokeWidth="2.2">
+                    <path d="M5 12h14M12 5l7 7-7 7" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
 
-                    <div className="space-y-2.5 max-h-[300px] overflow-y-auto no-scrollbar pr-1">
-                      {categoryPackages.length > 0 ? (
-                        categoryPackages.map((pkg) => (
-                          <div
-                            key={pkg.id}
-                            className="liquid-glass rounded-xl p-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 border border-white/10 hover:border-white/20 transition-all"
-                          >
-                            <div className="space-y-1 max-w-[65%]">
-                              <h5 className="font-heading italic text-white text-base tracking-tight leading-snug">
-                                {pkg.title}
-                              </h5>
-                              <p className="text-[11px] text-white/60 font-body font-light line-clamp-1">
-                                {pkg.shortDescription}
-                              </p>
-                              <div className="flex items-center gap-2 text-[10px] text-white/50 font-body">
-                                <span>⚡ {pkg.turnaround}</span>
-                                <span>•</span>
-                                <span>{pkg.deliveryFormat}</span>
-                              </div>
-                            </div>
+      {/* ========================================================
+          MODAL DANH SÁCH CHI TIẾT CÓ HÌNH ẢNH ĐẦY ĐỦ (GỌN GÀNG HƠN)
+          Theo đúng yêu cầu Ảnh 2
+         ======================================================== */}
+      {activeModalCard && (
+        <div
+          onClick={() => setActiveModalCard(null)}
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-md animate-in fade-in-0 duration-200"
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="liquid-glass-strong rounded-[1.75rem] w-full max-w-3xl max-h-[85vh] overflow-y-auto p-6 sm:p-8 space-y-6 shadow-2xl relative"
+            role="dialog"
+            aria-modal="true"
+          >
+            {/* Close Button */}
+            <button
+              type="button"
+              onClick={() => setActiveModalCard(null)}
+              className="absolute top-5 right-5 liquid-glass w-9 h-9 rounded-full flex items-center justify-center text-sm hover:scale-105 active:scale-95 transition cursor-pointer"
+              aria-label="Đóng"
+            >
+              ✕
+            </button>
 
-                            <div className="flex sm:flex-col items-center sm:items-end justify-between gap-1.5 shrink-0">
-                              <span className="font-heading italic text-white text-base">
-                                {pkg.startingPrice > 0 ? formatVND(pkg.startingPrice) : 'Liên hệ'}
-                              </span>
-                              <button
-                                type="button"
-                                onClick={(e) => handleQuickAdd(e, pkg.id)}
-                                disabled={addingId === pkg.id}
-                                className="bg-white text-black font-body font-semibold text-[11px] px-3 py-1 rounded-full hover:bg-white/90 active:scale-95 transition shadow-sm cursor-pointer whitespace-nowrap"
-                              >
-                                {addingId === pkg.id ? 'Đang thêm...' : 'Đặt lịch'}
-                              </button>
-                            </div>
-                          </div>
-                        ))
-                      ) : (
-                        <div className="liquid-glass rounded-xl p-3 text-center text-xs text-white/60 font-body">
-                          Đang cập nhật các gói dịch vụ mới...
+            {/* Modal Header */}
+            <div className="space-y-1.5 pr-8">
+              <span className="liquid-glass rounded-full px-3 py-1 text-xs font-body font-medium">
+                ⚡ {activeModalCard.turnaround} • Hỗ trợ 1-1
+              </span>
+              <h3 className="font-heading italic text-3xl sm:text-4xl tracking-tight leading-snug">
+                {activeModalCard.title}
+              </h3>
+              <p className="text-xs sm:text-sm font-body font-light opacity-80 leading-relaxed">
+                {activeModalCard.description}
+              </p>
+            </div>
+
+            {/* List danh sách các gói dịch vụ ĐẦY ĐỦ HÌNH ẢNH (Gọn gàng & Hiện đại) */}
+            <div className="space-y-3.5 pt-2">
+              <div className="flex items-center justify-between border-b border-black/10 dark:border-white/10 pb-2.5 text-xs font-body">
+                <span className="font-semibold uppercase tracking-wider opacity-70">
+                  Danh sách gói ({currentCategoryPackages.length} gói dịch vụ):
+                </span>
+                <span className="text-emerald-500 dark:text-emerald-400 font-medium">
+                  ✓ Cam kết bảo hành 1:1
+                </span>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {currentCategoryPackages.length > 0 ? (
+                  currentCategoryPackages.map((pkg) => (
+                    <div
+                      key={pkg.id}
+                      className="liquid-glass rounded-2xl p-3.5 flex flex-col justify-between hover:scale-[1.01] transition-all shadow-md group"
+                    >
+                      {/* Image Thumbnail with Overlay Turnaround Badge */}
+                      <div className="aspect-[16/10] w-full rounded-xl overflow-hidden mb-3 relative bg-black/10 dark:bg-white/5">
+                        <img
+                          src={pkg.imageUrl}
+                          alt={pkg.title}
+                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                          loading="lazy"
+                        />
+                        <div className="absolute top-2 right-2 liquid-glass rounded-full px-2.5 py-0.5 text-[10px] font-body shadow-sm">
+                          ⚡ {pkg.turnaround}
                         </div>
-                      )}
+                      </div>
+
+                      {/* Title & Desc */}
+                      <div className="space-y-1">
+                        <h4 className="font-heading italic text-xl tracking-tight leading-snug line-clamp-2">
+                          {pkg.title}
+                        </h4>
+                        <p className="text-[11px] font-body font-light opacity-70 line-clamp-2 leading-relaxed">
+                          {pkg.shortDescription}
+                        </p>
+                      </div>
+
+                      {/* Price & Action */}
+                      <div className="mt-4 pt-3 border-t border-black/10 dark:border-white/10 flex items-center justify-between gap-2">
+                        <div>
+                          <span className="text-[9.5px] uppercase block opacity-50 font-body">
+                            Báo giá
+                          </span>
+                          <span className="font-heading italic text-lg font-semibold">
+                            {pkg.startingPrice > 0 ? formatVND(pkg.startingPrice) : 'Liên hệ'}
+                          </span>
+                        </div>
+
+                        <button
+                          type="button"
+                          onClick={() => handleQuickAdd(pkg.id)}
+                          disabled={addingId === pkg.id}
+                          className="bg-black text-white dark:bg-white dark:text-black font-body font-semibold text-xs px-4 py-1.5 rounded-full hover:opacity-90 active:scale-95 transition shadow-sm cursor-pointer whitespace-nowrap"
+                        >
+                          {addingId === pkg.id ? 'Đang thêm...' : 'Đặt lịch ngay'}
+                        </button>
+                      </div>
                     </div>
+                  ))
+                ) : (
+                  <div className="col-span-2 liquid-glass rounded-2xl p-6 text-center text-sm font-body opacity-60">
+                    Đang đồng bộ danh sách gói dịch vụ...
                   </div>
                 )}
               </div>
-            );
-          })}
+            </div>
+
+            {/* Modal Footer Note */}
+            <div className="pt-2 text-center text-[11px] font-body opacity-50">
+              * Bấm &quot;Đặt lịch ngay&quot; để gửi yêu cầu và nhận báo giá minh bạch qua VietQR trong 5 phút.
+            </div>
+          </div>
         </div>
-      </div>
+      )}
     </section>
   );
 }
