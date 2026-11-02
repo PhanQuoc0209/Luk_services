@@ -8,6 +8,9 @@ module.exports = {
   ],
   theme: {
     extend: {
+      borderRadius: {
+        DEFAULT: '9999px',
+      },
       colors: {
         luk: {
           bg: 'var(--luk-bg)',
@@ -16,19 +19,16 @@ module.exports = {
           border: 'var(--luk-border)',
           borderLight: 'var(--luk-border-light)',
           red: '#E11D48',
-          redDark: '#BE123C',
-          redSubtle: 'rgba(225, 29, 72, 0.12)',
           blue: '#2563EB',
-          blueHover: '#1D4ED8',
-          blueLight: '#3B82F6',
-          blueSubtle: 'rgba(37, 99, 235, 0.14)',
           text: 'var(--luk-text)',
           muted: 'var(--luk-muted)',
           dim: 'var(--luk-dim)',
         },
       },
       fontFamily: {
-        sans: ['system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+        heading: ["'Instrument Serif'", 'serif'],
+        body: ['Barlow', 'sans-serif'],
+        sans: ['Barlow', 'system-ui', 'sans-serif'],
       },
     },
   },
