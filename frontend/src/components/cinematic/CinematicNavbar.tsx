@@ -2,33 +2,64 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { useApp } from '@/components/providers/AppProvider';
 
-const NAV_LINKS = [
+interface NavItem {
+  label: string;
+  categoryKey?: string;
+  href: string;
+}
+
+const NAV_LINKS: NavItem[] = [
   { label: 'Trang chủ', href: '/' },
-  { label: 'Edit Video', href: '/services?cat=VIDEO_EDITING' },
-  { label: 'Slide Đồ Án', href: '/services?cat=SLIDE_DESIGN' },
-  { label: 'Transcript', href: '/services?cat=TRANSCRIPT_EDITING' },
-  { label: 'Debate BP', href: '/debate' },
-  { label: 'Các AI Pro', href: '/services?cat=AI_ACCOUNTS' },
+  { label: 'Edit Video', categoryKey: 'VIDEO_EDITING', href: '/#services-schedule' },
+  { label: 'Slide Đồ Án', categoryKey: 'SLIDE_DESIGN', href: '/#services-schedule' },
+  { label: 'Transcript', categoryKey: 'TRANSCRIPT_EDITING', href: '/#services-schedule' },
+  { label: 'Debate BP', categoryKey: 'DEBATE_RESOURCES', href: '/#services-schedule' },
+  { label: 'Các AI Pro', categoryKey: 'AI_ACCOUNTS', href: '/#services-schedule' },
   { label: 'Theo dõi đơn', href: '/orders/track' },
 ];
 
 export function CinematicNavbar() {
+  const pathname = usePathname();
   const { cartCount, openCartDrawer } = useApp();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const handleNavClick = (e: React.MouseEvent, item: NavItem) => {
+    if (item.categoryKey && pathname === '/') {
+      e.preventDefault();
+      const el = document.getElementById('services-schedule');
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth' });
+      }
+      window.dispatchEvent(
+        new CustomEvent('luk-select-category', { detail: { categoryKey: item.categoryKey } })
+      );
+    }
+  };
+
+  const handleClaimSpot = (e: React.MouseEvent) => {
+    if (pathname === '/') {
+      e.preventDefault();
+      const el = document.getElementById('services-schedule');
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  };
 
   return (
     <header className="fixed top-4 left-0 right-0 z-50 px-6 sm:px-8 lg:px-16 pointer-events-none">
       <div className="mx-auto max-w-[1536px] flex items-center justify-between pointer-events-auto">
-        {/* Left: 48x48 liquid-glass circle with italic serif lowercase "a" / "L" */}
+        {/* Left: 48x48 liquid-glass circle with italic serif letter */}
         <Link
           href="/"
           className="liquid-glass w-12 h-12 rounded-full flex items-center justify-center text-white hover:scale-105 active:scale-95 transition-transform"
           aria-label="LUK Services"
         >
           <span className="font-heading italic text-2xl leading-none select-none">
-            a
+            L
           </span>
         </Link>
 
@@ -41,6 +72,7 @@ export function CinematicNavbar() {
             <Link
               key={link.label}
               href={link.href}
+              onClick={(e) => handleNavClick(e, link)}
               className="px-3.5 py-2 text-sm font-medium text-white/90 font-body hover:text-white transition-colors"
             >
               {link.label}
@@ -49,7 +81,8 @@ export function CinematicNavbar() {
 
           {/* White pill button: Claim a Spot + ArrowUpRight icon */}
           <Link
-            href="/services"
+            href="/#services-schedule"
+            onClick={handleClaimSpot}
             className="ml-1 inline-flex items-center gap-1.5 bg-white text-black font-body font-semibold text-sm px-4 py-2 rounded-full whitespace-nowrap hover:bg-white/90 active:scale-95 transition-all shadow-md"
           >
             <span>Claim a Spot</span>
@@ -106,6 +139,7 @@ export function CinematicNavbar() {
               fill="none"
               strokeWidth="2"
               strokeLinecap="round"
+              strokeLinejoin="round"
             >
               {mobileMenuOpen ? (
                 <path d="M18 6L6 18M6 6l12 12" />
@@ -117,31 +151,32 @@ export function CinematicNavbar() {
         </div>
       </div>
 
-      {/* Mobile Drawer */}
+      {/* Mobile dropdown */}
       {mobileMenuOpen && (
-        <div className="lg:hidden mt-3 liquid-glass-strong rounded-3xl p-5 space-y-3 pointer-events-auto border border-white/10 animate-in fade-in-0 zoom-in-95">
-          <div className="flex flex-col space-y-1">
-            {NAV_LINKS.map((link) => (
-              <Link
-                key={link.label}
-                href={link.href}
-                onClick={() => setMobileMenuOpen(false)}
-                className="px-4 py-2.5 text-sm font-medium text-white/90 font-body hover:text-white hover:bg-white/5 rounded-xl transition"
-              >
-                {link.label}
-              </Link>
-            ))}
-          </div>
-
-          <div className="pt-2 border-t border-white/10 flex items-center justify-between">
+        <div className="lg:hidden mt-2 mx-auto max-w-sm liquid-glass-strong rounded-2xl p-4 shadow-2xl border border-white/10 pointer-events-auto space-y-2 backdrop-blur-2xl">
+          {NAV_LINKS.map((link) => (
             <Link
-              href="/services"
-              onClick={() => setMobileMenuOpen(false)}
-              className="w-full text-center bg-white text-black font-body font-semibold text-sm py-2.5 rounded-full"
+              key={link.label}
+              href={link.href}
+              onClick={(e) => {
+                handleNavClick(e, link);
+                setMobileMenuOpen(false);
+              }}
+              className="block px-4 py-2 text-sm text-white/90 hover:text-white font-body"
             >
-              Claim a Spot — Đặt Dịch Vụ
+              {link.label}
             </Link>
-          </div>
+          ))}
+          <Link
+            href="/#services-schedule"
+            onClick={(e) => {
+              handleClaimSpot(e);
+              setMobileMenuOpen(false);
+            }}
+            className="block text-center bg-white text-black font-semibold text-xs py-2.5 rounded-full mt-2"
+          >
+            Claim a Spot →
+          </Link>
         </div>
       )}
     </header>
