@@ -79,75 +79,11 @@ async function main() {
   }
   console.log(`✓ Đã khởi tạo ${demoCustomers.length} tài khoản khách hàng sinh viên mẫu`);
 
-  // 4. Danh mục Dịch vụ sinh viên LUK Services
+  // 4. Danh mục Dịch vụ sinh viên LUK Services (4 Nhóm Trọng Tâm chuẩn hoá)
   const servicesData = [
-    // --- 0.5. VIẾT KỊCH BẢN (TRANSCRIPT) & GỠ BĂNG ---
-    {
-      title: 'Viết Kịch Bản Video Thuyết Trình & Đồ Án Nhóm',
-      slug: 'viet-kich-ban-thuyet-trinh',
-      category: 'TRANSCRIPT_EDITING',
-      shortDescription: 'Xây dựng khung kịch bản thuyết trình, phân vai lời thoại từng thành viên, tối ưu thời lượng 10-15 phút.',
-      description: 'Dành cho nhóm sinh viên cần kịch bản bài thuyết trình môn học, đồ án tốt nghiệp chuẩn chỉnh, lôi cuốn người nghe và dễ nhớ lời.',
-      startingPrice: 120000,
-      turnaround: '24 giờ',
-      deliveryFormat: 'DOCX Word có phân vai & timeline + PDF',
-      imageUrl: 'https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?auto=format&fit=crop&w=800&q=80',
-      isFeatured: true,
-      isPopular: true,
-      tags: 'viết kịch bản, kịch bản thuyết trình, đồ án nhóm, fptu',
-      isDemo: true,
-      sortOrder: 6,
-    },
-    {
-      title: 'Gỡ Băng Phỏng Vấn Nghiên Cứu Định Tính (NCKH)',
-      slug: 'go-bang-phong-van-nckh',
-      category: 'TRANSCRIPT_EDITING',
-      shortDescription: 'Chuyển hóa file ghi âm phỏng vấn sâu thành văn bản Word chuẩn xác 99.5%, gắn nhãn người nói.',
-      description: 'Chuyên phục vụ sinh viên làm khóa luận tốt nghiệp và đề tài NCKH định tính. Đội ngũ nghe và chép từng câu chữ, loại bỏ từ thừa hoặc giữ nguyên văn phong ngữ nghĩa tùy yêu cầu nghiên cứu.',
-      startingPrice: 100000,
-      turnaround: '24 giờ',
-      deliveryFormat: 'DOCX Word chuẩn phân tích định tính',
-      imageUrl: 'https://images.unsplash.com/photo-1589254065878-42c9da997008?auto=format&fit=crop&w=800&q=80',
-      isFeatured: true,
-      isPopular: true,
-      tags: 'gỡ băng, transcript, phỏng vấn sâu, nckh, định tính',
-      isDemo: true,
-      sortOrder: 7,
-    },
-    {
-      title: 'Dịch Phụ Đề & Đồng Bộ Timeline Song Ngữ Anh - Việt (SRT)',
-      slug: 'dich-phu-de-song-ngu-srt',
-      category: 'TRANSCRIPT_EDITING',
-      shortDescription: 'Dịch thuật chính xác thuật ngữ chuyên ngành, khớp timeline từng mili-giây cho video bài giảng.',
-      description: 'Nhận file video/audio từ YouTube, Zoom, tài liệu giảng đường nước ngoài. Xuất file phụ đề chuẩn SRT, VTT hoặc hardsub trực tiếp vào video với font chữ tiếng Việt hiện đại.',
-      startingPrice: 150000,
-      turnaround: '24 giờ',
-      deliveryFormat: 'File SRT, VTT & MP4 hardsubbed',
-      imageUrl: 'https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?auto=format&fit=crop&w=800&q=80',
-      isFeatured: true,
-      isPopular: false,
-      tags: 'phụ đề song ngữ, dịch srt, timeline, video bài giảng',
-      isDemo: true,
-      sortOrder: 8,
-    },
-    {
-      title: 'Biên Soạn Kịch Bản & Luận Điểm Tranh Biện (Debate Script)',
-      slug: 'bien-soan-kich-ban-debate',
-      category: 'TRANSCRIPT_EDITING',
-      shortDescription: 'Lên khung kịch bản tranh biện, hệ thống luận điểm ủng hộ/phản đối (Gov/Opp) chuẩn format British Parliamentary.',
-      description: 'Hỗ trợ sinh viên tham gia giải đấu tranh biện hoặc bài tập môn kỹ năng nói. Cấu trúc luận điểm PEEL/ARES chặt chẽ, luận chứng thuyết phục.',
-      startingPrice: 150000,
-      turnaround: '24 giờ',
-      deliveryFormat: 'DOCX Word kịch bản tranh biện + Ghi chú phản biện',
-      imageUrl: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80',
-      isFeatured: false,
-      isPopular: false,
-      tags: 'kịch bản tranh biện, debate bp, luận điểm, speaking',
-      isDemo: true,
-      sortOrder: 9,
-    },
-
-    // --- 1. EDIT VIDEO (4 dịch vụ theo yêu cầu) ---
+    // ========================================================
+    // 1. EDIT VIDEO (4 dịch vụ theo yêu cầu)
+    // ========================================================
     {
       title: 'Edit video Project nhóm',
       slug: 'edit-video-project-nhom',
@@ -162,7 +98,7 @@ async function main() {
       isPopular: true,
       tags: 'project nhóm, video đồ án, thuyết trình, edit video, fptu',
       isDemo: true,
-      sortOrder: 11,
+      sortOrder: 1,
     },
     {
       title: 'Edit Video Project cá nhân (Check2)',
@@ -178,7 +114,7 @@ async function main() {
       isPopular: true,
       tags: 'project cá nhân, check 2, presentation, video portfolio',
       isDemo: true,
-      sortOrder: 12,
+      sortOrder: 2,
     },
     {
       title: 'Edit video Debate',
@@ -194,7 +130,7 @@ async function main() {
       isPopular: false,
       tags: 'debate, tranh biện bp, video debate, tin tức, global news',
       isDemo: true,
-      sortOrder: 13,
+      sortOrder: 3,
     },
     {
       title: 'Edit MV presentation',
@@ -210,10 +146,12 @@ async function main() {
       isPopular: true,
       tags: 'mv presentation, music video, sáng tạo, lyrics, đồ án môn học',
       isDemo: true,
-      sortOrder: 14,
+      sortOrder: 4,
     },
 
-    // --- 2. EDIT SLIDE (2 dịch vụ theo yêu cầu) ---
+    // ========================================================
+    // 2. EDIT SLIDE (2 dịch vụ theo yêu cầu)
+    // ========================================================
     {
       title: 'Edit Slide Project Presentation',
       slug: 'edit-slide-project-presentation',
@@ -228,7 +166,7 @@ async function main() {
       isPopular: true,
       tags: 'edit slide, presentation, teamwork, đồ án môn học, fptu',
       isDemo: true,
-      sortOrder: 16,
+      sortOrder: 5,
     },
     {
       title: 'Edit Slide debate',
@@ -244,7 +182,95 @@ async function main() {
       isPopular: true,
       tags: 'slide debate, public speaking, tranh biện, infographic',
       isDemo: true,
-      sortOrder: 17,
+      sortOrder: 6,
+    },
+
+    // ========================================================
+    // 3. VIẾT KỊCH BẢN (TRANSCRIPT) (3 dịch vụ theo yêu cầu)
+    // ========================================================
+    {
+      title: 'Edit transcript project nhóm',
+      slug: 'edit-transcript-project-nhom',
+      category: 'TRANSCRIPT_EDITING',
+      shortDescription: 'Gỡ băng, biên tập transcript chi tiết bài thuyết trình project nhóm, format chuẩn nộp giảng viên.',
+      description: 'Biên tập gỡ băng và chuẩn hóa transcript cho đồ án, bài tập nhóm đại học. Tách lời thoại từng thành viên, chuẩn hóa chính tả thuật ngữ tiếng Anh, định dạng bảng câu hỏi và câu trả lời chỉn chu.',
+      startingPrice: 50000,
+      turnaround: '12-24 giờ',
+      deliveryFormat: 'File Word DOCX & PDF chuẩn nộp',
+      imageUrl: '/images/services/edit-transcript-project-nhom.jpg',
+      isFeatured: true,
+      isPopular: true,
+      tags: 'transcript project nhóm, gỡ băng, check 2, đồ án nhóm, fptu',
+      isDemo: true,
+      sortOrder: 7,
+    },
+    {
+      title: 'Edit transcript check 2',
+      slug: 'edit-transcript-check-2',
+      category: 'TRANSCRIPT_EDITING',
+      shortDescription: 'Chuẩn hóa kịch bản transcript Check 2, khớp yêu cầu trình bày 5 bước, chuẩn phụ đề tiếng Anh.',
+      description: 'Biên tập transcript cho bài kiểm tra Check 2 cá nhân. Tối ưu cấu trúc câu từ, khớp thời lượng nói, đối soát chính xác phụ đề tiếng Anh và tiêu chí chấm điểm của giảng viên.',
+      startingPrice: 50000,
+      turnaround: '12 giờ',
+      deliveryFormat: 'File DOCX & File SRT phụ đề',
+      imageUrl: '/images/services/edit-transcript-check-2.jpg',
+      isFeatured: true,
+      isPopular: true,
+      tags: 'transcript check 2, presentation cá nhân, speaking, fptu',
+      isDemo: true,
+      sortOrder: 8,
+    },
+    {
+      title: 'Viết kịch bản thuyết trình',
+      slug: 'viet-kich-ban-thuyet-trinh',
+      category: 'TRANSCRIPT_EDITING',
+      shortDescription: 'Viết kịch bản video essay, bài thuyết trình thuyết phục từ 50k - 100k, phân vai và canh timeline chuẩn.',
+      description: 'Xây dựng kịch bản thuyết trình chi tiết từ outline thô. Lên cấu trúc mở đầu, thân bài, kết luận ấn tượng, bổ sung dẫn chứng thực tế, phân chia câu thoại mượt mà cho các thành viên.',
+      startingPrice: 50000,
+      turnaround: '24 giờ',
+      deliveryFormat: 'File DOCX kịch bản + Timeline chi tiết',
+      imageUrl: '/images/services/viet-kich-ban-thuyet-trinh.jpg',
+      isFeatured: true,
+      isPopular: true,
+      tags: 'viết kịch bản thuyết trình, video essay, outline, speaking',
+      isDemo: true,
+      sortOrder: 9,
+    },
+
+    // ========================================================
+    // 4. DEBATE (2 dịch vụ theo yêu cầu)
+    // ========================================================
+    {
+      title: 'Debate Evidence',
+      slug: 'debate-evidence',
+      category: 'DEBATE_RESOURCES',
+      shortDescription: 'Bộ số liệu, case study và dẫn chứng xác thực (Fact-based Evidence) cho các motion tranh biện hot.',
+      description: 'Tổng hợp luận cứ, dữ liệu thống kê, báo cáo thực nghiệm và nghiên cứu quốc tế hỗ trợ cả 2 phe Chính phủ (Gov) và Đối lập (Opp). Tùy chọn Motion phong cách Shopee (Facebook, Fast Fashion, AI...).',
+      startingPrice: 50000,
+      turnaround: 'Giao ngay lập tức',
+      deliveryFormat: 'PDF & Notion Database tra cứu dẫn chứng',
+      imageUrl: '/images/services/debate-evidence.jpg',
+      isFeatured: true,
+      isPopular: true,
+      tags: 'debate evidence, dẫn chứng tranh biện, motion facebook, fast fashion',
+      isDemo: true,
+      sortOrder: 10,
+    },
+    {
+      title: 'Debate Solution',
+      slug: 'debate-solution',
+      category: 'DEBATE_RESOURCES',
+      shortDescription: 'Hệ thống giải pháp, cơ chế chính sách (Policy & Mechanism) và phân tầng luận điểm giải quyết vấn đề.',
+      description: 'Xây dựng khung Model/Policy vững chắc, giải quyết triệt để vấn đề gốc rễ, phản biện lại các tác động tiêu cực (harm vs benefit). Tùy chọn Motion phong cách Shopee (Facebook, Fast Fashion, AI...).',
+      startingPrice: 50000,
+      turnaround: 'Giao ngay lập tức',
+      deliveryFormat: 'PDF & Bản đồ tư duy chiến thuật tranh biện',
+      imageUrl: '/images/services/debate-solution.jpg',
+      isFeatured: true,
+      isPopular: true,
+      tags: 'debate solution, giải pháp tranh biện, cơ chế, policy',
+      isDemo: true,
+      sortOrder: 11,
     },
   ];
 
@@ -284,15 +310,15 @@ async function main() {
     {
       code: 'LUK-2610-1001',
       customerIdx: 0,
-      serviceSlug: 'edit-video-recap-su-kien-clb',
+      serviceSlug: 'edit-video-project-nhom',
       status: 'PENDING_REVIEW',
-      notes: 'Video recap sự kiện chào tân sinh viên 2026, footage quay bằng Sony A7III khoảng 15GB.',
+      notes: 'Video thuyết trình đồ án nhóm môn học, footage quay bằng điện thoại & máy ảnh khoảng 15GB.',
       deadlineDays: 5,
     },
     {
       code: 'LUK-2610-1002',
       customerIdx: 1,
-      serviceSlug: 'thiet-ke-slide-thuyet-trinh-hoc-thuat',
+      serviceSlug: 'edit-slide-project-presentation',
       status: 'PENDING_REVIEW',
       notes: 'Cần dàn trang bài thuyết trình môn Quản trị chiến lược, nhóm có 4 thành viên.',
       deadlineDays: 4,
@@ -302,17 +328,17 @@ async function main() {
     {
       code: 'LUK-2610-2001',
       customerIdx: 2,
-      serviceSlug: 'go-bang-phong-van-nckh',
+      serviceSlug: 'edit-transcript-project-nhom',
       status: 'IN_REVIEW',
-      notes: 'Gỡ băng phỏng vấn 5 chuyên gia ngành Logistics cho đề tài nghiên cứu khoa học, tổng thời lượng 120 phút.',
+      notes: 'Gỡ băng và biên tập transcript thuyết trình đồ án nhóm, tổng thời lượng 45 phút.',
       deadlineDays: 3,
     },
     {
       code: 'LUK-2610-2002',
       customerIdx: 3,
-      serviceSlug: 'thiet-ke-pitch-deck-cuoc-thi-khoi-nghiep',
+      serviceSlug: 'edit-slide-debate',
       status: 'IN_REVIEW',
-      notes: 'Đội thi lọt vào bán kết cuộc thi Ý tưởng sáng tạo sinh viên, cần tút lại 18 trang slide.',
+      notes: 'Đội thi lọt vào bán kết tranh biện BP, cần tút lại 12 trang slide luận điểm đối kháng.',
       deadlineDays: 4,
     },
 
@@ -320,24 +346,24 @@ async function main() {
     {
       code: 'LUK-2610-3001',
       customerIdx: 4,
-      serviceSlug: 'tai-khoan-capcut-pro-chinh-chu',
+      serviceSlug: 'debate-evidence',
       status: 'QUOTED',
-      quotedPrice: 99000,
-      depositRequired: 99000,
-      notes: 'Nâng cấp CapCut Pro 1 tháng chính chủ bằng email cá nhân để dựng bài tập lớn.',
+      quotedPrice: 50000,
+      depositRequired: 50000,
+      notes: 'Tài liệu Debate Evidence cho Motion Fast Fashion và Trí tuệ nhân tạo.',
       deadlineDays: 1,
-      quoteNotes: 'Báo giá kích hoạt CapCut Pro 1 tháng 99.000₫, giao tài khoản sau 5 phút chuyển khoản.',
+      quoteNotes: 'Báo giá tài liệu Debate Evidence 50.000₫/bộ, giao ngay sau khi thanh toán VietQR.',
     },
     {
       code: 'LUK-2610-3002',
       customerIdx: 5,
-      serviceSlug: 'dich-phu-de-song-ngu-srt',
+      serviceSlug: 'edit-transcript-check-2',
       status: 'QUOTED',
-      quotedPrice: 180000,
-      depositRequired: 90000,
-      notes: 'Dịch và tạo file SRT song ngữ Anh - Việt cho video phỏng vấn dài 15 phút.',
+      quotedPrice: 50000,
+      depositRequired: 50000,
+      notes: 'Biên tập transcript Check 2 cá nhân, kiểm tra tiêu chí 5 bước và phụ đề tiếng Anh.',
       deadlineDays: 2,
-      quoteNotes: 'Báo giá 180.000₫ gồm file SRT tiếng Anh, tiếng Việt và MP4 hardsub.',
+      quoteNotes: 'Báo giá 50.000₫ gồm file DOCX và phụ đề SRT chuẩn.',
     },
 
     // 4. AWAITING_PAYMENT (2 orders)
