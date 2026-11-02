@@ -16,15 +16,23 @@ export function CinematicHeroSection() {
       
       {/* 1. CINEMATIC BACKGROUND: Daytime Sky vs Deep Space, with the Video blending seamlessly in both! */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
-        {/* Daytime sky background (Controlled via .daytime-sky-bg in globals.css) */}
+        {/* Daytime sky background with deep azure gradient for crisp contrast */}
         <div
           className="daytime-sky-bg absolute inset-0"
           style={{
-            background: 'linear-gradient(180deg, #60a5fa 0%, #93c5fd 20%, #bae6fd 45%, #e0f2fe 75%, #f8fafc 100%)',
+            background: 'linear-gradient(180deg, #0284c7 0%, #0ea5e9 18%, #38bdf8 42%, #7dd3fc 68%, #bae6fd 88%, #e0f2fe 100%)',
           }}
         />
 
-        {/* Video: In dark mode it is normal. In light mode it uses mix-blend-screen so black space vanishes into the sky, while the shimmering 3D orb shines brightly! */}
+        {/* Daytime Solar & Refraction Aura (Enhances 3D volume & rainbow highlights of the bubble in Day Mode) */}
+        <div
+          className="daytime-sky-bg absolute left-1/2 top-[58%] -translate-x-1/2 -translate-y-1/2 w-[420px] sm:w-[580px] h-[300px] sm:h-[400px] rounded-full pointer-events-none blur-[36px]"
+          style={{
+            background: 'radial-gradient(ellipse at center, rgba(245, 158, 11, 0.42) 0%, rgba(56, 189, 248, 0.28) 48%, transparent 72%)',
+          }}
+        />
+
+        {/* Video: In dark mode it is normal. In light mode it uses mix-blend-screen with enhanced contrast & saturation so the bubble pops in full 3D! */}
         <div className="absolute inset-0">
           <FadingVideo
             src={HERO_VIDEO_SRC}

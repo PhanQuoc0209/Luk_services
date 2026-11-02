@@ -73,12 +73,14 @@ html.dark .daytime-sky-bg {
 :root[data-theme='light'] .cinematic-video,
 html.light .cinematic-video {
   mix-blend-mode: screen !important;
-  opacity: 0.95 !important;
+  filter: contrast(1.55) saturate(2.1) brightness(1.15) !important;
+  opacity: 0.98 !important;
 }
 
 :root[data-theme='dark'] .cinematic-video,
 html.dark .cinematic-video {
   mix-blend-mode: normal !important;
+  filter: none !important;
   opacity: 1 !important;
 }
 
