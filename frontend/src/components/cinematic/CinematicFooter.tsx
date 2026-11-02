@@ -30,7 +30,7 @@ export function CinematicFooter() {
             Viết Kịch Bản (Transcript)
           </Link>
           <Link href="/#capabilities" className="hover:text-black dark:hover:text-white hover:opacity-100 transition">
-            Debate BP
+            Debate
           </Link>
           <Link href="/orders/track" className="hover:text-black dark:hover:text-white hover:opacity-100 transition">
             Theo Dõi Đơn

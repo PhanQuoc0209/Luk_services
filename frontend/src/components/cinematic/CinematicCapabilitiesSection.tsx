@@ -33,29 +33,50 @@ export interface ServiceCapabilityItem {
 }
 
 export const PRICE_RANGE_MAP: Record<string, string> = {
+  // 1. Edit Video
   'edit-video-project-nhom': '150.000đ - 200.000đ',
   'edit-video-project-ca-nhan': '150.000đ - 200.000đ',
   'edit-video-debate': '450.000đ - 500.000đ',
   'edit-mv-presentation': '150.000đ - 200.000đ',
+  // 2. Edit Slide
   'edit-slide-project-presentation': '100.000đ - 150.000đ',
   'edit-slide-debate': '250.000đ - 300.000đ',
-  'viet-kich-ban-thuyet-trinh': '120.000đ - 180.000đ',
-  'go-bang-phong-van-nckh': '80.000đ - 100.000đ',
-  'dich-phu-de-song-ngu-srt': '150.000đ',
-  'bien-soan-kich-ban-debate': '150.000đ - 200.000đ',
+  // 3. Transcript
+  'edit-transcript-project-nhom': 'Từ 50.000đ',
+  'edit-transcript-check-2': '50.000đ',
+  'viet-kich-ban-thuyet-trinh': '50.000đ - 100.000đ',
+  // 4. Debate
+  'debate-evidence': '50.000đ / Bộ',
+  'debate-solution': '50.000đ / Bộ',
 };
+
+export interface DebateMotionOption {
+  id: string;
+  name: string;
+  inStock: boolean;
+  stockCount: number;
+}
+
+export const DEBATE_MOTIONS: DebateMotionOption[] = [
+  { id: 'facebook', name: 'Facebook & MXH', inStock: true, stockCount: 12 },
+  { id: 'fast-fashion', name: 'Fast Fashion', inStock: false, stockCount: 0 },
+  { id: 'ai', name: 'Trí Tuệ Nhân Tạo (AI)', inStock: true, stockCount: 8 },
+  { id: 'giao-duc', name: 'Giáo Dục & Thi Cử', inStock: true, stockCount: 15 },
+  { id: 'moi-truong', name: 'Thuế Carbon & Môi Trường', inStock: false, stockCount: 0 },
+  { id: 'e-commerce', name: 'Thương Mại Điện Tử', inStock: true, stockCount: 6 },
+];
 
 const CARDS_DATA: ServiceCapabilityItem[] = [
   {
     id: 'edit-video',
     categoryKey: 'VIDEO_EDITING',
     title: 'Edit Video',
-    subtitle: 'Project nhóm, Cá nhân & Debate',
+    subtitle: 'Project nhóm, Cá nhân, Debate & MV',
     iconPath:
       'M4 6.47 5.76 10H20v8H4V6.47M22 4h-4l2 4h-3l-2-4h-2l2 4h-3l-2-4H8l2 4H7L5 4H4c-1.1 0-1.99.89-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4Z',
-    tags: ['Project Nhóm', 'Check 2 Cá Nhân', 'Debate BP', 'MV Presentation'],
+    tags: ['Project Nhóm', 'Check 2 Cá Nhân', 'Debate', 'MV Presentation'],
     description:
-      'Dựng video thuyết trình đồ án nhóm, video profile cá nhân Check 2, video tranh biện debate và MV presentation sáng tạo cho sinh viên.',
+      'Dựng video thuyết trình đồ án nhóm (150-200k), video cá nhân Check 2 (150-200k), video debate (450-500k) và MV presentation (150-200k).',
     startingPrice: '150.000đ',
     turnaround: 'Bàn giao 24-48h',
   },
@@ -66,9 +87,9 @@ const CARDS_DATA: ServiceCapabilityItem[] = [
     subtitle: 'Project Presentation & Debate',
     iconPath:
       'M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zM7 10h2v7H7zm4-3h2v10h-2zm4 6h2v4h-2z',
-    tags: ['Presentation', 'Slide Debate', 'Teamwork', 'Infographic'],
+    tags: ['Project Presentation', 'Slide Debate', 'Teamwork', 'Visual 16:9'],
     description:
-      'Chuẩn hóa slide thuyết trình đồ án nhóm, thiết kế slide tranh biện debate chuyên sâu, sơ đồ hóa luận điểm và biểu đồ sắc nét.',
+      'Edit slide project presentation (100-150k), edit slide debate (250-300k), sơ đồ hóa luận điểm và thiết kế visual chuyên nghiệp.',
     startingPrice: '100.000đ',
     turnaround: 'Bàn giao 24h',
   },
@@ -76,27 +97,27 @@ const CARDS_DATA: ServiceCapabilityItem[] = [
     id: 'transcript',
     categoryKey: 'TRANSCRIPT_EDITING',
     title: 'Viết Kịch Bản (Transcript)',
-    subtitle: 'Kịch Bản Đồ Án & NCKH 99.5%',
+    subtitle: 'Transcript Đồ Án & Check 2',
     iconPath:
       'M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Zm5 8a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.92V20H9v2h6v-2h-2v-3.08A7 7 0 0 0 19 10h-2Z',
-    tags: ['Kịch Bản Thuyết Trình', 'Gỡ Băng NCKH', 'Dịch Phụ Đề SRT', 'Debate Script'],
+    tags: ['Project Nhóm (từ 50k)', 'Check 2 (50k)', 'Kịch Bản (50-100k)'],
     description:
-      'Xây dựng khung kịch bản thuyết trình đồ án, gỡ băng phỏng vấn định tính NCKH chính xác 99.5%, đồng bộ timeline phụ đề song ngữ.',
-    startingPrice: '100.000đ',
+      'Edit transcript project nhóm (giá từ 50k), edit transcript Check 2 (giá 50k) và viết kịch bản thuyết trình (giá 50-100k) chuẩn học thuật.',
+    startingPrice: 'Từ 50.000đ',
     turnaround: 'Bàn giao 12-24h',
   },
   {
-    id: 'debate-bp',
+    id: 'debate',
     categoryKey: 'DEBATE_RESOURCES',
-    title: 'Tài Liệu Debate BP & NCKH',
-    subtitle: 'Học Thuật Mở Rộng',
+    title: 'Debate',
+    subtitle: 'Evidence & Solution (Shopee Style)',
     iconPath:
       'M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6Z',
-    tags: ['Debate BP', 'Case Study', 'Đề Cương Mẫu', 'Tải Ngay'],
+    tags: ['Debate Evidence', 'Debate Solution', 'Chọn Motion', 'Shopee Style'],
     description:
-      'Kho tài liệu tranh biện British Parliamentary, hệ thống luận điểm kinh tế xã hội và bộ đề cương nghiên cứu khoa học đạt giải sinh viên.',
-    startingPrice: 'Miễn phí & Premium',
-    turnaround: 'Tải file tức thì',
+      'Kho tài liệu tranh biện tuyển chọn: Debate Evidence & Debate Solution. Thiết kế chọn Motion theo phong cách Shopee (Facebook, Fast Fashion...).',
+    startingPrice: '50.000đ / Bộ',
+    turnaround: 'Tải tức thì',
   },
 ];
 
@@ -109,6 +130,11 @@ export function CinematicCapabilitiesSection({ services = [] }: CinematicCapabil
   const scrollTrackRef = useRef<HTMLDivElement>(null);
   const [activeModalCard, setActiveModalCard] = useState<ServiceCapabilityItem | null>(null);
   const [addingId, setAddingId] = useState<string | null>(null);
+  const [selectedDebateMotions, setSelectedDebateMotions] = useState<Record<string, string>>({
+    'debate-evidence': 'facebook',
+    'debate-solution': 'facebook',
+  });
+  const [expandedVideoSlug, setExpandedVideoSlug] = useState<string | null>(null);
 
   // Listen to open category event from Navbar
   useEffect(() => {
@@ -356,56 +382,182 @@ export function CinematicCapabilitiesSection({ services = [] }: CinematicCapabil
             <div className="flex-1 overflow-y-auto py-4 pr-1.5 space-y-4" style={{ WebkitOverflowScrolling: 'touch' }}>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pb-2">
                 {currentCategoryPackages.length > 0 ? (
-                  currentCategoryPackages.map((pkg) => (
-                    <div
-                      key={pkg.id}
-                      className="liquid-glass rounded-2xl p-4 flex flex-col justify-between hover:scale-[1.01] transition-all shadow-md group border border-black/10 dark:border-white/10"
-                    >
-                      {/* Image Thumbnail with Overlay Turnaround Badge */}
-                      <div className="aspect-[16/10] w-full rounded-xl overflow-hidden mb-3 relative bg-black/10 dark:bg-white/5 shrink-0">
-                        <img
-                          src={pkg.imageUrl}
-                          alt={pkg.title}
-                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                          loading="lazy"
-                        />
-                        <div className="absolute top-2 right-2 liquid-glass rounded-full px-2.5 py-0.5 text-[10px] font-body shadow-sm">
-                          ⚡ {pkg.turnaround}
-                        </div>
-                      </div>
+                  currentCategoryPackages.map((pkg) => {
+                    const isDebateItem = pkg.category === 'DEBATE_RESOURCES';
+                    const isMvPresentation = pkg.slug === 'edit-mv-presentation';
+                    const currentMotionId =
+                      selectedDebateMotions[pkg.slug] || selectedDebateMotions[pkg.id] || 'facebook';
+                    const selectedMotion =
+                      DEBATE_MOTIONS.find((m) => m.id === currentMotionId) || DEBATE_MOTIONS[0];
+                    const isOutOfStock = isDebateItem && !selectedMotion.inStock;
 
-                      {/* Title & Desc */}
-                      <div className="space-y-1.5 flex-1">
-                        <h4 className="font-heading italic text-xl tracking-tight leading-snug">
-                          {pkg.title}
-                        </h4>
-                        <p className="text-[11.5px] font-body font-light opacity-75 leading-relaxed line-clamp-3">
-                          {pkg.shortDescription}
-                        </p>
-                      </div>
-
-                      {/* Price & Action */}
-                      <div className="mt-4 pt-3 border-t border-black/10 dark:border-white/10 flex items-center justify-between gap-2">
-                        <div>
-                          <span className="text-[9.5px] uppercase block opacity-50 font-body">
-                            Báo giá
-                          </span>
-                          <span className="font-heading italic text-lg font-semibold">
-                            {PRICE_RANGE_MAP[pkg.slug] || (pkg.startingPrice > 0 ? formatVND(pkg.startingPrice) : 'Liên hệ')}
-                          </span>
+                    return (
+                      <div
+                        key={pkg.id}
+                        className="liquid-glass rounded-2xl p-4 flex flex-col justify-between hover:scale-[1.01] transition-all shadow-md group border border-black/10 dark:border-white/10"
+                      >
+                        {/* Image Thumbnail with Overlay Turnaround Badge */}
+                        <div className="aspect-[16/10] w-full rounded-xl overflow-hidden mb-3 relative bg-black/10 dark:bg-white/5 shrink-0 border border-black/5 dark:border-white/5">
+                          <img
+                            src={pkg.imageUrl}
+                            alt={pkg.title}
+                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                            loading="lazy"
+                          />
+                          <div className="absolute top-2 right-2 liquid-glass rounded-full px-2.5 py-0.5 text-[10px] font-body shadow-sm">
+                            ⚡ {pkg.turnaround}
+                          </div>
+                          {isDebateItem && (
+                            <div className="absolute bottom-2 left-2 bg-black/70 backdrop-blur-md text-white text-[10px] font-body px-2 py-0.5 rounded-md">
+                              Chủ đề: {selectedMotion.name}
+                            </div>
+                          )}
                         </div>
 
-                        <button
-                          type="button"
-                          onClick={() => handleQuickAdd(pkg.id)}
-                          disabled={addingId === pkg.id}
-                          className="bg-black text-white dark:bg-white dark:text-black font-body font-semibold text-xs px-4 py-2 rounded-full hover:opacity-90 active:scale-95 transition shadow-sm cursor-pointer whitespace-nowrap"
-                        >
-                          {addingId === pkg.id ? 'Đang thêm...' : 'Đặt lịch ngay'}
-                        </button>
+                        {/* Title & Desc */}
+                        <div className="space-y-1.5 flex-1">
+                          <h4 className="font-heading italic text-xl tracking-tight leading-snug">
+                            {pkg.title}
+                          </h4>
+                          <p className="text-[11.5px] font-body font-light opacity-75 leading-relaxed line-clamp-3">
+                            {pkg.shortDescription}
+                          </p>
+
+                          {/* MV PRESENTATION: Video Preview Player Toggle */}
+                          {isMvPresentation && (
+                            <div className="mt-3 space-y-2">
+                              <button
+                                type="button"
+                                onClick={() =>
+                                  setExpandedVideoSlug(
+                                    expandedVideoSlug === pkg.slug ? null : pkg.slug
+                                  )
+                                }
+                                className="w-full py-2 px-3 rounded-xl border border-sky-500/40 bg-sky-500/10 text-sky-700 dark:text-sky-300 hover:bg-sky-500/20 text-xs font-body font-semibold flex items-center justify-center gap-1.5 transition cursor-pointer"
+                              >
+                                <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                                  {expandedVideoSlug === pkg.slug ? (
+                                    <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" />
+                                  ) : (
+                                    <path d="M8 5v14l11-7z" />
+                                  )}
+                                </svg>
+                                <span>
+                                  {expandedVideoSlug === pkg.slug
+                                    ? 'Đóng Video Mẫu MV'
+                                    : '▶ Xem Video Mẫu MV Presentation'}
+                                </span>
+                              </button>
+
+                              {expandedVideoSlug === pkg.slug && (
+                                <div className="rounded-xl overflow-hidden border border-black/15 dark:border-white/15 bg-black shadow-lg animate-in fade-in-50 duration-200">
+                                  <video
+                                    src="/videos/edit-mv-presentation.mp4"
+                                    controls
+                                    autoPlay
+                                    className="w-full aspect-video object-cover"
+                                  />
+                                  <div className="p-2 text-center text-[11px] text-white/80 font-body">
+                                    Video demo MV Presentation sinh viên LUK &quot;Professional Habits&quot;
+                                  </div>
+                                </div>
+                              )}
+                            </div>
+                          )}
+
+                          {/* DEBATE: Shopee-Style Variant / Motion Picker */}
+                          {isDebateItem && (
+                            <div className="mt-3 p-3 rounded-xl bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 space-y-2">
+                              <div className="flex items-center justify-between text-[11px] font-body">
+                                <span className="font-semibold text-slate-800 dark:text-white/90">
+                                  Chọn Motion (Shopee Style):
+                                </span>
+                                {selectedMotion.inStock ? (
+                                  <span className="text-[11px] font-medium text-emerald-600 dark:text-emerald-400 flex items-center gap-1">
+                                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                                    Còn hàng ({selectedMotion.stockCount} bộ)
+                                  </span>
+                                ) : (
+                                  <span className="text-[11px] font-medium text-rose-500 dark:text-rose-400 flex items-center gap-1">
+                                    <span className="w-1.5 h-1.5 rounded-full bg-rose-500" />
+                                    Tạm hết hàng
+                                  </span>
+                                )}
+                              </div>
+
+                              <div className="flex flex-wrap gap-1.5">
+                                {DEBATE_MOTIONS.map((motion) => {
+                                  const isSelected = currentMotionId === motion.id;
+                                  return (
+                                    <button
+                                      key={motion.id}
+                                      type="button"
+                                      onClick={() =>
+                                        setSelectedDebateMotions((prev) => ({
+                                          ...prev,
+                                          [pkg.slug]: motion.id,
+                                          [pkg.id]: motion.id,
+                                        }))
+                                      }
+                                      className={`text-[11.5px] px-2.5 py-1 rounded-lg border transition-all cursor-pointer relative font-body select-none ${
+                                        isSelected
+                                          ? 'border-orange-500 dark:border-orange-400 bg-orange-500/15 dark:bg-orange-500/25 text-orange-600 dark:text-orange-300 font-semibold ring-1 ring-orange-500/40 shadow-sm'
+                                          : motion.inStock
+                                          ? 'border-black/15 dark:border-white/15 hover:border-black/35 dark:hover:border-white/35 text-slate-700 dark:text-slate-300 bg-white/40 dark:bg-black/20'
+                                          : 'border-dashed border-black/20 dark:border-white/20 text-slate-400 dark:text-white/30 bg-black/5 dark:bg-white/5 line-through'
+                                      }`}
+                                    >
+                                      {motion.name}
+                                      {!motion.inStock && (
+                                        <span className="ml-1 text-[10px] text-rose-500 font-normal no-underline inline-block">
+                                          (Hết)
+                                        </span>
+                                      )}
+                                      {isSelected && (
+                                        <span className="absolute -top-1 -right-1 w-3.5 h-3.5 bg-orange-500 text-white rounded-full text-[9px] flex items-center justify-center font-bold shadow-sm">
+                                          ✓
+                                        </span>
+                                      )}
+                                    </button>
+                                  );
+                                })}
+                              </div>
+                            </div>
+                          )}
+                        </div>
+
+                        {/* Price & Action */}
+                        <div className="mt-4 pt-3 border-t border-black/10 dark:border-white/10 flex items-center justify-between gap-2">
+                          <div>
+                            <span className="text-[9.5px] uppercase block opacity-50 font-body">
+                              Báo giá
+                            </span>
+                            <span className="font-heading italic text-lg font-semibold">
+                              {PRICE_RANGE_MAP[pkg.slug] ||
+                                (pkg.startingPrice > 0 ? formatVND(pkg.startingPrice) : 'Liên hệ')}
+                            </span>
+                          </div>
+
+                          <button
+                            type="button"
+                            onClick={() => handleQuickAdd(pkg.id)}
+                            disabled={addingId === pkg.id || isOutOfStock}
+                            className={`font-body font-semibold text-xs px-4 py-2 rounded-full transition shadow-sm whitespace-nowrap cursor-pointer ${
+                              isOutOfStock
+                                ? 'bg-slate-300 text-slate-500 dark:bg-white/10 dark:text-white/30 cursor-not-allowed opacity-60'
+                                : 'bg-black text-white dark:bg-white dark:text-black hover:opacity-90 active:scale-95'
+                            }`}
+                          >
+                            {isOutOfStock
+                              ? 'Tạm hết hàng'
+                              : addingId === pkg.id
+                              ? 'Đang thêm...'
+                              : 'Đặt lịch ngay'}
+                          </button>
+                        </div>
                       </div>
-                    </div>
-                  ))
+                    );
+                  })
                 ) : (
                   <div className="col-span-2 liquid-glass rounded-2xl p-8 text-center text-sm font-body opacity-60">
                     Đang đồng bộ danh sách gói dịch vụ...

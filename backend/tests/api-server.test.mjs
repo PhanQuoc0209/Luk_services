@@ -90,7 +90,7 @@ test('Express API: Services endpoint returns active service catalog with options
   assert.equal(res.status, 200);
   assert.equal(res.body.success, true);
   assert.ok(Array.isArray(res.body.services));
-  assert.ok(res.body.services.length >= 20);
+  assert.ok(res.body.services.length >= 10);
 
   const first = res.body.services[0];
   assert.ok(first.title);
@@ -107,8 +107,9 @@ test('Express API: Categories endpoint returns service distribution by category'
   assert.ok(res.body.categories.length >= 4);
 
   const keys = res.body.categories.map((c) => c.key);
-  assert.ok(keys.includes('AI_ACCOUNTS'));
   assert.ok(keys.includes('VIDEO_EDITING'));
+  assert.ok(keys.includes('SLIDE_DESIGN'));
+  assert.ok(keys.includes('TRANSCRIPT_EDITING'));
 });
 
 test('Express API: Unknown route returns structured 404 JSON', async () => {

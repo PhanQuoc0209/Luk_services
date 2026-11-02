@@ -3,7 +3,7 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { formatVND } from '@/lib/vietqr';
 import { useApp } from '@/components/providers/AppProvider';
-import { PRICE_RANGE_MAP } from './CinematicCapabilitiesSection';
+import { PRICE_RANGE_MAP, DEBATE_MOTIONS } from './CinematicCapabilitiesSection';
 
 export interface ServiceItemData {
   id: string;
@@ -28,7 +28,7 @@ const CATEGORY_TABS = [
   { key: 'VIDEO_EDITING', label: 'Edit Video' },
   { key: 'SLIDE_DESIGN', label: 'Edit Slide' },
   { key: 'TRANSCRIPT_EDITING', label: 'Viết Kịch Bản (Transcript)' },
-  { key: 'DEBATE_RESOURCES', label: 'Tài Liệu Debate BP' },
+  { key: 'DEBATE_RESOURCES', label: 'Debate' },
 ];
 
 const SCHEDULE_MILESTONES = [
@@ -70,6 +70,8 @@ export function CinematicCatalogSection({ services }: CinematicCatalogSectionPro
   const [orderNotes, setOrderNotes] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [justAdded, setJustAdded] = useState(false);
+  const [selectedMotionId, setSelectedMotionId] = useState<string>('facebook');
+  const [showMvVideo, setShowMvVideo] = useState(false);
 
   // Listen to category switch from Section 2 or Navbar
   useEffect(() => {
@@ -121,13 +123,18 @@ export function CinematicCatalogSection({ services }: CinematicCatalogSectionPro
     setIsSubmitting(true);
 
     try {
+      const isDebate = activeModalItem.category === 'DEBATE_RESOURCES';
+      const motionObj = DEBATE_MOTIONS.find((m) => m.id === selectedMotionId);
+      const notePrefix = isDebate && motionObj ? `[Motion: ${motionObj.name}] ` : '';
+      const finalNotes = (notePrefix + orderNotes).trim() || undefined;
+
       const res = await fetch('/api/cart', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           serviceId: activeModalItem.id,
           quantity,
-          itemNotes: orderNotes.trim() || undefined,
+          itemNotes: finalNotes,
         }),
       });
 
@@ -345,6 +352,92 @@ export function CinematicCatalogSection({ services }: CinematicCatalogSectionPro
                 {activeModalItem.shortDescription}
               </p>
             </div>
+
+            {/* MV PRESENTATION: Video Demo */}
+            {activeModalItem.slug === 'edit-mv-presentation' && (
+              <div className="space-y-2">
+                <button
+                  type="button"
+                  onClick={() => setShowMvVideo(!showMvVideo)}
+                  className="w-full py-2 px-3 rounded-xl border border-sky-400/40 bg-sky-500/20 text-sky-200 hover:bg-sky-500/30 text-xs font-body font-semibold flex items-center justify-center gap-1.5 transition cursor-pointer"
+                >
+                  <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                    {showMvVideo ? (
+                      <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" />
+                    ) : (
+                      <path d="M8 5v14l11-7z" />
+                    )}
+                  </svg>
+                  <span>{showMvVideo ? 'Đóng Video Mẫu MV' : '▶ Xem Video Mẫu MV Presentation'}</span>
+                </button>
+
+                {showMvVideo && (
+                  <div className="rounded-xl overflow-hidden border border-white/20 bg-black shadow-lg">
+                    <video
+                      src="/videos/edit-mv-presentation.mp4"
+                      controls
+                      autoPlay
+                      className="w-full aspect-video object-cover"
+                    />
+                    <div className="p-2 text-center text-[10px] text-white/70 font-body">
+                      Video mẫu MV Presentation &quot;Professional Habits&quot; sinh viên LUK
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* DEBATE: Shopee-Style Variant Picker */}
+            {activeModalItem.category === 'DEBATE_RESOURCES' && (
+              <div className="p-3.5 rounded-xl bg-white/5 border border-white/10 space-y-2.5">
+                <div className="flex items-center justify-between text-xs font-body">
+                  <span className="font-semibold text-white">Chọn Motion (Shopee Style):</span>
+                  {DEBATE_MOTIONS.find((m) => m.id === selectedMotionId)?.inStock ? (
+                    <span className="text-emerald-400 font-medium flex items-center gap-1">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                      Còn hàng ({DEBATE_MOTIONS.find((m) => m.id === selectedMotionId)?.stockCount} bộ)
+                    </span>
+                  ) : (
+                    <span className="text-rose-400 font-medium flex items-center gap-1">
+                      <span className="w-1.5 h-1.5 rounded-full bg-rose-400" />
+                      Tạm hết hàng
+                    </span>
+                  )}
+                </div>
+
+                <div className="flex flex-wrap gap-1.5">
+                  {DEBATE_MOTIONS.map((motion) => {
+                    const isSelected = selectedMotionId === motion.id;
+                    return (
+                      <button
+                        key={motion.id}
+                        type="button"
+                        onClick={() => setSelectedMotionId(motion.id)}
+                        className={`text-xs px-3 py-1.5 rounded-lg border transition-all cursor-pointer relative font-body select-none ${
+                          isSelected
+                            ? 'border-orange-400 bg-orange-500/25 text-orange-300 font-semibold ring-1 ring-orange-400/50'
+                            : motion.inStock
+                            ? 'border-white/15 hover:border-white/35 text-white/80 bg-white/5'
+                            : 'border-dashed border-white/20 text-white/40 bg-white/5 line-through'
+                        }`}
+                      >
+                        {motion.name}
+                        {!motion.inStock && (
+                          <span className="ml-1 text-[10px] text-rose-400 font-normal no-underline inline-block">
+                            (Hết)
+                          </span>
+                        )}
+                        {isSelected && (
+                          <span className="absolute -top-1 -right-1 w-3.5 h-3.5 bg-orange-500 text-white rounded-full text-[9px] flex items-center justify-center font-bold">
+                            ✓
+                          </span>
+                        )}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
 
             {/* Price Box */}
             <div className="liquid-glass rounded-2xl p-4 flex items-center justify-between border border-white/10">
