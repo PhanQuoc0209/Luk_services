@@ -9,7 +9,7 @@
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
     "prisma:prepare": "node scripts/prepare-prisma.js",
-    "postinstall": "node scripts/prepare-prisma.js && prisma generate"
+    "postinstall": "node scripts/prepare-prisma.js"
   },
   "dependencies": {
     "@prisma/client": "5.22.0",
